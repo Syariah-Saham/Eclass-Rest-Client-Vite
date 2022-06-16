@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ILoginForm } from "../../../interfaces/auth";
 import { login } from "../../../redux/actions/auth";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { authLogin } from "../../../services/auth";
 
 const Login: React.FC = () => {
@@ -16,17 +16,17 @@ const Login: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginForm>();
+  const auth = useAppSelector((state) => state.auth);
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);
     try {
       const response = await dispatch(login(data));
-      console.log(response);
-      // let response = await authLogin(data);
-      /* let role = response.data?.user?.role;
-      if (role === "admin") {
+      /* console.log(response);
+      console.log(auth);
+      if (auth.role === "admin") {
         navigate("/admin/dashboard");
-      } else if (role === "member") {
+      } else if (auth.role === "member") {
         navigate("/member/dashboard");
       } */
     } catch (error) {

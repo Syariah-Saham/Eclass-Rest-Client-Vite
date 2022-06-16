@@ -11,7 +11,6 @@ export const authRegister = (data: IRegisterForm) => {
 
 export const authLogin = (data: ILoginForm) => {
   const payload = { ...data, device_name: "web" };
-  console.log(payload);
   return apiService(URL.BASE_AUTH + "/login", methodServices.POST, payload);
 };
 
