@@ -1,12 +1,6 @@
 import { AnyAction } from "redux";
+import { IAuthState } from "../../interfaces/state/auth-state";
 import { ACTION_AUTH } from "../types/auth";
-
-interface IAuthState {
-  status: boolean;
-  user: string | null;
-  role: string | null;
-  token: string | null;
-}
 
 const initialState: IAuthState = {
   status: false,

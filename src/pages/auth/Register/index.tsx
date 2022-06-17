@@ -17,7 +17,6 @@ const Register: React.FC = () => {
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);
     try {
-      console.log(data);
       await authRegister(data);
       navigate("/login");
     } catch (error) {

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ILoginForm } from "../../../interfaces/auth";
+import { IAuthLoginResponse, ILoginForm } from "../../../interfaces/auth";
 import { login } from "../../../redux/actions/auth";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { authLogin } from "../../../services/auth";
+import { useAppDispatch } from "../../../redux/hooks";
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,19 +15,16 @@ const Login: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginForm>();
-  const auth = useAppSelector((state) => state.auth);
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true);
     try {
-      const response = await dispatch(login(data));
-      /* console.log(response);
-      console.log(auth);
-      if (auth.role === "admin") {
+      const response = (await dispatch(login(data))) as IAuthLoginResponse;
+      if (response.user.role === "admin") {
         navigate("/admin/dashboard");
-      } else if (auth.role === "member") {
+      } else if (response.user.role === "member") {
         navigate("/member/dashboard");
-      } */
+      }
     } catch (error) {
       console.log(error);
     } finally {

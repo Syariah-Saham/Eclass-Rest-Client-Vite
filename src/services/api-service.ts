@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 const API_URL = "http://localhost:8000/api/";
 
@@ -21,20 +21,20 @@ const config = {
   };
 }; */
 
-const instance = axios.create(config);
+const instance: AxiosInstance = axios.create(config);
 
 /* instance.interceptors.request.use(async (request) => {
   request.headers = getHeaders(request.multipart);
   return request;
 }); */
 
-export const apiService = async (
+export const apiService = async <T, D>(
   url: string,
   method: string,
   data?: object,
   params?: object
   // multipart = false
-) => {
+): Promise<AxiosResponse<T, D>> => {
   const service = await instance({
     url: url,
     method: method,

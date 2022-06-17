@@ -1,26 +1,25 @@
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { ILoginForm } from "../../interfaces/auth";
+import { ILoginForm, TLoginAction } from "../../interfaces/auth";
 import { authLogin } from "../../services/auth";
 import { RootState } from "../store";
 import { ACTION_AUTH } from "../types/auth";
 
 export const login = (
   data: ILoginForm
-): ThunkAction<void, RootState, unknown, AnyAction> => {
-  return async (dispatch) => {
+): ThunkAction<TLoginAction, RootState, unknown, AnyAction> => {
+  return async (dispatch): TLoginAction => {
     try {
       let result = await authLogin(data);
-      dispatch(dispatchLogin(result.data));
-      return result;
+      dispatch(_login_(result.data));
+      return result.data;
     } catch (error) {
-      console.log(error);
-      return {};
+      return error;
     }
   };
 };
 
-export const dispatchLogin = (response: object) => {
+export const _login_ = (response: object) => {
   return {
     type: ACTION_AUTH.LOGIN,
     response: response,
