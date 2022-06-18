@@ -4,18 +4,29 @@ import { palette } from "./palette";
 import { typography } from "./typography";
 
 export const components: Components<Theme> = {
+  MuiTypography: {
+    defaultProps: {
+      variant: "body1",
+    },
+    styleOverrides: {
+      body1: {
+        color: `${palette.text.primary} !important`,
+      },
+    },
+  },
+
   MuiButton: {
     defaultProps: {
       variant: "contained",
     },
     styleOverrides: {
       root: {
-        fontWeight: "medium",
+        fontWeight: "bold",
         boxShadow: "none",
         fontSize: 14,
         borderRadius: "6px",
-        padding: "10px 16px",
-        width: "160px",
+        padding: "6px 18px",
+        minWidth: "140px",
         ":hover": {
           boxShadow: "none",
         },
