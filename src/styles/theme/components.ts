@@ -16,9 +16,17 @@ export const components: Components<Theme> = {
         borderRadius: "6px",
         padding: "10px 16px",
         width: "160px",
-        height: "44px",
         ":hover": {
           boxShadow: "none",
+        },
+        ":disabled": {
+          color: palette.text.disabled,
+          backgroundColor: palette.background.paper,
+        },
+        "&.loading:disabled": {
+          "& .MuiButton-startIcon, & .MuiButton-endIcon": {
+            display: "none",
+          },
         },
       },
       sizeLarge: {
@@ -26,19 +34,28 @@ export const components: Components<Theme> = {
       },
     },
   },
+  MuiFab: {
+    defaultProps: {
+      size: "small",
+    },
+  },
   MuiFormControl: {
     styleOverrides: {
       root: {
         display: "block",
-        marginBottom: 16,
+        width: "100%",
       },
     },
   },
   MuiFormLabel: {
+    defaultProps: {
+      color: "secondary",
+    },
     styleOverrides: {
       root: {
-        color: "#40423A",
-        fontSize: 14,
+        display: "block",
+        color: palette.text.primary,
+        fontSize: 16,
         lineHeight: "24px",
         marginBottom: 8,
       },
@@ -52,12 +69,38 @@ export const components: Components<Theme> = {
     styleOverrides: {
       root: {
         height: "44px",
+        display: "block",
+        width: "100%",
         boxSizing: "border-box",
         borderRadius: "6px",
         padding: "10px 16px",
         fontSize: "14px",
         lineHeight: "24px",
         transition: ".25s",
+        border: `1px solid ${palette.text.disabled}`,
+        ":hover": {
+          border: `1px solid ${palette.text.primary}`,
+        },
+        "&.Mui-focused": {
+          border: `1px solid ${palette.text.disabled}`,
+          boxShadow: `0px 0px 0px 3px ${palette.text.disabled}`,
+        },
+        "&.error": {
+          border: `1px solid ${palette.error.main}`,
+          color: palette.error.dark,
+          "&.Mui-focused": {
+            boxShadow: `0px 0px 0px 3px ${palette.error.dark}`,
+          },
+        },
+        "&.Mui-disabled": {
+          backgroundColor: palette.background.paper,
+          ":hover": {
+            border: `1px solid ${palette.text.disabled}`,
+          },
+        },
+        "&.Mui-disabled.error": {
+          border: `1px solid ${palette.text.disabled}`,
+        },
       },
     },
   },
