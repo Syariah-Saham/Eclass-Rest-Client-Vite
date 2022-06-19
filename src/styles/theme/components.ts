@@ -43,6 +43,13 @@ export const components: Components<Theme> = {
       sizeLarge: {
         height: "48px",
       },
+      containedPrimary: {
+        ":disabled": {
+          backgroundColor: palette.primary.dark,
+          color: "#fff",
+          opacity: 0.7,
+        },
+      },
     },
   },
   MuiFab: {
@@ -79,12 +86,11 @@ export const components: Components<Theme> = {
     },
     styleOverrides: {
       root: {
-        height: "44px",
         display: "block",
         width: "100%",
         boxSizing: "border-box",
         borderRadius: "6px",
-        padding: "10px 16px",
+        padding: "8px 16px",
         fontSize: "14px",
         lineHeight: "24px",
         transition: ".25s",

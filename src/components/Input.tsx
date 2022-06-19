@@ -13,8 +13,8 @@ const Input: React.FC<IInputProps> = (props) => {
       >
         <InputBase
           className={props.error ? "error" : ""}
-          {...props}
           sx={{ ...props?.customStyle?.input }}
+          {...props}
         />
         {props.error && !props.disabled && (
           <img src={AlertCircle} alt="alert error" className="alert-circle" />

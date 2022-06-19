@@ -1,5 +1,6 @@
 import { Box, Button, Stack } from "@mui/material";
 import React, { CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../../../../assets/logos/logo_eclass.png";
 import { palette } from "../../../../styles/theme/palette";
 
@@ -26,38 +27,53 @@ const Navbtar: React.FC = () => {
             <Box>
               <img src={Logo} alt="logo eclass" style={styleImg} />
             </Box>
-            <Stack direction={"row"} justifyContent="flex-end">
-              <Button
-                color="secondary"
-                sx={{ color: palette.text.primary }}
-                variant="text"
-              >
-                Kategori
-              </Button>
-              <Button
-                color="secondary"
-                sx={{ color: palette.text.primary }}
-                variant="text"
-              >
-                Kelas
-              </Button>
-              <Button
-                color="secondary"
-                sx={{ color: palette.text.primary }}
-                variant="text"
-              >
-                Mentor
-              </Button>
-              <Button
-                color="secondary"
-                sx={{ color: palette.text.primary }}
-                variant="text"
-              >
-                Masuk
-              </Button>
-              <Button color="secondary" variant="contained">
-                Daftar
-              </Button>
+            <Stack
+              direction={"row"}
+              justifyContent="flex-end"
+              alignItems="center"
+              gap={3}
+            >
+              <a href="#home">
+                <Button
+                  color="secondary"
+                  sx={{ color: palette.text.primary }}
+                  variant="text"
+                >
+                  Home
+                </Button>
+              </a>
+              <a href="#courses">
+                <Button
+                  color="secondary"
+                  sx={{ color: palette.text.primary }}
+                  variant="text"
+                >
+                  Kelas
+                </Button>
+              </a>
+              <a href="#mentors">
+                <Button
+                  color="secondary"
+                  sx={{ color: palette.text.primary }}
+                  variant="text"
+                >
+                  Mentor
+                </Button>
+              </a>
+              <Link to="/login">
+                <Button
+                  color="secondary"
+                  sx={{ color: palette.text.primary }}
+                  variant="outlined"
+                >
+                  Masuk
+                </Button>
+              </Link>
+              <Link to={"/register"}>
+                <Button color="secondary" variant="contained">
+                  Daftar
+                </Button>
+              </Link>
             </Stack>
           </Stack>
         </Box>
