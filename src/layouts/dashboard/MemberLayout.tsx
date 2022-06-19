@@ -1,4 +1,4 @@
-import { Logout } from "@mui/icons-material";
+import { AccountCircleRounded, Logout } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -10,55 +10,36 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { PropsWithChildren, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Content from "../../components/dashboard/Content";
 import Sidebar from "../../components/dashboard/Sidebar";
 import { IMenuItemProps, TMenu } from "../../interfaces/components/menu-item";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { Link, useNavigate } from "react-router-dom";
-import { changePage } from "../../redux/actions/dashboard";
 import { logout } from "../../redux/actions/auth";
+import { changePage } from "../../redux/actions/dashboard";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 const menus: IMenuItemProps[] = [
   {
-    target: "/admin/dashboard",
+    target: "/member/dashboard",
     icon: "dashboard",
     text: "Dashboard",
     name: TMenu.DASHBOARD,
   },
   {
-    target: "/admin/courses",
+    target: "/member/courses",
     icon: "courses",
     text: "Kelas",
     name: TMenu.COURSES,
   },
   {
-    target: "/admin/admins",
-    icon: "admins",
-    text: "Admin",
-    name: TMenu.ADMINS,
-  },
-  {
-    target: "/admin/mentors",
-    icon: "mentors",
-    text: "Mentor",
-    name: TMenu.MENTORS,
-  },
-  {
-    target: "/admin/members",
-    icon: "members",
-    text: "Member",
-    name: TMenu.MEMBERS,
-  },
-  {
-    target: "/admin/profile",
+    target: "/member/profile",
     icon: "profile",
     text: "Profile",
     name: TMenu.PROFILE,
   },
 ];
 
-const AdminLayout: React.FC<PropsWithChildren> = (props) => {
+const MemberLayout: React.FC<PropsWithChildren> = (props) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -159,10 +140,7 @@ const AdminLayout: React.FC<PropsWithChildren> = (props) => {
                   sx={{ padding: "10px 40px" }}
                 >
                   <ListItemIcon>
-                    <AccountCircleRoundedIcon
-                      color="inherit"
-                      fontSize="small"
-                    />
+                    <AccountCircleRounded color="inherit" fontSize="small" />
                   </ListItemIcon>
                   Profile
                 </MenuItem>
@@ -181,10 +159,9 @@ const AdminLayout: React.FC<PropsWithChildren> = (props) => {
             </Menu>
           </Box>
         </Stack>
-        <Box>{props.children}</Box>
       </Content>
     </Box>
   );
 };
 
-export default AdminLayout;
+export default MemberLayout;

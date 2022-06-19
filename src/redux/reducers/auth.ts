@@ -23,6 +23,7 @@ const authReducer = (state = initialState, action: AnyAction): IAuthState => {
       };
       break;
     case ACTION_AUTH.LOGOUT:
+      localStorage.clear();
       tmpState = {
         status: false,
         token: null,

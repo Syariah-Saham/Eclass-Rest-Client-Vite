@@ -6,6 +6,9 @@ import Register from "./pages/auth/Register";
 import Page404 from "./pages/error/404";
 import LandingPage from "./pages/landing/LandingPage";
 import Member from "./pages/member";
+import AdminRoute from "./routes/AdminRoute";
+import AuthRoute from "./routes/AuthRoute";
+import MemberRoute from "./routes/MemberRoute";
 import StyleGuide from "./styles/utils/StyleGuide";
 
 const App: React.FC = () => {
@@ -13,10 +16,38 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/style-guide" element={<StyleGuide />} />
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/admin/*" element={<Admin />} />
-      <Route path="/member/*" element={<Member />} />
+      <Route
+        path="/login"
+        element={
+          <AuthRoute>
+            <Login />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <AuthRoute>
+            <Register />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/admin/*"
+        element={
+          <AdminRoute>
+            <Admin />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/member/*"
+        element={
+          <MemberRoute>
+            <Member />
+          </MemberRoute>
+        }
+      />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );
