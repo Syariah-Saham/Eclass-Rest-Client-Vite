@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { ILoginForm, TLoginAction } from "../../interfaces/auth";
 import { authLogin } from "../../services/auth";
 import { RootState } from "../store";
-import { ACTION_AUTH } from "../types/auth";
+import { ACTION_AUTH } from "../../types/auth";
 
 export const login = (
   data: ILoginForm

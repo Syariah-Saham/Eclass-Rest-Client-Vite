@@ -1,0 +1,4 @@
+export enum ACTION_AUTH {
+  LOGIN = "ACTION_AUTH.LOGIN",
+  LOGOUT = "ACTION_AUTH.LOGOUT",
+}

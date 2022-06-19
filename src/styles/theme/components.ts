@@ -57,6 +57,13 @@ export const components: Components<Theme> = {
       size: "small",
     },
   },
+  MuiListItemIcon: {
+    styleOverrides: {
+      root: {
+        color: palette.text.primary,
+      },
+    },
+  },
   MuiFormControl: {
     styleOverrides: {
       root: {

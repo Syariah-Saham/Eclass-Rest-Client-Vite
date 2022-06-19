@@ -1,14 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
 import authReducer from "./reducers/auth";
-
-const composedEnhancer = composeWithDevTools(applyMiddleware(thunk));
+import dashboardReducer from "./reducers/dashboard";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    dashboard: dashboardReducer,
   },
 });
 
