@@ -1,5 +1,5 @@
 import { Box, Button, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { IRegisterForm } from "../../../interfaces/auth";
@@ -44,8 +44,10 @@ const Register: React.FC = () => {
     } catch (error: any) {
       console.error(error);
       if (error.response.status === 422) {
-        console.log("ini error");
-        setError({ status: true, message: "Email atau password salah." });
+        setError({
+          status: true,
+          message: "Cek kembali data yang dimasukkan.",
+        });
       }
     } finally {
       setLoading(false);
