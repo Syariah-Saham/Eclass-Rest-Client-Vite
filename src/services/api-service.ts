@@ -12,6 +12,7 @@ export const methodServices = {
 const config = {
   baseURL: API_URL,
   timeout: 1000,
+  withCredentials: true,
 };
 
 /* const getHeaders = async (isMultipart: boolean) => {

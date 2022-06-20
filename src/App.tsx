@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Admin from "./pages/admin";
 import Login from "./pages/auth/Login";
@@ -9,9 +9,17 @@ import Member from "./pages/member";
 import AdminRoute from "./routes/AdminRoute";
 import AuthRoute from "./routes/AuthRoute";
 import MemberRoute from "./routes/MemberRoute";
+import { testApi } from "./services/welcome";
 import StyleGuide from "./styles/utils/StyleGuide";
 
 const App: React.FC = () => {
+  useEffect(() => {
+    (async () => {
+      let response = await testApi();
+      console.log(response);
+    })();
+  }, []);
+
   return (
     <Routes>
       <Route path="/style-guide" element={<StyleGuide />} />
