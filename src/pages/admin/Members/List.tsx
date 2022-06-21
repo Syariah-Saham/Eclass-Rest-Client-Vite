@@ -1,33 +1,31 @@
-import { DeleteRounded, Search } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import { IUser } from "../../../interfaces/user-model";
+import {
+  deleteMember,
+  getMemberByName,
+  getMembers,
+} from "../../../services/members";
+import moment from "moment";
+import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import {
   Box,
-  Button,
+  IconButton,
+  Pagination,
+  Paper,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  IconButton,
-  Skeleton,
-  Input,
-  Stack,
-  Pagination,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  deleteAdmin,
-  getAdminByName,
-  getAdmins,
-} from "../../../services/admins";
-import moment from "moment";
-import ModalDelete from "../../../components/modals/ModalDelete";
-import { useForm } from "react-hook-form";
-import { IUser } from "../../../interfaces/user-model";
-import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { numColTable } from "../../../helpers/numColTable";
+import { DeleteRounded, Search } from "@mui/icons-material";
+import ModalDelete from "../../../components/modals/ModalDelete";
+import { Controller, useForm } from "react-hook-form";
+import Input from "../../../components/Input";
 
 const SkeletonTable = () => {
   const tmpResult = [];
@@ -66,13 +64,7 @@ const List: React.FC = () => {
     totalPage: 1,
     perPage: 10,
   });
-  const [admins, setAdmins] = useState<IUser[][]>([]);
-  const { register, handleSubmit, reset } = useForm<{ name: string }>({
-    defaultValues: {
-      name: "",
-    },
-  });
-
+  const [members, setMembers] = useState<IUser[][]>([]);
   const [modalDelete, setModalDelete] = useState({
     show: false,
     onClose: () => {
@@ -81,17 +73,25 @@ const List: React.FC = () => {
     onDelete: () => {},
   });
 
-  const getListAdmins = async () => {
+  const { register, handleSubmit, reset, watch, control } = useForm<{
+    name: string;
+  }>({
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  const getListMembers = async () => {
     try {
-      const response = await getAdmins();
-      let admins = response.data.admins.map((admin) => {
+      const response = await getMembers();
+      const members = response.data.members.map((member) => {
         return {
-          ...admin,
-          created_at: moment(admin.created_at).format("DD-MM-YYYY"),
+          ...member,
+          created_at: moment(member.created_at).format("DD-MM-YYYY"),
         };
       });
-      let tmpData = sliceIntoChunks(admins, page.perPage);
-      setAdmins(tmpData);
+      const tmpData = sliceIntoChunks(members, page.perPage);
+      setMembers(tmpData);
       setPage({ ...page, totalPage: tmpData.length });
     } catch (error) {
       console.log(error);
@@ -101,20 +101,20 @@ const List: React.FC = () => {
   };
 
   useEffect(() => {
-    getListAdmins();
+    getListMembers();
   }, []);
 
   useEffect(() => {
-    if (!admins[page.currentPage - 1]) {
+    if (!members[page.currentPage - 1]) {
       setPage({ ...page, currentPage: page.currentPage - 1 });
     }
-  }, [admins]);
+  }, [members]);
 
   const onSubmitSearch = handleSubmit(async (data) => {
     setLoading(true);
     try {
-      const response = await getAdminByName(data);
-      setAdmins([response.data.admins]);
+      const response = await getMemberByName(data);
+      setMembers([response.data.members]);
       reset();
     } catch (error) {
       console.log(error);
@@ -129,8 +129,8 @@ const List: React.FC = () => {
       show: true,
       onDelete: async () => {
         try {
-          await deleteAdmin({ id });
-          getListAdmins();
+          await deleteMember({ id });
+          getListMembers();
         } catch (error) {
           console.log(error);
         }
@@ -144,25 +144,29 @@ const List: React.FC = () => {
 
   return (
     <Box>
-      <Link to="/admin/admins/create">
-        <Button>Tambah Admin</Button>
-      </Link>
       <Box sx={{ marginTop: "20px" }}>
         <form onSubmit={onSubmitSearch}>
           <Stack
             direction="row"
             alignItems="center"
             gap={2}
-            sx={{ marginBottom: "20px" }}
+            sx={{ marginBottom: "20px", width: "300px" }}
           >
-            <Input
-              placeholder="Cari"
-              {...register("name")}
-              sx={{
-                width: "250px",
-                boxSizing: "border-box",
-                paddingRight: "50px",
-              }}
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder="Cari"
+                  sx={{
+                    width: "250px",
+                    boxSizing: "border-box",
+                    paddingRight: "50px",
+                  }}
+                  onChange={(e) => onChange(e.target.value)}
+                  value={value}
+                />
+              )}
             />
             <IconButton
               disabled={loading}
@@ -187,31 +191,28 @@ const List: React.FC = () => {
                 <TableCell className="tcell-head">Nama</TableCell>
                 <TableCell className="tcell-head">Email</TableCell>
                 <TableCell className="tcell-head">Bergabung</TableCell>
-                <TableCell align="center" className="tcell-head">
+                <TableCell className="tcell-head" align="center">
                   Aksi
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {!loading ? (
-                admins[page.currentPage - 1]?.map((admin, i) => (
-                  <TableRow key={admin.id}>
+                members[page.currentPage - 1]?.map((member, i) => (
+                  <TableRow key={member.id}>
                     <TableCell align="center">
                       {numColTable(page.perPage, page.currentPage, i)}
                     </TableCell>
-                    <TableCell>{admin.name}</TableCell>
-                    <TableCell>{admin.email}</TableCell>
-                    <TableCell>{admin.created_at}</TableCell>
+                    <TableCell>{member.name}</TableCell>
+                    <TableCell>{member.email}</TableCell>
+                    <TableCell>{member.created_at}</TableCell>
                     <TableCell align="center">
-                      {admin.email !== "admin@mail.com" &&
-                        admin.email !== "admin@syariahsaham.id" && (
-                          <IconButton
-                            onClick={handleDelete.bind(null, admin.id)}
-                            color="error"
-                          >
-                            <DeleteRounded />
-                          </IconButton>
-                        )}
+                      <IconButton
+                        onClick={handleDelete.bind(null, member.id)}
+                        color="error"
+                      >
+                        <DeleteRounded />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))

@@ -56,6 +56,7 @@ const Sidebar: React.FC<ISidebarProps> = (props) => {
         <Box sx={{ height: "92%", padding: "50px 0px" }}>
           {props.menus.map((menu) => (
             <MenuItem
+              key={menu.target}
               target={menu.target}
               icon={menu.icon}
               text={menu.text}
