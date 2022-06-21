@@ -6,23 +6,36 @@ import {
   IGetAdminsResponse,
 } from "../interfaces/api/admin/admins";
 import { ICreateAdminForm } from "../interfaces/forms/admin/admins";
+import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
 
 const URL = {
-  BASE_ADMINS: "/admins/admins",
+  BASE_ADMINS: "/admin/admins",
 };
 
 export const getAdmins = () => {
+  const token = store.getState().auth.token;
   return apiService<IGetAdminsResponse, any>(
     URL.BASE_ADMINS,
-    methodServices.GET
+    methodServices.GET,
+    null,
+    null,
+    {
+      Authorization: `Bearer ${token}`,
+    }
   );
 };
 
 export const getAdminByName = (data: { name: string }) => {
+  const token = store.getState().auth.token;
   return apiService<IGetAdminByNameResponse, any>(
     URL.BASE_ADMINS + `/search?name=${data.name}`,
-    methodServices.GET
+    methodServices.GET,
+    null,
+    null,
+    {
+      Authorization: `Bearer ${token}`,
+    }
   );
 };
 
@@ -34,16 +47,27 @@ export const getAdminById = (data: { id: number }) => {
 };
 
 export const createNewAdmin = (data: ICreateAdminForm) => {
+  const token = store.getState().auth.token;
   return apiService<ICreateAdminResponse, any>(
     URL.BASE_ADMINS,
     methodServices.POST,
-    data
+    data,
+    null,
+    {
+      Authorization: `Bearer ${token}`,
+    }
   );
 };
 
 export const deleteAdmin = (data: { id: number }) => {
+  const token = store.getState().auth.token;
   return apiService<IDeleteAdmin, any>(
     URL.BASE_ADMINS + `/${data.id}`,
-    methodServices.DELETE
+    methodServices.DELETE,
+    null,
+    null,
+    {
+      Authorization: `Bearer ${token}`,
+    }
   );
 };

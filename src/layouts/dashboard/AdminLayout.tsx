@@ -104,7 +104,11 @@ const AdminLayout: React.FC<PropsWithChildren> = (props) => {
     <Box sx={{ height: "100vh" }}>
       <Sidebar menus={menus} />
       <Content>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={{ marginBottom: "20px" }}
+        >
           <Typography variant="h4">{dashboard.title}</Typography>
           <Box>
             <Avatar

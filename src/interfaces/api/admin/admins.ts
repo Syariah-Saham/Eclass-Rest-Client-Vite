@@ -1,8 +1,12 @@
 import { IPagination } from "../../pagination";
 import { IUser } from "../../user-model";
 
-export interface IGetAdminsResponse extends IPagination {
+export interface IAdminsResponse extends IPagination {
   data: IUser[];
+}
+
+export interface IGetAdminsResponse {
+  admins: IAdminsResponse;
 }
 
 export interface IGetAdminByNameResponse {

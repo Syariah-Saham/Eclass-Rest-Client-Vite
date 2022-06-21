@@ -1,4 +1,8 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosRequestHeaders,
+  AxiosResponse,
+} from "axios";
 
 const API_URL = "http://localhost:8000/api/";
 
@@ -32,8 +36,9 @@ const instance: AxiosInstance = axios.create(config);
 export const apiService = async <T, D>(
   url: string,
   method: string,
-  data?: object,
-  params?: object
+  data?: object | null,
+  params?: object | null,
+  headers?: AxiosRequestHeaders
   // multipart = false
 ): Promise<AxiosResponse<T, D>> => {
   const service = await instance({
@@ -42,6 +47,7 @@ export const apiService = async <T, D>(
     data: data,
     params: params,
     timeout: 6000,
+    headers: headers,
     // multipart: multipart
   });
   return service;

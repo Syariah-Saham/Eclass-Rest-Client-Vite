@@ -2,6 +2,7 @@ export type TRole = "member" | "admin" | "mentor";
 
 export interface IUser {
   id: number;
+  name: string;
   email: string;
   email_verified_at?: string;
   profile_photo?: string;

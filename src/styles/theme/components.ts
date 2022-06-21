@@ -14,6 +14,37 @@ export const components: Components<Theme> = {
       },
     },
   },
+  MuiTableHead: {
+    styleOverrides: {
+      root: {
+        backgroundColor: palette.secondary.dark,
+      },
+    },
+  },
+  MuiTableCell: {
+    styleOverrides: {
+      root: {
+        borderBottom: "none",
+        padding: "20px 20px",
+        "&.tcell-head": {
+          padding: "10px 20px",
+          fontWeight: "bold",
+          fontSize: typography.caption,
+          pointerEvents: "none",
+        },
+      },
+    },
+  },
+  MuiTableRow: {
+    styleOverrides: {
+      root: {
+        transition: ".25s",
+        ":hover": {
+          backgroundColor: "#020e42",
+        },
+      },
+    },
+  },
 
   MuiButton: {
     defaultProps: {

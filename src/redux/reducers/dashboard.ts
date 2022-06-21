@@ -31,14 +31,14 @@ const dashboardReducer = (
       };
       break;
     default:
-      const localState = localStorage.getItem("eclass-dashboard");
+      const localState = sessionStorage.getItem("eclass-dashboard");
       if (localState) {
         const tmpLocalState = JSON.parse(localState) as IDashboardState;
         return tmpLocalState;
       }
       return state;
   }
-  localStorage.setItem("eclass-dashboard", JSON.stringify(tmpState));
+  sessionStorage.setItem("eclass-dashboard", JSON.stringify(tmpState));
   return tmpState;
 };
 
