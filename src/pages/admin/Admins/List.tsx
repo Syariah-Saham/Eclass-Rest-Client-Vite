@@ -13,6 +13,7 @@ import {
   Skeleton,
   Input,
   Stack,
+  Pagination,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -26,6 +27,9 @@ import {
 import moment from "moment";
 import ModalDelete from "../../../components/modals/ModalDelete";
 import { useForm } from "react-hook-form";
+import { IUser } from "../../../interfaces/user-model";
+import { sliceIntoChunks } from "../../../helpers/chunk-array";
+import { numColTable } from "../../../helpers/numColTable";
 
 const SkeletonTable = () => {
   const tmpResult = [];
@@ -55,9 +59,16 @@ const SkeletonTable = () => {
 
 const List: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [admins, setAdmins] = useState<IGetAdminsResponse>({
-    admins: defaultValuePagination,
+  const [page, setPage] = useState<{
+    currentPage: number;
+    totalPage: number;
+    perPage: number;
+  }>({
+    currentPage: 1,
+    totalPage: 1,
+    perPage: 10,
   });
+  const [admins, setAdmins] = useState<IUser[][]>([]);
   const { register, handleSubmit, reset } = useForm<{ name: string }>({
     defaultValues: {
       name: "",
@@ -75,16 +86,15 @@ const List: React.FC = () => {
   const getListAdmins = async () => {
     try {
       const response = await getAdmins();
-      const admins = response.data.admins.data.map((admin) => {
+      let admins = response.data.admins.map((admin) => {
         return {
           ...admin,
           created_at: moment(admin.created_at).format("DD-MM-YYYY"),
         };
       });
-      setAdmins({
-        ...response.data,
-        admins: { ...response.data.admins, data: admins },
-      });
+      let tmpData = sliceIntoChunks(admins, page.perPage);
+      setAdmins(tmpData);
+      setPage({ ...page, totalPage: tmpData.length });
     } catch (error) {
       console.log(error);
     } finally {
@@ -100,8 +110,7 @@ const List: React.FC = () => {
     setLoading(true);
     try {
       const response = await getAdminByName(data);
-      const result = response.data.admins;
-      setAdmins({ ...admins, admins: { ...admins.admins, data: result } });
+      setAdmins([response.data.admins]);
       reset();
     } catch (error) {
       console.log(error);
@@ -123,6 +132,10 @@ const List: React.FC = () => {
         }
       },
     });
+  };
+
+  const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPage({ ...page, currentPage: value });
   };
 
   return (
@@ -157,7 +170,10 @@ const List: React.FC = () => {
             </IconButton>
           </Stack>
         </form>
-        <TableContainer sx={{ width: "70%" }} component={Paper}>
+        <TableContainer
+          sx={{ width: "70%", marginBottom: "20px" }}
+          component={Paper}
+        >
           <Table>
             <TableHead>
               <TableRow>
@@ -174,9 +190,11 @@ const List: React.FC = () => {
             </TableHead>
             <TableBody>
               {!loading ? (
-                admins.admins.data.map((admin, i) => (
+                admins[page.currentPage - 1].map((admin, i) => (
                   <TableRow key={admin.id}>
-                    <TableCell align="center">{i + 1}</TableCell>
+                    <TableCell align="center">
+                      {numColTable(page.perPage, page.currentPage, i)}
+                    </TableCell>
                     <TableCell>{admin.name}</TableCell>
                     <TableCell>{admin.email}</TableCell>
                     <TableCell>{admin.created_at}</TableCell>
@@ -199,6 +217,11 @@ const List: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Pagination
+          count={page.totalPage}
+          variant={"outlined"}
+          onChange={handleChangePage}
+        />
       </Box>
 
       <ModalDelete

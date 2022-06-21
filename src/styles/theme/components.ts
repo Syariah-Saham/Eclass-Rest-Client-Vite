@@ -25,7 +25,7 @@ export const components: Components<Theme> = {
     styleOverrides: {
       root: {
         borderBottom: "none",
-        padding: "20px 20px",
+        padding: "12px 20px",
         "&.tcell-head": {
           padding: "10px 20px",
           fontWeight: "bold",
