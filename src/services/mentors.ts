@@ -65,7 +65,7 @@ export const createNewMentor = (data: ICreateMentorForm) => {
   );
 };
 
-export const deleteMember = (data: { id: number }) => {
+export const deleteMentor = (data: { id: number }) => {
   const token = store.getState().auth.token;
   return apiService<IDeleteMentorResponse, any>(
     URL.BASE_MENTORS + `/${data.id}`,

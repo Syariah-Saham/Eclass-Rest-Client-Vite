@@ -4,6 +4,7 @@ import AdminLayout from "../../layouts/dashboard/AdminLayout";
 import Admins from "./Admins";
 import Dashboard from "./Dashboard";
 import Members from "./Members";
+import Mentors from "./Mentors";
 
 const Admin: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Admin: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admins/*" element={<Admins />} />
         <Route path="/members/*" element={<Members />} />
+        <Route path="/mentors/*" element={<Mentors />} />
       </Routes>
     </AdminLayout>
   );

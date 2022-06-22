@@ -29,7 +29,7 @@ import Input from "../../../components/Input";
 
 const SkeletonTable = () => {
   const tmpResult = [];
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
     tmpResult.push(
       <TableRow key={i}>
         <TableCell>
