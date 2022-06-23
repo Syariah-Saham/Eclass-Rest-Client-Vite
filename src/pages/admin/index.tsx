@@ -5,6 +5,7 @@ import Admins from "./Admins";
 import Dashboard from "./Dashboard";
 import Members from "./Members";
 import Mentors from "./Mentors";
+import Profile from "./Profile";
 
 const Admin: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const Admin: React.FC = () => {
         <Route path="/admins/*" element={<Admins />} />
         <Route path="/members/*" element={<Members />} />
         <Route path="/mentors/*" element={<Mentors />} />
+        <Route path="/profile/*" element={<Profile />} />
       </Routes>
     </AdminLayout>
   );

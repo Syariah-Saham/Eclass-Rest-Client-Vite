@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { IAuthState } from "../../interfaces/state/auth-state";
+import { IUser } from "../../interfaces/user-model";
 import { ACTION_AUTH } from "../../types/auth";
 
 const initialState: IAuthState = {
@@ -29,6 +30,14 @@ const authReducer = (state = initialState, action: AnyAction): IAuthState => {
         token: null,
         user: null,
         role: null,
+      };
+      break;
+    case ACTION_AUTH.UPDATE_NAME:
+      const name = action.name;
+      let tmpUser = { ...state.user, name: name } as IUser;
+      tmpState = {
+        ...state,
+        user: tmpUser,
       };
       break;
     default:
