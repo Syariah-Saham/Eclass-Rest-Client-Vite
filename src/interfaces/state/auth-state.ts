@@ -1,6 +1,8 @@
+import { IUser } from "../user-model";
+
 export interface IAuthState {
   status: boolean;
-  user: string | null;
+  user: IUser | null;
   role: string | null;
   token: string | null;
 }
