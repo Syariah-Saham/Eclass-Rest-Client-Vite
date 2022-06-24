@@ -11,6 +11,42 @@ body {
   overflow-x: hidden;
 }
 
+/* --------- file pond ---------- */
+.filepond--drop-label {
+  color: #a9b8ea;
+  margin-top: 50px;
+}
+
+.filepond--label-action {
+  font-weight: semibold;
+  text-decoration: none;
+  color: white;
+  background-color: #4f46e5;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  border-radius: 6px;
+  margin-left: 20px;
+  display: block;
+  margin-top: 20px;
+}
+
+.filepond--panel-root {
+  background-color: #000e3a;
+  min-height: 300px;
+  display: "flex";
+  justify-content: "center";
+  align-items: center;
+}
+
+.filepond--drip-blob {
+  background-color: blue;
+}
+
+.filepond--item-panel {
+  border-radius: 0.5em;
+  background-color: #02104d;
+}
+
 a {
   text-decoration: none !important;
 }

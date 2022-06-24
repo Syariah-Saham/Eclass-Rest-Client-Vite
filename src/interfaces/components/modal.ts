@@ -5,3 +5,8 @@ export interface IModalDeleteProps extends PropsWithChildren {
   onClose: () => void;
   onDelete: () => void;
 }
+
+export interface IModalCreateCourseProps extends PropsWithChildren {
+  show: boolean;
+  onClose: () => void;
+}

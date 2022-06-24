@@ -62,7 +62,7 @@ const Select: React.FC<ISelectProps> = (props) => {
               transition: ".25s",
               backgroundColor: state.isDisabled
                 ? palette.background.paper
-                : palette.background.default,
+                : "inherit",
               "&:hover": {
                 border: `1px solid ${
                   !props?.error
@@ -75,6 +75,7 @@ const Select: React.FC<ISelectProps> = (props) => {
             menu: (provided, state) => ({
               ...provided,
               borderRadius: "10px",
+              backgroundColor: palette.background.default,
             }),
             indicatorsContainer: (provided, state) => ({
               ...provided,

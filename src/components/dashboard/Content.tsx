@@ -12,6 +12,7 @@ const Content: React.FC<PropsWithChildren> = (props) => {
         paddingLeft: dashboard.showSidebar ? "340px" : "115px",
         paddingRight: "50px",
         paddingTop: "50px",
+        paddingBottom: "50px",
         position: "fixed",
         overflow: "auto",
         height: "100vh",

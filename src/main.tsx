@@ -6,8 +6,16 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { Box, ThemeProvider } from "@mui/material";
 import { theme } from "./styles/theme/theme";
-import "./styles/main.css";
 import { palette } from "./styles/theme/palette";
+
+// ----- file pond -----
+import { registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+import "./styles/main.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
