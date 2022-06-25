@@ -47,10 +47,6 @@ const mentorOptions = [
 const ModalCreate: React.FC<IModalCreateCourseProps> = (props) => {
   const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    console.log(files);
-  }, [files]);
-
   return (
     <Dialog open={props.show} onClose={props.onClose} fullWidth maxWidth="xl">
       <Card

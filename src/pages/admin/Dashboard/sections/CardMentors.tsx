@@ -19,24 +19,22 @@ const ListSkeleton: React.FC = () => {
   return (
     <>
       {list.map((item) => (
-        <>
-          <Stack
-            direction="row"
-            alignItems={"center"}
-            gap={3}
-            key={item}
-            sx={{ margin: "23.5px 0px" }}
-          >
-            <Skeleton variant="circular" height={50} width={50} />
-            <Box sx={{ width: "70%", marginLeft: "5px" }}>
-              <Skeleton
-                variant="text"
-                sx={{ width: "50%", marginBottom: "10px", height: "25px" }}
-              />
-              <Skeleton variant="text" sx={{ width: "90%", height: "16px" }} />
-            </Box>
-          </Stack>
-        </>
+        <Stack
+          direction="row"
+          alignItems={"center"}
+          gap={3}
+          key={item}
+          sx={{ margin: "23.5px 0px" }}
+        >
+          <Skeleton variant="circular" height={50} width={50} />
+          <Box sx={{ width: "70%", marginLeft: "5px" }}>
+            <Skeleton
+              variant="text"
+              sx={{ width: "50%", marginBottom: "10px", height: "25px" }}
+            />
+            <Skeleton variant="text" sx={{ width: "90%", height: "16px" }} />
+          </Box>
+        </Stack>
       ))}
     </>
   );
