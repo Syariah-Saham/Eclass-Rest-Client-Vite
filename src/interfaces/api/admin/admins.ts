@@ -8,6 +8,10 @@ export interface IGetAdminByNameResponse {
   admins: IUser[];
 }
 
+export interface IGetTotalAdminsResponse {
+  total_admins: number;
+}
+
 export interface IGetAdminByIdResponse {
   admin: IUser;
 }

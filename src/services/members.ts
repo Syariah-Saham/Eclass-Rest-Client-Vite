@@ -3,6 +3,7 @@ import {
   IGetMemberByIdResponse,
   IGetMemberByNameResponse,
   IGetMembersResponse,
+  IGetTotalMembersResponse,
 } from "../interfaces/api/admin/members";
 import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
@@ -28,6 +29,19 @@ export const getMemberByName = (data: { name: string }) => {
   const token = store.getState().auth.token;
   return apiService<IGetMemberByNameResponse, any>(
     URL.BASE_MEMBERS + `/search?name=${data.name}`,
+    methodServices.GET,
+    null,
+    null,
+    {
+      Authorization: `Bearer ${token}`,
+    }
+  );
+};
+
+export const getTotalMembers = () => {
+  const token = store.getState().auth.token;
+  return apiService<IGetTotalMembersResponse, any>(
+    URL.BASE_MEMBERS + "/count",
     methodServices.GET,
     null,
     null,

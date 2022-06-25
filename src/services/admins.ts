@@ -4,6 +4,7 @@ import {
   IGetAdminByIdResponse,
   IGetAdminByNameResponse,
   IGetAdminsResponse,
+  IGetTotalAdminsResponse,
 } from "../interfaces/api/admin/admins";
 import { ICreateAdminForm } from "../interfaces/forms/admin/admins";
 import { store } from "../redux/store";
@@ -30,6 +31,19 @@ export const getAdminByName = (data: { name: string }) => {
   const token = store.getState().auth.token;
   return apiService<IGetAdminByNameResponse, any>(
     URL.BASE_ADMINS + `/search?name=${data.name}`,
+    methodServices.GET,
+    null,
+    null,
+    {
+      Authorization: `Bearer ${token}`,
+    }
+  );
+};
+
+export const getTotalAdmins = () => {
+  const token = store.getState().auth.token;
+  return apiService<IGetTotalAdminsResponse, any>(
+    URL.BASE_ADMINS + `/count`,
     methodServices.GET,
     null,
     null,

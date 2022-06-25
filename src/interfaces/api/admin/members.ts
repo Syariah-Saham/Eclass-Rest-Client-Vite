@@ -8,6 +8,10 @@ export interface IGetMemberByNameResponse {
   members: IUser[];
 }
 
+export interface IGetTotalMembersResponse {
+  total_members: number;
+}
+
 export interface IGetMemberByIdResponse {
   member: IUser;
 }

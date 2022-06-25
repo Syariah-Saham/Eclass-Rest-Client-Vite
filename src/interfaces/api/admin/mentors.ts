@@ -8,6 +8,10 @@ export interface IGetMentorByNameResponse {
   mentors: IUser[];
 }
 
+export interface IGetTotalMentorsResponse {
+  total_mentors: number;
+}
+
 export interface IGetMentorByIdResponse {
   mentor: IUser;
 }
