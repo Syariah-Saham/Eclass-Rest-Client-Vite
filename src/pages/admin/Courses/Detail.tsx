@@ -8,9 +8,10 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import StarIcon from "../../../assets/icons/star.svg";
 import MDEditor from "@uiw/react-md-editor";
+import ModalAddLesson from "./ModalAddLesson";
 
 const Rating: React.FC = () => {
   return (
@@ -100,6 +101,11 @@ AngularJS-powered HTML5 Markdown editor.
 };
 
 const Detail: React.FC = () => {
+  const [modalAdd, setModalAdd] = useState({
+    show: false,
+    onClose: () => setModalAdd({ ...modalAdd, show: false }),
+  });
+
   return (
     <Box>
       <Stack direction="row" gap={3} sx={{ marginBottom: "30px" }}>
@@ -181,7 +187,12 @@ const Detail: React.FC = () => {
               sx={{ marginBottom: "15px" }}
             >
               <Typography variant="h5">Materi</Typography>
-              <Button color="secondary">Tambah</Button>
+              <Button
+                color="secondary"
+                onClick={() => setModalAdd({ ...modalAdd, show: true })}
+              >
+                Tambah
+              </Button>
             </Stack>
             <Stack direction="column" gap={2} alignItems="center">
               <LessonItem order={1} />
@@ -198,6 +209,7 @@ const Detail: React.FC = () => {
           <DescriptionMarkdown />
         </Grid>
       </Grid>
+      <ModalAddLesson show={modalAdd.show} onClose={modalAdd.onClose} />
     </Box>
   );
 };

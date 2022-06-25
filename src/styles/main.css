@@ -11,6 +11,22 @@ body {
   overflow-x: hidden;
 }
 
+/* --------- scroll ------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  width: 6px;
+  background: #000e3a;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4338ca;
+  border-radius: 10px;
+}
+
 /* --------- file pond ---------- */
 .filepond--drop-label {
   color: #a9b8ea;
@@ -45,6 +61,11 @@ body {
 .filepond--item-panel {
   border-radius: 0.5em;
   background-color: #4f46e5;
+}
+
+/* -------- markdown ------------ */
+.w-md-editor-text {
+  background-color: #000e3a;
 }
 
 .wmde-markdown {
