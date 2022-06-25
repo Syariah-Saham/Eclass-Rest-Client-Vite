@@ -8,17 +8,10 @@ import {
   Button,
 } from "@mui/material";
 import React, { PropsWithChildren } from "react";
+import { Link } from "react-router-dom";
 import StarIcon from "../assets/icons/star.svg";
+import { ICardCourse } from "../interfaces/components/card-course";
 import { useAppSelector } from "../redux/hooks";
-
-interface ICardCourse extends PropsWithChildren {
-  id: number;
-  thumbnail: string;
-  level: string;
-  title: string;
-  description: string;
-  price: string;
-}
 
 const Rating: React.FC = () => {
   return (
@@ -93,7 +86,11 @@ const CardCourse: React.FC<ICardCourse> = (course) => {
           >
             {course.price}
           </Typography>
-          <Button>{auth.role === "member" ? "Beli Sekarang" : "Lihat"}</Button>
+          <Link to={course.target ? course.target : "#"}>
+            <Button>
+              {auth.role === "member" ? "Beli Sekarang" : "Lihat"}
+            </Button>
+          </Link>
         </Stack>
       </Box>
     </Card>

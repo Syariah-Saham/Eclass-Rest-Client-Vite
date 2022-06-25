@@ -111,7 +111,11 @@ const List: React.FC = () => {
       </Stack>
       <Stack direction="row" gap={5} flexWrap="wrap">
         {dataCourses.map((course) => (
-          <CardCourse key={course.id} {...course} />
+          <CardCourse
+            key={course.id}
+            target={`/admin/courses/${course.id}`}
+            {...course}
+          />
         ))}
       </Stack>
 
