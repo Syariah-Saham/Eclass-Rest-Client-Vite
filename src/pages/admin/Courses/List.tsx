@@ -1,7 +1,7 @@
 import { Box, Button, Stack } from "@mui/material";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import CardCourse from "../../../components/CardCourse";
-import ModalCreate from "./ModalCreate";
 
 const listMenu = [
   {
@@ -87,17 +87,13 @@ const dataCourses = [
 
 const List: React.FC = () => {
   const [menuActive, setMenuActive] = useState<string>("all");
-  const [modalCreate, setModalCreate] = useState({
-    show: false,
-    onClose: () => setModalCreate({ ...modalCreate, show: false }),
-  });
 
   return (
     <Box>
       <Stack direction={"row"} gap={2} sx={{ marginBottom: "20px" }}>
-        <Button onClick={() => setModalCreate({ ...modalCreate, show: true })}>
-          Tambah Kelas
-        </Button>
+        <Link to="/admin/courses/create">
+          <Button>Tambah Kelas</Button>
+        </Link>
         {listMenu.map((menu) => (
           <Button
             key={menu.name}
@@ -118,8 +114,6 @@ const List: React.FC = () => {
           />
         ))}
       </Stack>
-
-      <ModalCreate show={modalCreate.show} onClose={modalCreate.onClose} />
     </Box>
   );
 };
