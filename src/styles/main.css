@@ -47,6 +47,11 @@ body {
   background-color: #4f46e5;
 }
 
+.wmde-markdown {
+  background: #02104d;
+  color: #a9b8ea;
+}
+
 a {
   text-decoration: none !important;
 }

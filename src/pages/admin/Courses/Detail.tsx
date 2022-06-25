@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import StarIcon from "../../../assets/icons/star.svg";
+import MDEditor from "@uiw/react-md-editor";
 
 const Rating: React.FC = () => {
   return (
@@ -58,8 +59,47 @@ const LessonItem: React.FC<ILessonItemProps> = (props) => {
   );
 };
 
+const DescriptionMarkdown = () => {
+  const mkdStr = `# Dillinger
+## _The Last Markdown Editor, Ever_
+
+
+Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
+AngularJS-powered HTML5 Markdown editor.
+
+- Type some Markdown on the left
+- See HTML in the right
+- ✨Magic ✨
+
+## Features
+
+- Import a HTML file and watch it magically convert to Markdown
+- Drag and drop images (requires your Dropbox account be linked)
+- Import and save files from GitHub, Dropbox, Google Drive and One Drive
+- Drag and drop markdown and HTML files into Dillinger
+- Export documents as Markdown, HTML and PDF`;
+
+  return (
+    <Card>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ marginBottom: "10px" }}
+      >
+        <Typography variant="h5">Deskripsi</Typography>
+        <Button color="success">Edit</Button>
+      </Stack>
+      <Box>
+        <div data-color-mode="dark" className="wmde-markdown-var">
+          <MDEditor.Markdown style={{ padding: 15 }} source={mkdStr} />
+        </div>
+      </Box>
+    </Card>
+  );
+};
+
 const Detail: React.FC = () => {
-  const theme = useTheme();
   return (
     <Box>
       <Stack direction="row" gap={3} sx={{ marginBottom: "30px" }}>
@@ -155,59 +195,7 @@ const Detail: React.FC = () => {
           </Card>
         </Grid>
         <Grid item md={7.5}>
-          <Card>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              sx={{ marginBottom: "10px" }}
-            >
-              <Typography variant="h5">Deskripsi</Typography>
-              <Button color="success">Edit</Button>
-            </Stack>
-            <Box>
-              <Typography sx={{ marginBottom: "15px" }}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod,
-                ex voluptatum? Possimus id officia quam impedit magnam.
-                Molestias officia cum cupiditate nemo deleniti. Itaque accusamus
-                ad possimus molestiae hic nihil cumque ut reiciendis repellat
-                commodi! Saepe, dolorum debitis harum recusandae eos minima
-                possimus illo modi fuga doloremque architecto corrupti atque
-                perferendis eius. Quam vitae consequuntur nesciunt sunt!
-                Corporis, perspiciatis excepturi.
-              </Typography>
-              <Typography sx={{ marginBottom: "15px" }}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod,
-                ex voluptatum? Possimus id officia quam impedit magnam.
-                Molestias officia cum cupiditate nemo deleniti. Itaque accusamus
-                ad possimus molestiae hic nihil cumque ut reiciendis repellat
-                commodi! Saepe, dolorum debitis harum recusandae eos minima
-                possimus illo modi fuga doloremque architecto corrupti atque
-                perferendis eius. Quam vitae consequuntur nesciunt sunt!
-                Corporis, perspiciatis excepturi.
-              </Typography>
-              <Typography sx={{ marginBottom: "15px" }}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod,
-                ex voluptatum? Possimus id officia quam impedit magnam.
-                Molestias officia cum cupiditate nemo deleniti. Itaque accusamus
-                ad possimus molestiae hic nihil cumque ut reiciendis repellat
-                commodi! Saepe, dolorum debitis harum recusandae eos minima
-                possimus illo modi fuga doloremque architecto corrupti atque
-                perferendis eius. Quam vitae consequuntur nesciunt sunt!
-                Corporis, perspiciatis excepturi.
-              </Typography>
-              <Typography sx={{ marginBottom: "15px" }}>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod,
-                ex voluptatum? Possimus id officia quam impedit magnam.
-                Molestias officia cum cupiditate nemo deleniti. Itaque accusamus
-                ad possimus molestiae hic nihil cumque ut reiciendis repellat
-                commodi! Saepe, dolorum debitis harum recusandae eos minima
-                possimus illo modi fuga doloremque architecto corrupti atque
-                perferendis eius. Quam vitae consequuntur nesciunt sunt!
-                Corporis, perspiciatis excepturi.
-              </Typography>
-            </Box>
-          </Card>
+          <DescriptionMarkdown />
         </Grid>
       </Grid>
     </Box>
