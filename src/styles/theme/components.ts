@@ -55,7 +55,7 @@ export const components: Components<Theme> = {
         fontWeight: "bold",
         boxShadow: "none",
         fontSize: 14,
-        borderRadius: "6px",
+        borderRadius: "10px",
         padding: "6px 18px",
         minWidth: "140px",
         ":hover": {
@@ -127,7 +127,7 @@ export const components: Components<Theme> = {
         display: "block",
         width: "100%",
         boxSizing: "border-box",
-        borderRadius: "6px",
+        borderRadius: "10px",
         padding: "8px 16px",
         fontSize: "14px",
         lineHeight: "24px",
@@ -192,8 +192,9 @@ export const components: Components<Theme> = {
     styleOverrides: {
       root: {
         padding: "24px",
-        borderRadius: "6px",
-        boxShadow: "0px 4px 10px rgba(9, 12, 2, 0.1)",
+        borderRadius: "22px",
+        // boxShadow: "0px 4px 10px rgba(9, 12, 2, 0.1)",
+        boxShadow: "none",
       },
     },
   },
@@ -216,7 +217,7 @@ export const components: Components<Theme> = {
           minHeight: "100px",
           outline: "none",
           boxSizing: "border-box",
-          borderRadius: "6px",
+          borderRadius: "22px",
           padding: "24px",
         },
       },

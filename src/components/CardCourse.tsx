@@ -7,7 +7,7 @@ import {
   Divider,
   Button,
 } from "@mui/material";
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import StarIcon from "../assets/icons/star.svg";
 import { ICardCourse } from "../interfaces/components/card-course";

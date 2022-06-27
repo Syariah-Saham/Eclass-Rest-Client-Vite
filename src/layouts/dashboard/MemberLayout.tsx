@@ -198,6 +198,7 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
           </Box>
         </Stack>
         {/* </Stack> */}
+        <Box sx={{ marginTop: "30px" }}>{props.children}</Box>
       </Content>
     </Box>
   );
