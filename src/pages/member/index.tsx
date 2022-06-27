@@ -4,6 +4,7 @@ import MemberLayout from "../../layouts/dashboard/MemberLayout";
 import Certificates from "./Certificates";
 import Dashboard from "./Dashboard";
 import MyCourses from "./MyCourses";
+import WishList from "./WishList";
 
 const Member: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Member: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/courses/*" element={<MyCourses />} />
         <Route path="/certificates/*" element={<Certificates />} />
+        <Route path="/wishlist/*" element={<WishList />} />
       </Routes>
     </MemberLayout>
   );
