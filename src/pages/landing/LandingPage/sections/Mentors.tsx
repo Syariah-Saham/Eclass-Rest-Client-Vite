@@ -43,7 +43,7 @@ const Mentors: React.FC = () => {
       >
         {listMentors.map(
           (mentor): ReactNode => (
-            <Grid key={mentor.id} item md={3}>
+            <Grid key={mentor.id} item xs={12} md={3}>
               <Stack direction="column" alignItems="center">
                 <Box
                   sx={{

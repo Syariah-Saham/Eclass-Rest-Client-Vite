@@ -1,4 +1,12 @@
-import { Box, Button, Card, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import { palette } from "../../../../styles/theme/palette";
 import SectionLayout from "../components/SectionLayout";
@@ -90,6 +98,7 @@ const Rating: React.FC = () => {
 };
 const Courses: React.FC = () => {
   const [menuActive, setMenuActive] = useState<string>("all");
+  const theme = useTheme();
 
   return (
     <SectionLayout>
@@ -97,7 +106,11 @@ const Courses: React.FC = () => {
         <Typography variant="h5">Daftar Kelas</Typography>
         <TitleSection title="Pilih Kelas Untuk Memulai" />
       </Box>
-      <Stack direction={"row"} gap={2}>
+      <Stack
+        sx={{ display: { xs: "none", md: "flex" } }}
+        direction={"row"}
+        gap={2}
+      >
         {listMenu.map((menu) => (
           <Button
             key={menu.name}
@@ -110,7 +123,7 @@ const Courses: React.FC = () => {
         ))}
       </Stack>
       <Stack
-        direction="row"
+        direction={{ xs: "column", md: "row" }}
         sx={{ margin: "50px auto" }}
         gap={5}
         flexWrap="wrap"
@@ -119,8 +132,9 @@ const Courses: React.FC = () => {
           <Card
             key={course.id}
             sx={{
-              width: "30%",
+              width: { xs: "95%", md: "30%" },
               boxSizing: "border-box",
+              margin: { xs: "10px auto", md: "auto" },
               padding: "0",
             }}
           >
@@ -129,7 +143,7 @@ const Courses: React.FC = () => {
                 width: "100%",
                 height: "250px",
                 overflow: "hidden",
-                background: "blue",
+                background: theme.palette.background.paper,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -166,9 +180,10 @@ const Courses: React.FC = () => {
               </Box>
               <Divider sx={{ margin: "20px auto" }} />
               <Stack
-                direction="row"
+                direction={{ xs: "column", md: "row" }}
                 justifyContent={"space-between"}
                 alignItems="center"
+                spacing={2}
               >
                 <Typography
                   fontWeight={"medium"}

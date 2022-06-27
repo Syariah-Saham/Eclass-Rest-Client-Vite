@@ -56,7 +56,7 @@ const Register: React.FC = () => {
 
   return (
     <AuthLayout>
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ width: { xs: "100%", md: "60%" } }}>
         <Box sx={{ width: "150px", margin: "20px auto" }}>
           <img style={{ width: "100%" }} src={LogoEclass} alt="logo eclass" />
         </Box>

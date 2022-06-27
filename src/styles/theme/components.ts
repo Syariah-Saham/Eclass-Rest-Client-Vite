@@ -184,8 +184,8 @@ export const components: Components<Theme> = {
   },
   MuiGrid: {
     defaultProps: {
-      wrap: "nowrap",
-      columnGap: 2,
+      // wrap: "nowrap",
+      spacing: 2,
     },
   },
   MuiCard: {

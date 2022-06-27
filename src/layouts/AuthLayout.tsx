@@ -24,7 +24,7 @@ const AuthLayout: React.FC<React.PropsWithChildren> = (props) => {
             direction="row"
             justifyContent="center"
             alignItems="center"
-            sx={{ width: "50%" }}
+            sx={{ width: "50%", display: { xs: "none", md: "flex" } }}
           >
             <Box sx={{ width: "80%" }}>
               <img
@@ -38,7 +38,7 @@ const AuthLayout: React.FC<React.PropsWithChildren> = (props) => {
             direction="row"
             justifyContent="center"
             alignItems="center"
-            sx={{ width: "50%" }}
+            sx={{ width: { xs: "100%", md: "50%" } }}
           >
             {props.children}
           </Stack>

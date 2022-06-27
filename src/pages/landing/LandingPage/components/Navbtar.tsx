@@ -1,8 +1,9 @@
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, IconButton, Stack } from "@mui/material";
 import React, { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../../../assets/logos/logo_eclass.png";
 import { palette } from "../../../../styles/theme/palette";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const styleNav: CSSProperties = {
   backgroundColor: palette.background.paper,
@@ -18,7 +19,11 @@ const styleImg: CSSProperties = {
   height: "40px",
 };
 
-const Navbtar: React.FC = () => {
+interface INavbarProps {
+  isOpenSidebar: boolean;
+  toggleSidebar: () => void;
+}
+const Navbtar: React.FC<INavbarProps> = (props) => {
   return (
     <div>
       <nav>
@@ -27,7 +32,17 @@ const Navbtar: React.FC = () => {
             <Box>
               <img src={Logo} alt="logo eclass" style={styleImg} />
             </Box>
+            <Box sx={{ display: { xs: "block", md: "none" } }}>
+              <IconButton
+                onClick={props.toggleSidebar}
+                size="large"
+                color="primary"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
             <Stack
+              sx={{ display: { xs: "none", md: "flex" } }}
               direction={"row"}
               justifyContent="flex-end"
               alignItems="center"

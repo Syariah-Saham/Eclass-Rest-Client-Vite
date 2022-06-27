@@ -1,15 +1,25 @@
-import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Stack,
+  SxProps,
+  Theme,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { CSSProperties } from "react";
 import CursorIcon from "../../../../assets/icons/cursor.svg";
 import CheckIcon from "../../../../assets/icons/check.svg";
 import CashIcon from "../../../../assets/icons/cash.svg";
 import BookOpenIcon from "../../../../assets/icons/book-open.svg";
 
-const styleLeftSide: CSSProperties = {
+const styleLeftSide: SxProps<Theme> = {
   backgroundImage:
     "linear-gradient(308deg, rgb(0, 15, 54) 20%, rgb(0, 40, 151) 120%)",
   width: "60%",
   minHeight: "75vh",
+  display: { xs: "none", md: "flex" },
   boxSizing: "border-box",
   paddingLeft: "100px",
 };
@@ -50,7 +60,11 @@ const Benefits: React.FC = () => {
 
   return (
     <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <Stack sx={styleLeftSide} direction="column" justifyContent="center">
           <Typography variant="h5">Membership</Typography>
           <Typography variant="h2" fontWeight={"bold"}>
@@ -64,16 +78,24 @@ const Benefits: React.FC = () => {
           </Box>
         </Stack>
         <Stack
-          direction="row"
+          direction={{ xs: "column", md: "row" }}
           justifyContent={"space-around"}
           alignItems="center"
-          sx={{ width: "50%", position: "absolute", right: 0 }}
+          sx={{
+            width: { xs: "90%", md: "50%" },
+            position: { xs: "relative", md: "absolute" },
+            right: 0,
+          }}
           flexWrap="wrap"
         >
           {listBenefits.map((item) => (
             <Card
               key={item.id}
-              sx={{ width: "35%", margin: "25px auto", textAlign: "center" }}
+              sx={{
+                width: { xs: "90%", md: "35%" },
+                margin: "25px auto",
+                textAlign: "center",
+              }}
             >
               <Stack
                 direction="column"

@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Navbtar from "./components/Navbtar";
+import Sidebar from "./components/Sidebar";
 import Banner from "./sections/Banner";
 import Benefits from "./sections/Benefits";
 import Courses from "./sections/Courses";
@@ -10,9 +11,15 @@ import StepsInvestment from "./sections/StepsInvestment";
 import Testimonials from "./sections/Testimonials";
 
 const LandingPage: React.FC = () => {
+  const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(false);
+
   return (
     <div>
-      <Navbtar />
+      <Navbtar
+        isOpenSidebar={isOpenSidebar}
+        toggleSidebar={() => setIsOpenSidebar(!isOpenSidebar)}
+      />
+      <Sidebar isOpen={isOpenSidebar} />
       <Box sx={{ paddingTop: "70px" }}>
         <Banner />
         <StepsInvestment />

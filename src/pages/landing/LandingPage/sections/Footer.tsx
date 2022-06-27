@@ -17,11 +17,16 @@ const Footer: React.FC = () => {
   return (
     <Box sx={{ borderTop: `1px solid ${palette.text.primary}` }}>
       <Stack
-        direction="row"
+        direction={{ xs: "column", md: "row" }}
         justifyContent={"space-around"}
-        sx={{ padding: "50px 50px" }}
+        sx={{ padding: { xs: "50px 25px", md: "50px" } }}
       >
-        <Box sx={{ width: "20%" }}>
+        <Box
+          sx={{
+            width: { xs: "100%", md: "20%" },
+            marginBottom: { xs: "20px", md: "10px" },
+          }}
+        >
           <Typography variant="h5" sx={{ marginBottom: "12px" }}>
             Halaman
           </Typography>
@@ -38,7 +43,12 @@ const Footer: React.FC = () => {
             Mentor
           </Link>
         </Box>
-        <Box sx={{ width: "20%" }}>
+        <Box
+          sx={{
+            width: { xs: "100%", md: "20%" },
+            marginBottom: { xs: "20px", md: "10px" },
+          }}
+        >
           <Typography variant="h5" sx={{ marginBottom: "12px" }}>
             Kelas
           </Typography>
@@ -52,7 +62,12 @@ const Footer: React.FC = () => {
             Professional
           </Link>
         </Box>
-        <Box sx={{ width: "20%" }}>
+        <Box
+          sx={{
+            width: { xs: "100%", md: "20%" },
+            marginBottom: { xs: "20px", md: "10px" },
+          }}
+        >
           <Typography variant="h5" sx={{ marginBottom: "12px" }}>
             Membership
           </Typography>
@@ -63,7 +78,7 @@ const Footer: React.FC = () => {
             Masuk
           </Link>
         </Box>
-        <Box sx={{ width: "30%" }}>
+        <Box sx={{ width: { xs: "100%", md: "30%" } }}>
           <Typography variant="h5" sx={{ marginBottom: "12px" }}>
             Hubungi Kami
           </Typography>
@@ -76,7 +91,11 @@ const Footer: React.FC = () => {
             Office : Perkantoran Tanjung Mas Raya, Blok B1 Nomor 44, Tanjung
             Barat, Jagakarsa, Jakarta Selatan 12530.
           </Typography>
-          <Stack direction="row" gap={3} sx={{ marginTop: "20px" }}>
+          <Stack
+            direction="row"
+            gap={{ xs: 1, md: 3 }}
+            sx={{ marginTop: "20px" }}
+          >
             <a href="#">
               <img src={FBIcon} alt="fb icon" />
             </a>
@@ -97,10 +116,10 @@ const Footer: React.FC = () => {
       </Stack>
       <footer>
         <Stack
-          direction="row"
+          direction={{ xs: "column", md: "row" }}
           justifyContent={"space-between"}
           alignItems="center"
-          sx={{ padding: "10px 50px" }}
+          sx={{ padding: { xs: "20px 10px", md: "10px 50px" } }}
         >
           <Box>
             <img
@@ -109,7 +128,11 @@ const Footer: React.FC = () => {
               alt="logo syariah saham"
             />
           </Box>
-          <Stack direction="row" justifyContent={"flex-end"} gap={5}>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            justifyContent={"flex-end"}
+            gap={5}
+          >
             <Link color="secondary" href="#">
               Kebijakan Privasi
             </Link>

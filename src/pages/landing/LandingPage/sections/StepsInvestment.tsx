@@ -35,15 +35,26 @@ const StepsInvestment: React.FC = () => {
       <Stack
         direction="column"
         alignItems={"center"}
-        sx={{ width: "50%", margin: "10px auto", textAlign: "center" }}
+        sx={{
+          width: { md: "50%" },
+          margin: "10px auto",
+          textAlign: "center",
+        }}
       >
         <TitleSection title="Langkah Investasi" />
-        <Typography variant="h5">
+        <Typography sx={{ display: { xs: "none", md: "block" } }} variant="h5">
+          Masih banyak yang salah langkah saat berinvestasi. Sebenarnya seperti
+          apa sih tahapannya supaya sukses berinvestasi?
+        </Typography>
+        <Typography
+          sx={{ display: { xs: "block", md: "none" } }}
+          variant="body1"
+        >
           Masih banyak yang salah langkah saat berinvestasi. Sebenarnya seperti
           apa sih tahapannya supaya sukses berinvestasi?
         </Typography>
       </Stack>
-      <Grid container sx={{ marginTop: "50px" }}>
+      <Grid container sx={{ marginTop: { md: "50px" } }}>
         <Grid item md={6}>
           <Stack justifyContent={"center"}>
             <img src={Illustration} alt="illustration" />

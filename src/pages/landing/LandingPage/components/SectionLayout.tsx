@@ -4,7 +4,9 @@ import React, { PropsWithChildren } from "react";
 const SectionLayout: React.FC<PropsWithChildren> = (props) => {
   return (
     <Container maxWidth="xl">
-      <Box sx={{ margin: "100px auto" }}>{props.children}</Box>
+      <Box sx={{ margin: { xs: "50px auto", md: "100px auto" } }}>
+        {props.children}
+      </Box>
     </Container>
   );
 };

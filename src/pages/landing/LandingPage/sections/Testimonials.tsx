@@ -51,10 +51,12 @@ const Testimonials: React.FC = () => {
             <Grid
               key={student.id}
               item
-              md={6}
+              md={4}
+              gap={2}
               sx={{
                 boxSizing: "border-box",
                 padding: "20px",
+                marginBottom: "40px",
               }}
             >
               <Card sx={{ textAlign: "center", height: "100%" }}>
