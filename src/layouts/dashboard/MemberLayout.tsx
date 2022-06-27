@@ -1,6 +1,7 @@
 import { AccountCircleRounded, Logout } from "@mui/icons-material";
 import {
   Avatar,
+  Badge,
   Box,
   IconButton,
   ListItemIcon,
@@ -70,7 +71,6 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const dashboard = useAppSelector((state) => state.dashboard);
   const [menuProfile, setMenuProfile] = useState<{
     status: boolean;
     anchorEl: null | HTMLElement;
@@ -117,12 +117,16 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
         <Stack direction="row" justifyContent={"flex-end"} gap={1}>
           <Box>
             <IconButton color="secondary" size="large">
-              <NotificationsOutlinedIcon />
+              <Badge badgeContent={4} color="info">
+                <NotificationsOutlinedIcon />
+              </Badge>
             </IconButton>
           </Box>
           <Box>
             <IconButton color="secondary" size="large">
-              <ShoppingCartOutlinedIcon />
+              <Badge badgeContent={4} color="info">
+                <ShoppingCartOutlinedIcon />
+              </Badge>
             </IconButton>
           </Box>
           <Box>

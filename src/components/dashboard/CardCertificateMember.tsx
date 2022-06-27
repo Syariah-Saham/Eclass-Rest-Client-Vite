@@ -1,5 +1,6 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import React from "react";
+import LocalPrintshopRoundedIcon from "@mui/icons-material/LocalPrintshopRounded";
 
 const CardCertificateMember: React.FC = () => {
   return (
@@ -14,7 +15,11 @@ const CardCertificateMember: React.FC = () => {
       </Box>
       <Typography variant="h5">Lorem ipsum dolor sit amet</Typography>
       <Typography>4 Mei 2022</Typography>
-      <Button color="secondary" sx={{ width: "100%", marginTop: "15px" }}>
+      <Button
+        startIcon={<LocalPrintshopRoundedIcon />}
+        color="secondary"
+        sx={{ width: "100%", marginTop: "15px" }}
+      >
         Cetak Sertifikat
       </Button>
     </Card>

@@ -23,7 +23,7 @@ const Certificates: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ marginTop: "80px" }}>
+      <Box sx={{ marginTop: "60px" }}>
         <Typography variant="h3">Lanjut Belajar</Typography>
         <Grid container spacing={5} sx={{ marginTop: "0px" }}>
           <Grid item md={3}>

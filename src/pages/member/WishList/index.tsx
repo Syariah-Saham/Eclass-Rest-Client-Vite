@@ -4,7 +4,7 @@ import CardCourseMember from "../../../components/dashboard/CardCourseMember";
 
 const WishList: React.FC = () => {
   return (
-    <Box sx={{ marginTop: "80px" }}>
+    <Box>
       <Typography variant="h3">Ingin Dipelajari</Typography>
       <Grid container spacing={5} sx={{ marginTop: "0px" }}>
         <Grid item md={3}>

@@ -1,12 +1,15 @@
-import { Card, Box, Typography, Stack, IconButton } from "@mui/material";
-import React from "react";
+import { Card, Box, Typography, Stack, IconButton, Fade } from "@mui/material";
+import React, { useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import ZoomOutMapRoundedIcon from "@mui/icons-material/ZoomOutMapRounded";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 
 const CardCourseMember: React.FC = () => {
+  const [isWishList, setIsWishList] = useState<boolean>(false);
+
   return (
     <Card>
       <Box sx={{ margin: "-25px", marginBottom: "25px" }}>
@@ -65,8 +68,12 @@ const CardCourseMember: React.FC = () => {
         <IconButton size="large" color="info">
           <AddShoppingCartRoundedIcon />
         </IconButton>
-        <IconButton size="large" color="error">
-          <FavoriteBorderRoundedIcon />
+        <IconButton
+          size="large"
+          color="error"
+          onClick={() => setIsWishList(!isWishList)}
+        >
+          {isWishList ? <FavoriteRoundedIcon /> : <FavoriteBorderRoundedIcon />}
         </IconButton>
       </Stack>
     </Card>
