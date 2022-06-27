@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import {
   IIconItems,
   IMenuItemProps,
-  TMenu,
 } from "../../interfaces/components/menu-item";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import MonitorRoundedIcon from "@mui/icons-material/MonitorRounded";
@@ -12,6 +11,11 @@ import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
 import SupervisedUserCircleRoundedIcon from "@mui/icons-material/SupervisedUserCircleRounded";
 import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
+import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { changePage } from "../../redux/actions/dashboard";
 
@@ -22,6 +26,11 @@ const icons: IIconItems = {
   mentors: <SupervisedUserCircleRoundedIcon color="inherit" />,
   members: <GroupRoundedIcon color="inherit" />,
   profile: <AccountCircleRoundedIcon color="inherit" />,
+  certificates: <WorkspacePremiumIcon color="inherit" />,
+  wishlist: <FavoriteIcon color="inherit" />,
+  cart: <ShoppingCartRoundedIcon color="inherit" />,
+  payments: <ReceiptLongRoundedIcon color="inherit" />,
+  help: <HelpRoundedIcon color="inherit" />,
 };
 type TIconKey = keyof typeof icons;
 

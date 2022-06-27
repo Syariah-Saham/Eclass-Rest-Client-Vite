@@ -16,4 +16,9 @@ export enum TMenu {
   MENTORS,
   MEMBERS,
   PROFILE,
+  CERTIFICATES,
+  WISHLIST,
+  CART,
+  PAYMENTS,
+  HELP,
 }
