@@ -2,12 +2,14 @@ import { Box, Typography, Card, Stack, useTheme, Button } from "@mui/material";
 import React from "react";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import PlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
+import { useNavigate } from "react-router-dom";
 
 interface ICardListLesson_Member {
   canContinue?: boolean;
 }
 const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Box>
       <Typography variant="h3" sx={{ marginBottom: "17px" }}>
@@ -109,6 +111,7 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
                 startIcon={<PlayCircleFilledWhiteRoundedIcon />}
                 size="large"
                 color="secondary"
+                onClick={() => navigate(`/member/courses/1/lesson/1`)}
               >
                 Lanjut Belajar
               </Button>
