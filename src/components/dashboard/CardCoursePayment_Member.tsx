@@ -19,6 +19,7 @@ import WhatsappRoundedIcon from "@mui/icons-material/WhatsappRounded";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Link } from "react-router-dom";
 
 const CardCoursePayment_Member: React.FC = () => {
   return (
@@ -31,14 +32,16 @@ const CardCoursePayment_Member: React.FC = () => {
       </Typography>
       <Typography variant="h3">Rp399.000</Typography>
       <Box sx={{ margin: "24px auto" }}>
-        <Button
-          color="secondary"
-          sx={{ width: "100%", marginBottom: "15px" }}
-          size="large"
-          startIcon={<AccountBalanceWalletRoundedIcon />}
-        >
-          Beli Sekarang
-        </Button>
+        <Link to={`/member/courses/1/corridor`}>
+          <Button
+            color="secondary"
+            sx={{ width: "100%", marginBottom: "15px" }}
+            size="large"
+            startIcon={<AccountBalanceWalletRoundedIcon />}
+          >
+            Beli Sekarang
+          </Button>
+        </Link>
         <Stack direction="row" justifyContent="space-between">
           <Button sx={{ width: "48%" }} color="info" size="large">
             <AddShoppingCartRoundedIcon />

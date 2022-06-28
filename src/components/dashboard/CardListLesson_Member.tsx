@@ -1,8 +1,12 @@
 import { Box, Typography, Card, Stack, useTheme, Button } from "@mui/material";
 import React from "react";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import PlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
 
-const CardListLesson_Member: React.FC = () => {
+interface ICardListLesson_Member {
+  canContinue?: boolean;
+}
+const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
   const theme = useTheme();
   return (
     <Box>
@@ -92,13 +96,42 @@ const CardListLesson_Member: React.FC = () => {
             </Typography>
           </Stack>
         </Stack>
-        <Button
-          sx={{ width: "100%", marginTop: "15px" }}
-          startIcon={<ReadMoreIcon />}
-          size="large"
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ marginTop: "15px" }}
         >
-          Lihat Selengkapnya
-        </Button>
+          {props.canContinue ? (
+            <>
+              <Button
+                sx={{ width: "47%" }}
+                startIcon={<PlayCircleFilledWhiteRoundedIcon />}
+                size="large"
+                color="secondary"
+              >
+                Lanjut Belajar
+              </Button>
+              <Button
+                sx={{ width: "47%" }}
+                startIcon={<ReadMoreIcon />}
+                size="large"
+              >
+                Lihat Selengkapnya
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                sx={{ width: "100%" }}
+                startIcon={<ReadMoreIcon />}
+                size="large"
+              >
+                Lihat Selengkapnya
+              </Button>
+            </>
+          )}
+        </Stack>
       </Card>
     </Box>
   );

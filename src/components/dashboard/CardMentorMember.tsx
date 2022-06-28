@@ -7,7 +7,7 @@ const CardMentorMember: React.FC = () => {
       <Typography variant="h3" sx={{ marginBottom: "17px" }}>
         Mentor Pengajar
       </Typography>
-      <Card sx={{ width: "60%" }}>
+      <Card>
         <Stack direction="row" sx={{ padding: "25px" }} spacing={4}>
           <Box
             sx={{

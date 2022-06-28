@@ -4,26 +4,12 @@ import CardMentorMember from "../../../components/dashboard/CardMentorMember";
 import CardListLesson_Member from "../../../components/dashboard/CardListLesson_Member";
 import CardCoursePayment_Member from "../../../components/dashboard/CardCoursePayment_Member";
 import CardCourseDescription_Member from "../../../components/dashboard/CardCourseDescription_Member";
+import CourseBanner_Member from "../../../components/dashboard/CourseBanner_Member";
 
 const Preview: React.FC = () => {
   return (
     <Box>
-      <Box
-        sx={{
-          height: "300px",
-          borderRadius: "26px",
-          overflow: "hidden",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: "35px",
-        }}
-      >
-        <img
-          style={{ width: "100%" }}
-          src="https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg"
-        />
-      </Box>
+      <CourseBanner_Member />
       <Grid container spacing={5}>
         <Grid item md={8}>
           <CardMentorMember />
