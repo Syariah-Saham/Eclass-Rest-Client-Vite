@@ -1,5 +1,6 @@
 import { Typography, Card, Box, Stack, Button } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ContinueLearning: React.FC = () => {
   return (
@@ -43,7 +44,9 @@ const ContinueLearning: React.FC = () => {
               </Typography>
             </Box>
             <Stack direction="row" justifyContent={"flex-end"}>
-              <Button color="secondary">Lanjut</Button>
+              <Link to={`/member/courses/1/lesson/1`}>
+                <Button color="secondary">Lanjut</Button>
+              </Link>
             </Stack>
           </Box>
         </Stack>
