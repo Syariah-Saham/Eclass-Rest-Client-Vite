@@ -6,6 +6,7 @@ import ZoomOutMapRoundedIcon from "@mui/icons-material/ZoomOutMapRounded";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import { Link } from "react-router-dom";
 
 const CardCourseMember: React.FC = () => {
   const [isWishList, setIsWishList] = useState<boolean>(false);
@@ -62,9 +63,11 @@ const CardCourseMember: React.FC = () => {
         alignItems="center"
         sx={{ marginTop: "10px" }}
       >
-        <IconButton size="large" color="secondary">
-          <ZoomOutMapRoundedIcon />
-        </IconButton>
+        <Link to={`/member/courses/1`}>
+          <IconButton size="large" color="secondary">
+            <ZoomOutMapRoundedIcon />
+          </IconButton>
+        </Link>
         <IconButton size="large" color="info">
           <AddShoppingCartRoundedIcon />
         </IconButton>
