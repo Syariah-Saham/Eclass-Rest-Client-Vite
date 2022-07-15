@@ -20,6 +20,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { createCourseValidation } from "../../../validations/admin/course-form";
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import { createNewCourse } from "../../../services/courses";
+import { useAppDispatch } from "../../../redux/hooks";
+import { openSnackbar } from "../../../redux/actions/snackbar";
 
 const levelOptions = [
   {
@@ -38,16 +40,13 @@ const levelOptions = [
 
 const Create: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [file, setFile] = useState<any[]>([]);
   const theme = useTheme();
   const [mentorOptions, setMentorOptions] = useState<
     { label: string; value: number }[]
   >([]);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
-  const [error, setError] = useState<{ status: boolean; message: string }>({
-    status: false,
-    message: "",
-  });
 
   const getListMentors = async () => {
     try {
@@ -85,17 +84,25 @@ const Create: React.FC = () => {
 
   const onSubmit = handleSubmit(async (data: ICreateCourseForm) => {
     setLoadingSubmit(true);
+
     try {
-      const fd = new FormData();
       const payload = { ...data, thumbnail: file[0]?.file };
       await createNewCourse(payload);
       navigate("/admin/courses");
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Created course successfully",
+        })
+      );
     } catch (error: any) {
       console.log(error);
-      setError({
-        status: true,
-        message: error?.response?.data?.message,
-      });
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.response?.data?.message,
+        })
+      );
     } finally {
       setLoadingSubmit(false);
     }

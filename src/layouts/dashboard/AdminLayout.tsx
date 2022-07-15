@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { changePage } from "../../redux/actions/dashboard";
 import { logout } from "../../redux/actions/auth";
+import SnackBarComp from "../../components/Snackbar";
 
 const menus: IMenuItemProps[] = [
   {
@@ -186,6 +187,7 @@ const AdminLayout: React.FC<PropsWithChildren> = (props) => {
           </Box>
         </Stack>
         <Box>{props.children}</Box>
+        <SnackBarComp />
       </Content>
     </Box>
   );
