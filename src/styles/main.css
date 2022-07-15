@@ -64,7 +64,9 @@ body {
 }
 
 /* -------- markdown ------------ */
+
 .w-md-editor-text {
+  color: #a9b8ea;
   background-color: #000e3a;
 }
 

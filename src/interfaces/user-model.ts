@@ -1,6 +1,8 @@
+import { IResources } from "./resources";
+
 export type TRole = "member" | "admin" | "mentor";
 
-export interface IUser {
+export interface IUser extends IResources {
   id: number;
   name: string;
   email: string;

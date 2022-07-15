@@ -16,7 +16,7 @@ const App: React.FC = () => {
   useEffect(() => {
     (async () => {
       let response = await testApi();
-      console.log(response);
+      console.log(response.data);
     })();
   }, []);
 
