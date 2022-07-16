@@ -215,7 +215,9 @@ const CardDashboard: React.FC = () => {
             >
               <Avatar
                 alt="User 1"
-                src="https://i.pinimg.com/564x/f6/c3/79/f6c379ccfb9130cfd36c63722d5251be.jpg"
+                src={`${import.meta.env.VITE_STORAGE_URL}/${
+                  auth.user?.profile_photo
+                }`}
                 sx={{ height: "60px", width: "60px" }}
               />
             </Box>

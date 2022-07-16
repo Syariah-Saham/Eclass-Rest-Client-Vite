@@ -64,6 +64,7 @@ const AdminLayout: React.FC<PropsWithChildren> = (props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const dashboard = useAppSelector((state) => state.dashboard);
+  const auth = useAppSelector((state) => state.auth);
   const [menuProfile, setMenuProfile] = useState<{
     status: boolean;
     anchorEl: null | HTMLElement;
@@ -114,7 +115,9 @@ const AdminLayout: React.FC<PropsWithChildren> = (props) => {
           <Box>
             <Avatar
               alt="User 1"
-              src="https://i.pinimg.com/564x/f6/c3/79/f6c379ccfb9130cfd36c63722d5251be.jpg"
+              src={`${import.meta.env.VITE_STORAGE_URL}/${
+                auth.user?.profile_photo
+              }`}
               onClick={openMenuProfile}
               sx={{
                 cursor: "pointer",
