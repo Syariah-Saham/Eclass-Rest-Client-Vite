@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CardCourse, { CardCourseSkeleton } from "../../../components/CardCourse";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
+import { usePage } from "../../../hooks/usePage";
 import { ICourse } from "../../../interfaces/course-model";
-import { IPage } from "../../../interfaces/state/page";
+import { openSnackbar } from "../../../redux/actions/snackbar";
+import { useAppDispatch } from "../../../redux/hooks";
 import { getCourses } from "../../../services/courses";
 import { COURSE_LEVEL } from "../../../types/course_level";
 
@@ -30,19 +32,20 @@ const listMenu = [
 const CourseListSkeleton = () => {
   const result = [];
 
-  for (let i = 0; i <= 6; i++) {
-    result.push(<CardCourseSkeleton />);
+  for (let i = 1; i <= 6; i++) {
+    result.push(<CardCourseSkeleton key={i} />);
   }
 
   return <>{result}</>;
 };
 
 const List: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [menuActive, setMenuActive] = useState<string>("ALL");
   const [loading, setLoading] = useState<boolean>(true);
-  const [page, setPage] = useState<IPage>({
-    currentPage: 1,
-    totalPage: 1,
+  const { page, setTotal, backPage, setTotalWithReset, changePage } = usePage({
+    current: 1,
+    total: 1,
     perPage: 6,
   });
   const [showCourses, setShowCourses] = useState<ICourse[][]>([]);
@@ -52,12 +55,17 @@ const List: React.FC = () => {
     try {
       const response = await getCourses();
       const courses = response.data.courses;
-      setAllCourses(courses);
       const tmpCourses = sliceIntoChunks(courses, page.perPage);
+      setAllCourses(courses);
       setShowCourses(tmpCourses);
-      setPage({ ...page, totalPage: tmpCourses.length });
+      setTotal(tmpCourses.length);
     } catch (error: any) {
-      console.log(error);
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
     } finally {
       setLoading(false);
     }
@@ -68,14 +76,10 @@ const List: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!showCourses[page.currentPage - 1]) {
-      setPage({ ...page, currentPage: page.currentPage - 1 });
+    if (!showCourses[page.current - 1]) {
+      backPage();
     }
   }, [showCourses]);
-
-  const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage({ ...page, currentPage: value });
-  };
 
   useEffect(() => {
     if (menuActive !== "ALL") {
@@ -85,11 +89,11 @@ const List: React.FC = () => {
         ),
         page.perPage
       );
-      setPage({ ...page, currentPage: 1, totalPage: tmpResult.length });
+      setTotalWithReset(tmpResult.length);
       return setShowCourses(tmpResult);
     }
     const tmpResult = sliceIntoChunks(allCourses, page.perPage);
-    setPage({ ...page, currentPage: 1, totalPage: tmpResult.length });
+    setTotalWithReset(tmpResult.length);
     return setShowCourses(tmpResult);
   }, [menuActive]);
 
@@ -114,7 +118,7 @@ const List: React.FC = () => {
         {loading ? (
           <CourseListSkeleton />
         ) : (
-          showCourses[page.currentPage - 1].map((course) => (
+          showCourses[page.current - 1]?.map((course) => (
             <CardCourse
               key={course.id}
               target={`/admin/courses/${course.id}`}
@@ -125,9 +129,9 @@ const List: React.FC = () => {
       </Stack>
       <Stack direction="row" justifyContent={"center"} marginTop="40px">
         <Pagination
-          count={page.totalPage}
+          count={page.total}
           variant={"outlined"}
-          onChange={handleChangePage}
+          onChange={changePage}
         />
       </Stack>
     </Box>
