@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { IUser } from "../../../interfaces/user-model";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { numColTable } from "../../../helpers/numColTable";
+import { IPage } from "../../../interfaces/state/page";
 
 const SkeletonTable = () => {
   const tmpResult = [];
@@ -57,11 +58,7 @@ const SkeletonTable = () => {
 
 const List: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [page, setPage] = useState<{
-    currentPage: number;
-    totalPage: number;
-    perPage: number;
-  }>({
+  const [page, setPage] = useState<IPage>({
     currentPage: 1,
     totalPage: 1,
     perPage: 10,

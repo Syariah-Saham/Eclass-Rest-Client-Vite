@@ -1,11 +1,6 @@
 import { PropsWithChildren } from "react";
+import { ICourse } from "../course-model";
 
-export interface ICardCourse extends PropsWithChildren {
-  id: number;
-  thumbnail: string;
-  level: string;
-  title: string;
-  description: string;
-  price: string;
+export interface ICardCourse extends PropsWithChildren, ICourse {
   target?: string;
 }

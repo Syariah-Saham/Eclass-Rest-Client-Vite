@@ -6,22 +6,93 @@ import {
   useTheme,
   Divider,
   Button,
+  Skeleton,
 } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import StarIcon from "../assets/icons/star.svg";
+import { formatRp } from "../helpers/formatRp";
+import { parseCategory } from "../helpers/parseCategory";
 import { ICardCourse } from "../interfaces/components/card-course";
 import { useAppSelector } from "../redux/hooks";
 
+const styles = {
+  rating: {
+    fontWeight: "bold",
+    marginBottom: 2,
+    padding: "10px 20px",
+    borderRadius: "15px",
+  },
+  card: {
+    width: "30%",
+    boxSizing: "border-box",
+    padding: "0",
+  },
+  thumbnail: {
+    width: "100%",
+    height: "250px",
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  thumbnailStack: { position: "absolute", top: 15, left: 25, right: 25 },
+  category: {
+    textTransform: "uppercase",
+    fontWeight: "medium",
+    marginBottom: 2,
+    padding: "10px 20px",
+    borderRadius: "15px",
+  },
+};
+
 const Rating: React.FC = () => {
+  const theme = useTheme();
   return (
-    <Stack direction="row" justifyContent={"center"} alignItems="center">
+    <Stack
+      direction="row"
+      justifyContent={"center"}
+      alignItems="center"
+      gap={1}
+      sx={{
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.background.paper,
+        ...styles.rating,
+      }}
+    >
       <img src={StarIcon} alt="star icon" style={{ height: "20px" }} />
-      <img src={StarIcon} alt="star icon" style={{ height: "20px" }} />
-      <img src={StarIcon} alt="star icon" style={{ height: "20px" }} />
-      <img src={StarIcon} alt="star icon" style={{ height: "20px" }} />
-      <img src={StarIcon} alt="star icon" style={{ height: "20px" }} />
+      <Typography variant="body2">5</Typography>
     </Stack>
+  );
+};
+
+export const CardCourseSkeleton: React.FC = () => {
+  return (
+    <Card sx={styles.card}>
+      <Skeleton variant="rectangular" width={"100%"} height={"252px"} />
+      <Box sx={{ padding: "30px" }}>
+        <Box>
+          <Skeleton variant="text" sx={{ width: "80%", height: "24px" }} />
+        </Box>
+        <Divider sx={{ margin: "20px auto" }} />
+        {
+          <Stack
+            direction="row"
+            justifyContent={"space-between"}
+            alignItems="center"
+          >
+            <Skeleton variant="text" width="30%" height="22px" />
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: "12px" }}
+              width={"40%"}
+              height="36px"
+            />
+          </Stack>
+        }
+      </Box>
+    </Card>
   );
 };
 
@@ -30,49 +101,35 @@ const CardCourse: React.FC<ICardCourse> = (course) => {
   const auth = useAppSelector((state) => state.auth);
 
   return (
-    <Card
-      key={course.id}
-      sx={{
-        width: "30%",
-        boxSizing: "border-box",
-        padding: "0",
-      }}
-    >
-      <Box
-        sx={{
-          width: "100%",
-          height: "250px",
-          overflow: "hidden",
-          background: "blue",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <img style={{ width: "100%" }} src={course.thumbnail} alt="thumbnail" />
-      </Box>
-      <Box sx={{ padding: "30px" }}>
+    <Card key={course.id} sx={styles.card}>
+      <Box sx={styles.thumbnail}>
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          sx={styles.thumbnailStack}
         >
           <Rating />
           <Typography
             variant="body2"
             sx={{
               color: theme.palette.primary.main,
-              textTransform: "uppercase",
-              fontWeight: "medium",
-              marginBottom: 2,
+              backgroundColor: theme.palette.background.paper,
+              ...styles.category,
             }}
           >
-            {course.level}
+            {parseCategory(course.category)}
           </Typography>
         </Stack>
+        <img
+          style={{ width: "100%" }}
+          src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
+          alt="thumbnail"
+        />
+      </Box>
+      <Box sx={{ padding: "30px" }}>
         <Box>
           <Typography variant="h5">{course.title}</Typography>
-          <Typography>{course.description}</Typography>
         </Box>
         <Divider sx={{ margin: "20px auto" }} />
         <Stack
@@ -84,7 +141,7 @@ const CardCourse: React.FC<ICardCourse> = (course) => {
             fontWeight={"medium"}
             sx={{ color: `${theme.palette.warning.main} !important` }}
           >
-            {course.price}
+            {formatRp(course.price)}
           </Typography>
           <Link to={course.target ? course.target : "#"}>
             <Button>

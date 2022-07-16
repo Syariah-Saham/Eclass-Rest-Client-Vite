@@ -1,92 +1,97 @@
-import { Box, Button, Stack } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Button, Pagination, Stack } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import CardCourse from "../../../components/CardCourse";
+import CardCourse, { CardCourseSkeleton } from "../../../components/CardCourse";
+import { sliceIntoChunks } from "../../../helpers/chunk-array";
+import { ICourse } from "../../../interfaces/course-model";
+import { IPage } from "../../../interfaces/state/page";
+import { getCourses } from "../../../services/courses";
+import { COURSE_LEVEL } from "../../../types/course_level";
 
 const listMenu = [
   {
     label: "Semua",
-    name: "all",
+    name: "ALL",
   },
   {
     label: "Pemula",
-    name: "beginner",
+    name: COURSE_LEVEL.BEGINNER,
   },
   {
     label: "Menengah",
-    name: "intermediete",
+    name: COURSE_LEVEL.INTERMEDIETE,
   },
   {
     label: "Professional",
-    name: "expert",
+    name: COURSE_LEVEL.EXPERT,
   },
 ];
 
-const dataCourses = [
-  {
-    id: 1,
-    thumbnail:
-      "https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg",
-    level: "Pemula",
-    title: "Prinsip Syariah di Pasar Modal",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit reiciendis nulla doloribus sunt!",
-    price: "Rp1.000.000",
-  },
-  {
-    id: 2,
-    thumbnail:
-      "https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg",
-    level: "Menenganh",
-    title: "Prinsip Syariah di Pasar Modal",
-    description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores natus autem odio?",
-    price: "Rp1.500.000",
-  },
-  {
-    id: 3,
-    thumbnail:
-      "https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg",
-    level: "Professional",
-    title: "Prinsip Syariah di Pasar Modal",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident sed beatae a nemo illo.",
-    price: "Rp1.200.000",
-  },
-  {
-    id: 4,
-    thumbnail:
-      "https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg",
-    level: "Professional",
-    title: "Prinsip Syariah di Pasar Modal",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident sed beatae a nemo illo.",
-    price: "Rp1.400.000",
-  },
-  {
-    id: 5,
-    thumbnail:
-      "https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg",
-    level: "Professional",
-    title: "Prinsip Syariah di Pasar Modal",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident sed beatae a nemo illo.",
-    price: "Rp2.200.000",
-  },
-  {
-    id: 6,
-    thumbnail:
-      "https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg",
-    level: "Professional",
-    title: "Prinsip Syariah di Pasar Modal",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident sed beatae a nemo illo.",
-    price: "Rp2.200.000",
-  },
-];
+const CourseListSkeleton = () => {
+  const result = [];
+
+  for (let i = 0; i <= 6; i++) {
+    result.push(<CardCourseSkeleton />);
+  }
+
+  return <>{result}</>;
+};
 
 const List: React.FC = () => {
-  const [menuActive, setMenuActive] = useState<string>("all");
+  const [menuActive, setMenuActive] = useState<string>("ALL");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<IPage>({
+    currentPage: 1,
+    totalPage: 1,
+    perPage: 6,
+  });
+  const [showCourses, setShowCourses] = useState<ICourse[][]>([]);
+  const [allCourses, setAllCourses] = useState<ICourse[]>([]);
+
+  const fetchAllCourses = async () => {
+    try {
+      const response = await getCourses();
+      const courses = response.data.courses;
+      setAllCourses(courses);
+      const tmpCourses = sliceIntoChunks(courses, page.perPage);
+      setShowCourses(tmpCourses);
+      setPage({ ...page, totalPage: tmpCourses.length });
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCourses();
+  }, []);
+
+  useEffect(() => {
+    if (!showCourses[page.currentPage - 1]) {
+      setPage({ ...page, currentPage: page.currentPage - 1 });
+    }
+  }, [showCourses]);
+
+  const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPage({ ...page, currentPage: value });
+  };
+
+  useEffect(() => {
+    if (menuActive !== "ALL") {
+      const tmpResult = sliceIntoChunks(
+        allCourses.filter(
+          (course) => course.category === menuActive.toLowerCase()
+        ),
+        page.perPage
+      );
+      setPage({ ...page, currentPage: 1, totalPage: tmpResult.length });
+      return setShowCourses(tmpResult);
+    }
+    const tmpResult = sliceIntoChunks(allCourses, page.perPage);
+    setPage({ ...page, currentPage: 1, totalPage: tmpResult.length });
+    return setShowCourses(tmpResult);
+  }, [menuActive]);
 
   return (
     <Box>
@@ -106,13 +111,24 @@ const List: React.FC = () => {
         ))}
       </Stack>
       <Stack direction="row" gap={5} flexWrap="wrap">
-        {dataCourses.map((course) => (
-          <CardCourse
-            key={course.id}
-            target={`/admin/courses/${course.id}`}
-            {...course}
-          />
-        ))}
+        {loading ? (
+          <CourseListSkeleton />
+        ) : (
+          showCourses[page.currentPage - 1].map((course) => (
+            <CardCourse
+              key={course.id}
+              target={`/admin/courses/${course.id}`}
+              {...course}
+            />
+          ))
+        )}
+      </Stack>
+      <Stack direction="row" justifyContent={"center"} marginTop="40px">
+        <Pagination
+          count={page.totalPage}
+          variant={"outlined"}
+          onChange={handleChangePage}
+        />
       </Stack>
     </Box>
   );
