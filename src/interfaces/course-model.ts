@@ -1,6 +1,7 @@
 import { BOOL } from "../types/bool";
 import { COURSE_LEVEL } from "../types/course_level";
 import { IResources } from "./resources";
+import { IUser } from "./user-model";
 
 export interface ICourse extends IResources {
   id: number;
@@ -12,4 +13,8 @@ export interface ICourse extends IResources {
   price: number;
   rating: number;
   is_publish: BOOL;
+}
+
+export interface ICourseWithMentor extends ICourse {
+  mentor: IUser;
 }

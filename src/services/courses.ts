@@ -1,4 +1,7 @@
-import { IGetCoursesResponse } from "../interfaces/api/admin/courses";
+import {
+  IGetCourseByIdResponse,
+  IGetCoursesResponse,
+} from "../interfaces/api/admin/courses";
 import { ICreateCourseForm } from "../interfaces/forms/admin/courses";
 import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
@@ -33,7 +36,7 @@ export const getCoursesByTitle = (data: { title: string }) => {
 
 export const getCourseById = (data: { id: number }) => {
   const token = store.getState().auth.token;
-  return apiService<IGetCoursesResponse, any>(
+  return apiService<IGetCourseByIdResponse, any>(
     URL.BASE_COURSES + `/${data.id}`,
     methodServices.GET,
     null,
