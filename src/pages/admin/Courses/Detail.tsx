@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ICourseWithMentor } from "../../../interfaces/course-model";
+import { ICourseDetail } from "../../../interfaces/course-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getCourseById } from "../../../services/courses";
@@ -22,7 +22,7 @@ const Detail: React.FC = () => {
     onClose: () => setModalAdd({ ...modalAdd, show: false }),
   });
   const [loading, setLoading] = useState<boolean>(true);
-  const [course, setCourse] = useState<ICourseWithMentor | null>(null);
+  const [course, setCourse] = useState<ICourseDetail | null>(null);
 
   const fetchCourse = async () => {
     try {
@@ -62,6 +62,7 @@ const Detail: React.FC = () => {
             </Grid>
             <Grid item md={4}>
               <CourseLessonList
+                lessons={course.lessons}
                 showModal={() => setModalAdd({ ...modalAdd, show: true })}
               />
             </Grid>

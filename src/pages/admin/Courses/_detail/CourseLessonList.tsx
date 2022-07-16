@@ -8,6 +8,8 @@ import {
   Skeleton,
 } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
+import { ILesson } from "../../../../interfaces/lesson-model";
 
 const styles = {
   boxLesson: {
@@ -58,11 +60,12 @@ export const CourseLessonListSkeleton = () => {
 
 interface ILessonItemProps {
   order: number;
+  lesson: ILesson;
 }
 const LessonItem: React.FC<ILessonItemProps> = (props) => {
   const theme = useTheme();
   return (
-    <Stack direction="row" alignItems="center">
+    <Stack direction="row" alignItems="center" sx={{ width: "100%" }}>
       <Box
         sx={{
           backgroundColor: theme.palette.background.default,
@@ -71,15 +74,23 @@ const LessonItem: React.FC<ILessonItemProps> = (props) => {
       >
         <Typography variant="h5">{props.order}</Typography>
       </Box>
-      <Typography sx={styles.lessonText}>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique,
-        quas?
-      </Typography>
+      <Link to={`/admin/courses/1/lessons/${props.lesson.id}`}>
+        <Typography
+          sx={{
+            ...styles.lessonText,
+            color: theme.palette.text.primary,
+            "&:hover": { color: theme.palette.secondary.main + " !important" },
+          }}
+        >
+          {props.lesson.title}
+        </Typography>
+      </Link>
     </Stack>
   );
 };
 
 interface ICourseLessonListProps {
+  lessons: ILesson[];
   showModal: () => void;
 }
 
@@ -97,14 +108,14 @@ const CourseLessonList: React.FC<ICourseLessonListProps> = (props) => {
           Tambah
         </Button>
       </Stack>
-      <Stack direction="column" gap={2} alignItems="center">
-        <LessonItem order={1} />
-        <LessonItem order={2} />
-        <LessonItem order={3} />
-        <LessonItem order={4} />
-        <LessonItem order={5} />
-        <LessonItem order={6} />
-        <LessonItem order={7} />
+      <Stack direction="column" gap={4} alignItems="center">
+        {props.lessons?.map((lesson, i) => (
+          <LessonItem order={i + 1} lesson={lesson} />
+        ))}
+
+        {!props.lessons.length && (
+          <Typography variant="h5">Tidak ada data</Typography>
+        )}
       </Stack>
     </Card>
   );

@@ -1,4 +1,4 @@
-import { ICourse, ICourseWithMentor } from "../../course-model";
+import { ICourse, ICourseDetail } from "../../course-model";
 
 export interface IGetCoursesResponse {
   courses: ICourse[];
@@ -9,7 +9,7 @@ export interface IGetCoursesByTitleResponse {
 }
 
 export interface IGetCourseByIdResponse {
-  course: ICourseWithMentor;
+  course: ICourseDetail;
 }
 
 export interface ICreateCourseResponse {
