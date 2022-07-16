@@ -1,15 +1,20 @@
 import { Stack, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import LoadingIndicator from "../../../../components/LoadingIndicator";
 import ModalDelete from "../../../../components/modals/ModalDelete";
 import { openSnackbar } from "../../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../../redux/hooks";
-import { deleteCourse } from "../../../../services/courses";
+import { deleteCourse, toggleStatusCourse } from "../../../../services/courses";
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC<{ status?: number }> = ({ status }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [statusCourse, setStatusCourse] = useState<
+    number | boolean | undefined
+  >(0);
+  const [loadingToggle, setLoadingToggle] = useState(false);
   const [modalDelete, setModalDelete] = useState({
     show: false,
     onClose: () => {
@@ -17,6 +22,10 @@ const Navigation: React.FC = () => {
     },
     onDelete: () => {},
   });
+
+  useEffect(() => {
+    setStatusCourse(status);
+  }, [status]);
 
   const handleDelete = async () => {
     setModalDelete({
@@ -44,6 +53,30 @@ const Navigation: React.FC = () => {
     });
   };
 
+  const handleToggleStatus = async () => {
+    setLoadingToggle(true);
+    try {
+      await toggleStatusCourse({ id: parseInt(id as string) });
+      console.log(status, statusCourse);
+      setStatusCourse(!statusCourse);
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Updated status successfully",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+    } finally {
+      setLoadingToggle(false);
+    }
+  };
+
   return (
     <>
       <Stack direction="row" gap={3} sx={{ marginBottom: "30px" }}>
@@ -51,7 +84,19 @@ const Navigation: React.FC = () => {
         <Button color="error" onClick={handleDelete.bind(null, id)}>
           Hapus
         </Button>
-        <Button color="secondary">Publish</Button>
+        <Button
+          color={!statusCourse ? "secondary" : "warning"}
+          disabled={loadingToggle}
+          onClick={handleToggleStatus.bind(null, id)}
+        >
+          {loadingToggle ? (
+            <LoadingIndicator />
+          ) : statusCourse ? (
+            "Private"
+          ) : (
+            "Publish"
+          )}
+        </Button>
         <Button color="warning">Ujian</Button>
       </Stack>
       <ModalDelete

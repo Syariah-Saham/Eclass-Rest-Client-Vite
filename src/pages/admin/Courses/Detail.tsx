@@ -45,7 +45,7 @@ const Detail: React.FC = () => {
 
   return (
     <Box>
-      <Navigation />
+      <Navigation status={course?.is_publish} />
       {loading ? (
         <CourseDetailSkeleton />
       ) : (
