@@ -2,6 +2,7 @@ import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ICourseDetail } from "../../../interfaces/course-model";
+import { ILesson } from "../../../interfaces/lesson-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getCourseById } from "../../../services/courses";
@@ -43,6 +44,10 @@ const Detail: React.FC = () => {
     fetchCourse();
   }, []);
 
+  const appendNewLesson = (lesson: ILesson) => {
+    setCourse({ ...course!, lessons: [...course!.lessons, lesson] });
+  };
+
   return (
     <Box>
       <Navigation status={course?.is_publish} />
@@ -72,7 +77,11 @@ const Detail: React.FC = () => {
           </Grid>
         )
       )}
-      <ModalAddLesson show={modalAdd.show} onClose={modalAdd.onClose} />
+      <ModalAddLesson
+        show={modalAdd.show}
+        onClose={modalAdd.onClose}
+        appendNewLesson={appendNewLesson}
+      />
     </Box>
   );
 };

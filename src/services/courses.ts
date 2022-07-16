@@ -1,6 +1,9 @@
 import {
+  ICreateCourseResponse,
+  IDeleteCourseResponse,
   IGetCourseByIdResponse,
   IGetCoursesResponse,
+  IToggleStatusCourseResponse,
 } from "../interfaces/api/admin/courses";
 import { ICreateCourseForm } from "../interfaces/forms/admin/courses";
 import { store } from "../redux/store";
@@ -51,7 +54,7 @@ export const createNewCourse = (data: ICreateCourseForm) => {
   for (const [key, value] of Object.entries(data)) {
     fd.append(key, value);
   }
-  return apiService<IGetCoursesResponse, any>(
+  return apiService<ICreateCourseResponse, any>(
     URL.BASE_COURSES + "/create",
     methodServices.POST,
     fd,
@@ -63,7 +66,7 @@ export const createNewCourse = (data: ICreateCourseForm) => {
 
 export const deleteCourse = (data: { id: number }) => {
   const token = store.getState().auth.token;
-  return apiService<IGetCoursesResponse, any>(
+  return apiService<IDeleteCourseResponse, any>(
     URL.BASE_COURSES + `/${data.id}`,
     methodServices.DELETE,
     null,
@@ -74,7 +77,7 @@ export const deleteCourse = (data: { id: number }) => {
 
 export const toggleStatusCourse = (data: { id: number }) => {
   const token = store.getState().auth.token;
-  return apiService<IGetCoursesResponse, any>(
+  return apiService<IToggleStatusCourseResponse, any>(
     URL.BASE_COURSES + `/${data.id}`,
     methodServices.PATCH,
     null,
