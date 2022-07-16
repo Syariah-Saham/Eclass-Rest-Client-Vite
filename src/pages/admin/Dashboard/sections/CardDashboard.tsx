@@ -70,10 +70,10 @@ const CardItem: React.FC<ICardItem> = (props) => {
     admins: <BadgeRounded sx={{ fontSize: "30px" }} color="inherit" />,
   };
   const color = {
-    courses: "info",
-    members: "success",
-    mentors: "error",
-    admins: "warning",
+    courses: theme.palette.info.dark,
+    members: theme.palette.success.dark,
+    mentors: theme.palette.error.dark,
+    admins: theme.palette.warning.dark,
   };
 
   return (
@@ -84,7 +84,7 @@ const CardItem: React.FC<ICardItem> = (props) => {
             <Box
               sx={{
                 ...styleBox,
-                background: theme.palette[color[props.icon]].dark,
+                background: color[props.icon],
               }}
             >
               {icons[props.icon]}
