@@ -1,4 +1,4 @@
-import { Box, Typography, Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import React from "react";
 import MDEditor from "@uiw/react-md-editor";
 

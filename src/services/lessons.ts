@@ -1,6 +1,8 @@
 import {
   ICreateLessonResponse,
   IDeleteLessonResponse,
+  IGetLessonByIdResponse,
+  IGetLessonsByCourseResponse,
   IGetLessonsResponse,
 } from "../interfaces/api/admin/lessons";
 import { ICreateLessonForm } from "../interfaces/forms/admin/lessons";
@@ -15,6 +17,28 @@ export const getLessons = () => {
   const token = store.getState().auth.token;
   return apiService<IGetLessonsResponse, any>(
     URL.BASE_LESSONS,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+export const getLessonById = (data: { id: number }) => {
+  const token = store.getState().auth.token;
+  return apiService<IGetLessonByIdResponse, any>(
+    URL.BASE_LESSONS + `/${data.id}`,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+export const getLessonByCourse = (data: { courseId: number }) => {
+  const token = store.getState().auth.token;
+  return apiService<IGetLessonsByCourseResponse, any>(
+    URL.BASE_LESSONS + `/course/${data.courseId}`,
     methodServices.GET,
     null,
     null,
