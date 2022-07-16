@@ -79,6 +79,7 @@ const Create: React.FC = () => {
       title: "",
       price: 0,
       description: "",
+      short_description: "",
     },
   });
 
@@ -158,6 +159,24 @@ const Create: React.FC = () => {
                           placeholder: "Judul",
                           onChange: (e) => onChange(e.target.value),
                           value: value,
+                        }}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="short_description"
+                    render={({ field: { onChange, value } }) => (
+                      <InputLabel
+                        label="Deskripsi Singkat"
+                        error={!!errors?.title}
+                        helperText={errors?.title?.message}
+                        inputProps={{
+                          type: "text",
+                          placeholder: "Deskripsi Singkat",
+                          onChange: (e) => onChange(e.target.value),
+                          value: value,
+                          multiline: true,
                         }}
                       />
                     )}

@@ -130,6 +130,7 @@ const CardCourse: React.FC<ICardCourse> = (course) => {
       <Box sx={{ padding: "30px" }}>
         <Box>
           <Typography variant="h5">{course.title}</Typography>
+          <Typography variant="body1">{course.short_description}</Typography>
         </Box>
         <Divider sx={{ margin: "20px auto" }} />
         <Stack

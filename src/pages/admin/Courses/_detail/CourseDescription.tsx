@@ -48,7 +48,7 @@ const CourseDescription: React.FC<{ course: ICourse }> = ({ course }) => {
           <Typography>{course.title}</Typography>
         </Box>
         <Box>
-          <Typography variant="h6">Judul</Typography>
+          <Typography variant="h6">Harga</Typography>
           <Typography>{formatRp(course.price)}</Typography>
         </Box>
         <Box>
@@ -67,6 +67,10 @@ const CourseDescription: React.FC<{ course: ICourse }> = ({ course }) => {
             <Typography>{parseCategory(course.category)}</Typography>
           </Box>
         </Stack>
+        <Box>
+          <Typography variant="h6">Deskripsi Singkat</Typography>
+          <Typography>{course.short_description}</Typography>
+        </Box>
       </Stack>
     </Card>
   );

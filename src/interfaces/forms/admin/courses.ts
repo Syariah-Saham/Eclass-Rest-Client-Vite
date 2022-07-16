@@ -7,4 +7,5 @@ export interface ICreateCourseForm {
   user_id: number;
   thumbnail: object;
   description: string;
+  short_description: string;
 }
