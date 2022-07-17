@@ -4,11 +4,14 @@ import MemberLayout from "../../layouts/dashboard/MemberLayout";
 import { storeCart } from "../../redux/actions/cart";
 import { storeCourses } from "../../redux/actions/courses";
 import { openSnackbar } from "../../redux/actions/snackbar";
+import { storeWishlist } from "../../redux/actions/wishlist";
 import { useAppDispatch } from "../../redux/hooks";
 import { getCartItems } from "../../services/member/cart";
 import { getCourses } from "../../services/member/courses";
+import { getWishlistItems } from "../../services/member/wishlist";
 import { ACTION_CART } from "../../types/cart";
 import { ACTION_COURSES } from "../../types/courses";
+import { ACTION_WISHLIST } from "../../types/wishlist";
 import Cart from "./Cart";
 import Certificates from "./Certificates";
 import Dashboard from "./Dashboard";
@@ -23,8 +26,10 @@ const Member: React.FC = () => {
     try {
       const courses = await getCourses();
       const cart = await getCartItems();
+      const wishlist = await getWishlistItems();
       dispatch(storeCourses(courses.data.courses));
       dispatch(storeCart(cart.data.items));
+      dispatch(storeWishlist(wishlist.data.items));
     } catch (error: any) {
       dispatch(
         openSnackbar({
@@ -37,6 +42,9 @@ const Member: React.FC = () => {
       });
       dispatch({
         type: ACTION_CART.STOP_LOADING,
+      });
+      dispatch({
+        type: ACTION_WISHLIST.STOP_LOADING,
       });
     }
   };

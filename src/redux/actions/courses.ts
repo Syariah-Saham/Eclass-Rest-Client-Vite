@@ -7,3 +7,14 @@ export const storeCourses = (data: ICourseItemMember[]) => {
     data,
   };
 };
+
+export const toggleWishlistCourses = (data: {
+  id: number;
+  status: boolean;
+}) => {
+  return {
+    type: ACTION_COURSES.TOGGLE_WISHLIST,
+    id: data.id,
+    status: data.status,
+  };
+};

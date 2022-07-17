@@ -1,13 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import PanToolRoundedIcon from "@mui/icons-material/PanToolRounded";
+import { useAppSelector } from "../../../redux/hooks";
 
 const SayHello: React.FC = () => {
+  const auth = useAppSelector((state) => state.auth);
+
   return (
     <Box sx={{ width: "85%" }}>
       <Typography variant="h3">
         <b>Hello , </b>
-        Latif{" "}
+        {auth.user?.name}{" "}
         <PanToolRoundedIcon
           color="warning"
           sx={{

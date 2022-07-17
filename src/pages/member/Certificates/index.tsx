@@ -26,7 +26,7 @@ const Certificates: React.FC = () => {
       <Box sx={{ marginTop: "60px" }}>
         <Typography variant="h3">Lanjut Belajar</Typography>
         <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-          <Grid item md={3}>
+          {/* <Grid item md={3}>
             <CardCourseMember />
           </Grid>
           <Grid item md={3}>
@@ -37,7 +37,7 @@ const Certificates: React.FC = () => {
           </Grid>
           <Grid item md={3}>
             <CardCourseMember />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </Box>

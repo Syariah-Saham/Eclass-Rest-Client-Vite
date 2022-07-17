@@ -6,13 +6,20 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import { formatRp } from "../../helpers/formatRp";
 import { ICourseItemMember } from "../../interfaces/course-model";
+import { useAppDispatch } from "../../redux/hooks";
+import { openSnackbar } from "../../redux/actions/snackbar";
+import { addCartItem } from "../../services/member/cart";
+import { addCartItemAction } from "../../redux/actions/cart";
+import { removeWishlistItem } from "../../services/member/wishlist";
+import { removeWishlistItemAction } from "../../redux/actions/wishlist";
+import { toggleWishlistCourses } from "../../redux/actions/courses";
 
 const styles = {
   box: {
@@ -71,6 +78,35 @@ const CardCart: React.FC<ICardCartProps> = ({
   handleRemove,
   loadingRemove,
 }) => {
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
+  const handleAddToCart = async () => {
+    setLoading(true);
+    try {
+      await addCartItem({ id: course.id });
+      await removeWishlistItem({ id: course.id });
+      dispatch(addCartItemAction(course));
+      dispatch(removeWishlistItemAction({ id: course.id }));
+      dispatch(toggleWishlistCourses({ id: course.id, status: false }));
+
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Berhasil ditambahkan ke keranjang",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Card sx={{ width: "100%" }}>
       <Stack direction="row" spacing={3}>
@@ -115,7 +151,12 @@ const CardCart: React.FC<ICardCartProps> = ({
         <Stack direction="column" justifyContent={"space-between"}>
           <Stack direction="row" justifyContent={"flex-end"} spacing={2}>
             {!isCart ? (
-              <IconButton size="large" color="info">
+              <IconButton
+                size="large"
+                color="info"
+                disabled={loading}
+                onClick={handleAddToCart}
+              >
                 <AddShoppingCartRoundedIcon />
               </IconButton>
             ) : (

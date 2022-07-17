@@ -11,13 +11,14 @@ import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { removeCartItem } from "../../../services/member/cart";
 import CardCheckout from "./CardCheckout";
+import WishlistSection from "./WishlistSection";
 
 const Cart: React.FC = () => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
   const [showCartItem, setShowCartItem] = useState<ICourseItemMember[][]>([]);
   const [loadingRemove, setLoadingRemove] = useState(false);
-  const { page, setTotal, changePage } = usePage({
+  const { page, setTotal, changePage, backPage } = usePage({
     current: 1,
     total: 1,
     perPage: 3,
@@ -28,6 +29,12 @@ const Cart: React.FC = () => {
     setTotal(tmpItems.length);
     setShowCartItem(tmpItems);
   }, [cart.list]);
+
+  useEffect(() => {
+    if (!showCartItem[page.current - 1]?.length) {
+      backPage();
+    }
+  }, [showCartItem]);
 
   const handleRemove = async (id: number) => {
     setLoadingRemove(true);
@@ -98,19 +105,7 @@ const Cart: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ marginTop: "80px" }}>
-        <Typography variant="h3">Ingin Dipelajari</Typography>
-        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-          <Grid item md={8}>
-            <Stack direction={"column"} spacing={3}>
-              {/* <CardCart isCart={false} />
-              <CardCart isCart={false} />
-              <CardCart isCart={false} /> */}
-            </Stack>
-          </Grid>
-          <Grid item md={4}></Grid>
-        </Grid>
-      </Box>
+      <WishlistSection />
     </Box>
   );
 };

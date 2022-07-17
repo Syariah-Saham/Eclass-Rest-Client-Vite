@@ -88,7 +88,9 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
             </Box>
           ))}
 
-        {!cart.list.length && <Typography>Tidak ada data</Typography>}
+        {!cart.list.length && !cart.loading && (
+          <Typography>Tidak ada data</Typography>
+        )}
       </Stack>
       <Box
         sx={{

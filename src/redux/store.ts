@@ -4,6 +4,7 @@ import authReducer from "./reducers/auth";
 import coursesReducer from "./reducers/courses";
 import dashboardReducer from "./reducers/dashboard";
 import snackbarReducer from "./reducers/snackbar";
+import wishlistReducer from "./reducers/wishlist";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     snackbar: snackbarReducer,
     courses: coursesReducer,
     cart: cartReducer,
+    wishlist: wishlistReducer,
   },
 });
 

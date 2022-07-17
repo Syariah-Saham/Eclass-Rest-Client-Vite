@@ -1,14 +1,14 @@
-import { Box, Typography, Grid, Pagination, Stack } from "@mui/material";
+import { Box, Typography, Grid, Stack, Pagination } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CardCourseMember, {
-  CardCourseMemberSkeleton,
-} from "../../../components/dashboard/CardCourseMember";
+import CardCart, {
+  CardCartSkeleton,
+} from "../../../components/dashboard/CardCart";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { usePage } from "../../../hooks/usePage";
 import { ICourseItemMember } from "../../../interfaces/course-model";
 import { useAppSelector } from "../../../redux/hooks";
 
-const WishList: React.FC = () => {
+const WishlistSection: React.FC = () => {
   const wishlist = useAppSelector((state) => state.wishlist);
   const [showWishlistItems, setShowWishlistItems] = useState<
     ICourseItemMember[][]
@@ -26,30 +26,25 @@ const WishList: React.FC = () => {
   }, [wishlist.list]);
 
   return (
-    <Box>
+    <Box sx={{ marginTop: "80px" }}>
       <Typography variant="h3">Ingin Dipelajari</Typography>
       <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-        {wishlist.loading &&
-          [1, 2, 3, 4].map((item) => (
-            <Grid item key={item} md={3}>
-              <CardCourseMemberSkeleton />
-            </Grid>
-          ))}
+        <Grid item md={8}>
+          {wishlist.loading && (
+            <Stack direction="column" spacing={3}>
+              <CardCartSkeleton />
+              <CardCartSkeleton />
+              <CardCartSkeleton />
+            </Stack>
+          )}
 
-        {!wishlist.loading &&
-          showWishlistItems[page.current - 1]?.map((course) => (
-            <Grid key={course.id} item md={3}>
-              <CardCourseMember course={course} />
-            </Grid>
-          ))}
-
-        {!wishlist.loading && !wishlist.list.length && (
-          <Grid md={12}>
-            <Typography variant="h4" textAlign={"center"}>
-              Tidak ada data
-            </Typography>
-          </Grid>
-        )}
+          <Stack direction={"column"} spacing={3}>
+            {!wishlist.loading &&
+              showWishlistItems[page.current - 1]?.map((course) => (
+                <CardCart key={course.id} course={course} isCart={false} />
+              ))}
+          </Stack>
+        </Grid>
       </Grid>
       <Stack direction="row" justifyContent={"center"} marginTop="40px">
         <Pagination
@@ -62,4 +57,4 @@ const WishList: React.FC = () => {
   );
 };
 
-export default WishList;
+export default WishlistSection;

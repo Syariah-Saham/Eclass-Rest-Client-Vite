@@ -7,7 +7,7 @@ import {
   Fade,
   Skeleton,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import ZoomOutMapRoundedIcon from "@mui/icons-material/ZoomOutMapRounded";
@@ -21,7 +21,15 @@ import { useAppDispatch } from "../../redux/hooks";
 import { openSnackbar } from "../../redux/actions/snackbar";
 import { addCartItem } from "../../services/member/cart";
 import { addCartItemAction } from "../../redux/actions/cart";
-import LoadingIndicator from "../LoadingIndicator";
+import {
+  addWishlistItem,
+  removeWishlistItem,
+} from "../../services/member/wishlist";
+import {
+  addWishlistItemAction,
+  removeWishlistItemAction,
+} from "../../redux/actions/wishlist";
+import { toggleWishlistCourses } from "../../redux/actions/courses";
 
 export const CardCourseMemberSkeleton: React.FC = () => {
   return (
@@ -76,6 +84,10 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
     wishlist: false,
   });
 
+  useEffect(() => {
+    setIsWishList(course.is_wishlist);
+  }, [course.is_wishlist]);
+
   const handleCart = async () => {
     setLoadingButton({ ...loadingButton, cart: true });
     try {
@@ -99,15 +111,55 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
     }
   };
 
+  const toggleWishlist = async () => {
+    setLoadingButton({ ...loadingButton, wishlist: true });
+    try {
+      if (!isWishList) {
+        await addWishlistItem({ id: course.id });
+        dispatch(addWishlistItemAction(course));
+      } else {
+        await removeWishlistItem({ id: course.id });
+        dispatch(removeWishlistItemAction({ id: course.id }));
+      }
+      setIsWishList(!isWishList);
+      dispatch(toggleWishlistCourses({ id: course.id, status: !isWishList }));
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: `Berhasil ${
+            !isWishList ? "ditambahkan" : "dihapus"
+          } ke wishlist`,
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.response,
+        })
+      );
+    } finally {
+      setLoadingButton({ ...loadingButton, wishlist: false });
+    }
+  };
+
   return (
-    <Card sx={{ height: "94%" }}>
+    <Card sx={{ height: "95%" }}>
       <Stack
         direction="column"
         justifyContent={"space-between"}
         sx={{ height: "100%" }}
       >
         <Box>
-          <Box sx={{ margin: "-25px", marginBottom: "25px" }}>
+          <Box
+            sx={{
+              margin: "-40px",
+              marginBottom: "25px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <img
               style={{ width: "100%" }}
               src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
@@ -175,7 +227,8 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
             <IconButton
               size="large"
               color="error"
-              onClick={() => setIsWishList(!isWishList)}
+              onClick={toggleWishlist}
+              disabled={loadingButton.wishlist}
             >
               {isWishList ? (
                 <FavoriteRoundedIcon />

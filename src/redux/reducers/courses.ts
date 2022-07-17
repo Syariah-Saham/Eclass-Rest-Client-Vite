@@ -24,6 +24,20 @@ const coursesReducer = (
         ...state,
         loading: false,
       };
+    case ACTION_COURSES.TOGGLE_WISHLIST:
+      const newList = state.list.map((course) => {
+        if (course.id === action.id) {
+          return {
+            ...course,
+            is_wishlist: action.status,
+          };
+        }
+        return course;
+      });
+      return {
+        ...state,
+        list: newList,
+      };
     default:
       return state;
   }
