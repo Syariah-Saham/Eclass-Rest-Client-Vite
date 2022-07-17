@@ -21,6 +21,7 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import { logout } from "../../redux/actions/auth";
 import { changePage } from "../../redux/actions/dashboard";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import SnackBarComp from "../../components/Snackbar";
 
 const menus: IMenuItemProps[] = [
   {
@@ -60,6 +61,12 @@ const menus: IMenuItemProps[] = [
     name: TMenu.PAYMENTS,
   },
   {
+    target: "/member/profile",
+    icon: "profile",
+    text: "Profile",
+    name: TMenu.PROFILE,
+  },
+  {
     target: "/member/help",
     icon: "help",
     text: "Bantuan",
@@ -70,6 +77,7 @@ const menus: IMenuItemProps[] = [
 const MemberLayout: React.FC<PropsWithChildren> = (props) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const [menuProfile, setMenuProfile] = useState<{
     status: boolean;
@@ -132,7 +140,9 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
           <Box>
             <Avatar
               alt="User 1"
-              src="https://i.pinimg.com/564x/f6/c3/79/f6c379ccfb9130cfd36c63722d5251be.jpg"
+              src={`${import.meta.env.VITE_STORAGE_URL}/${
+                auth.user?.profile_photo
+              }`}
               onClick={openMenuProfile}
               sx={{
                 cursor: "pointer",
@@ -176,7 +186,7 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <Link to="/admin/profile">
+              <Link to="/member/profile">
                 <MenuItem
                   onClick={redirectToProfile}
                   sx={{ padding: "10px 40px" }}
@@ -203,6 +213,7 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
         </Stack>
         {/* </Stack> */}
         <Box sx={{ marginTop: "30px" }}>{props.children}</Box>
+        <SnackBarComp />
       </Content>
     </Box>
   );

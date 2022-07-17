@@ -5,6 +5,7 @@ import Cart from "./Cart";
 import Certificates from "./Certificates";
 import Dashboard from "./Dashboard";
 import MyCourses from "./MyCourses";
+import Profile from "./Profile";
 import WishList from "./WishList";
 
 const Member: React.FC = () => {
@@ -16,6 +17,7 @@ const Member: React.FC = () => {
         <Route path="/certificates/*" element={<Certificates />} />
         <Route path="/wishlist/*" element={<WishList />} />
         <Route path="/cart/*" element={<Cart />} />
+        <Route path="/profile/*" element={<Profile />} />
       </Routes>
     </MemberLayout>
   );
