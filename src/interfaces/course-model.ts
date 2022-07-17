@@ -21,3 +21,7 @@ export interface ICourseDetail extends ICourse {
   mentor: IUser;
   lessons: ILesson[];
 }
+
+export interface ICourseItemMember extends ICourse {
+  total_lessons: number;
+}
