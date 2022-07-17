@@ -18,7 +18,7 @@ const Cart: React.FC = () => {
   const cart = useAppSelector((state) => state.cart);
   const [showCartItem, setShowCartItem] = useState<ICourseItemMember[][]>([]);
   const [loadingRemove, setLoadingRemove] = useState(false);
-  const { page, setTotal, changePage, backPage } = usePage({
+  const { page, setTotal, changePage } = usePage({
     current: 1,
     total: 1,
     perPage: 3,
@@ -29,12 +29,6 @@ const Cart: React.FC = () => {
     setTotal(tmpItems.length);
     setShowCartItem(tmpItems);
   }, [cart.list]);
-
-  useEffect(() => {
-    if (!showCartItem[page.current - 1]?.length) {
-      backPage();
-    }
-  }, [showCartItem]);
 
   const handleRemove = async (id: number) => {
     setLoadingRemove(true);
