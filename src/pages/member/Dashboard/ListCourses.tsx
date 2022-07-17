@@ -8,7 +8,9 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CardCourseMember from "../../../components/dashboard/CardCourseMember";
+import CardCourseMember, {
+  CardCourseMemberSkeleton,
+} from "../../../components/dashboard/CardCourseMember";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { usePage } from "../../../hooks/usePage";
 import { ICourseItemMember } from "../../../interfaces/course-model";
@@ -96,7 +98,13 @@ const ListCourses: React.FC = () => {
 
       <Box>
         {coursesState.loading ? (
-          <p>Loading ...</p>
+          <Grid container spacing={5} sx={{ marginTop: "20px" }}>
+            {[1, 2, 3, 4].map((item) => (
+              <Grid key={item} item md={3}>
+                <CardCourseMemberSkeleton />
+              </Grid>
+            ))}
+          </Grid>
         ) : (
           <Grid container spacing={5} sx={{ marginTop: "20px" }}>
             {showCourses[page.current - 1]?.map((course) => (

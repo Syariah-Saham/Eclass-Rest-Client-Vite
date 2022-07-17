@@ -1,4 +1,12 @@
-import { Card, Box, Typography, Stack, IconButton, Fade } from "@mui/material";
+import {
+  Card,
+  Box,
+  Typography,
+  Stack,
+  IconButton,
+  Fade,
+  Skeleton,
+} from "@mui/material";
 import React, { useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
@@ -9,6 +17,48 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import { Link } from "react-router-dom";
 import { ICourseItemMember } from "../../interfaces/course-model";
 import { formatRp } from "../../helpers/formatRp";
+
+export const CardCourseMemberSkeleton: React.FC = () => {
+  return (
+    <Card sx={{ height: "94%" }}>
+      <Stack
+        direction="column"
+        justifyContent={"space-between"}
+        sx={{ height: "100%" }}
+      >
+        <Box>
+          <Box sx={{ margin: "-25px", marginBottom: "25px" }}>
+            <Skeleton variant="rectangular" width="100%" height="280px" />
+          </Box>
+          <Skeleton variant="text" height="30px" width="65%" />
+          <Skeleton variant="text" height="22px" width="100%" />
+          <Skeleton variant="text" height="22px" width="100%" />
+          <Skeleton variant="text" height="22px" width="30%" />
+        </Box>
+        <Box>
+          <Box sx={{ margin: "20px auto" }}>
+            <Skeleton variant="text" height="23px" width="45%" />
+            <Skeleton variant="text" height="40px" width="90%" />
+          </Box>
+          <Stack direction="row" sx={{ marginTop: "10px" }}>
+            <Skeleton variant="rectangular" width="30%" height="20px" />
+            <Skeleton variant="rectangular" width="30%" height="20px" />
+          </Stack>
+          <Stack
+            direction="row"
+            justifyContent="space-around"
+            alignItems="center"
+            sx={{ marginTop: "10px" }}
+          >
+            <Skeleton variant="circular" width="46px" height="46px" />
+            <Skeleton variant="circular" width="46px" height="46px" />
+            <Skeleton variant="circular" width="46px" height="46px" />
+          </Stack>
+        </Box>
+      </Stack>
+    </Card>
+  );
+};
 
 interface ICardCourseMember {
   course: ICourseItemMember;
