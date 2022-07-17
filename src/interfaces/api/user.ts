@@ -11,3 +11,8 @@ export interface IUpdatePasswordResponse {
 export type TUpdateNameAction = Promise<
   AxiosResponse<IUpdateNameResponse, any> | unknown
 >;
+
+export interface IUpdatePhotoResponse {
+  path: string;
+  message: string;
+}

@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Box,
-  Button,
-  Card,
-  Collapse,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Button, Card, Collapse, Grid, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import InputLabel from "../../../components/InputLabel";
@@ -14,12 +6,18 @@ import LoadingIndicator from "../../../components/LoadingIndicator";
 import {
   IUpdateNameForm,
   IUpdatePasswordForm,
+  IUpdatePhotoForm,
 } from "../../../interfaces/forms/profile";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { updatePassword } from "../../../services/user";
+import { updatePassword, updatePhoto } from "../../../services/user";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { updateNameAction } from "../../../redux/actions/auth";
+import {
+  updateNameAction,
+  updatePhotoAction,
+} from "../../../redux/actions/auth";
+import { FilePond } from "react-filepond";
+import { openSnackbar } from "../../../redux/actions/snackbar";
 
 const FormUpdateName: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -262,12 +260,88 @@ const FormUpdatePassword: React.FC = () => {
   );
 };
 
+const FormUpdateProfilePicture: React.FC = () => {
+  const [file, setFile] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { handleSubmit, setValue } = useForm<IUpdatePhotoForm>({
+    mode: "onChange",
+  });
+
+  const onSubmit = handleSubmit(async (data: IUpdatePhotoForm) => {
+    setLoading(true);
+    try {
+      const response = await updatePhoto(data);
+      console.log(response.data.path);
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Update profile picture successfully",
+        })
+      );
+      dispatch(updatePhotoAction(response.data.path));
+    } catch (error: any) {
+      if (error.response.status === 422) {
+        dispatch(
+          openSnackbar({
+            severity: "error",
+            message: error?.response?.data?.message,
+          })
+        );
+      } else {
+        dispatch(
+          openSnackbar({
+            severity: "error",
+            message: error?.message,
+          })
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  useEffect(() => {
+    setValue("photo", file[0]?.file);
+  }, [file]);
+
+  return (
+    <Stack direction="column" gap={4} sx={{ width: "400px" }}>
+      <form onSubmit={onSubmit}>
+        <Box>
+          <FilePond
+            files={file}
+            onupdatefiles={(val) => setFile(val)}
+            allowMultiple={false}
+            name="photo"
+            stylePanelLayout={"compact circle"}
+            imagePreviewHeight={400}
+            labelIdle={`<div><p>Drag & Drop your files or </p> <span class="filepond--label-action">Browse</span></div>`}
+          />
+        </Box>
+
+        <Box sx={{ textAlign: "center" }}>
+          <Button type="submit" disabled={loading} color="primary">
+            {loading ? <LoadingIndicator /> : "Upload"}
+          </Button>
+        </Box>
+      </form>
+    </Stack>
+  );
+};
+
 const Profile: React.FC = () => {
   return (
-    <Box sx={{ width: "40%" }}>
-      <FormUpdateName />
-      <FormUpdatePassword />
-    </Box>
+    <Grid container gap={4}>
+      <Grid item md={4}>
+        <FormUpdateName />
+        <FormUpdatePassword />
+      </Grid>
+      <Grid item md={4}>
+        <FormUpdateProfilePicture />
+      </Grid>
+    </Grid>
   );
 };
 

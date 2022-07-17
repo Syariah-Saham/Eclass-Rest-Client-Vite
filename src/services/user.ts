@@ -1,10 +1,12 @@
 import {
   IUpdateNameResponse,
   IUpdatePasswordResponse,
+  IUpdatePhotoResponse,
 } from "../interfaces/api/user";
 import {
   IUpdateNameForm,
   IUpdatePasswordForm,
+  IUpdatePhotoForm,
 } from "../interfaces/forms/profile";
 import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
@@ -38,5 +40,19 @@ export const updatePassword = (data: IUpdatePasswordForm) => {
     {
       Authorization: `Bearer ${token}`,
     }
+  );
+};
+
+export const updatePhoto = (data: IUpdatePhotoForm) => {
+  const token = store.getState().auth.token;
+  const userId = store.getState().auth.user?.id;
+  const fd = new FormData();
+  fd.append("photo", data?.photo);
+  return apiService<IUpdatePhotoResponse, any>(
+    URL.BASE_USER + `/${userId}/photo?_method=patch`,
+    methodServices.POST,
+    fd,
+    null,
+    { Authorization: `Bearer ${token}` }
   );
 };

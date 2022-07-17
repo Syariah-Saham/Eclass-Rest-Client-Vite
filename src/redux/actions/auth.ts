@@ -50,6 +50,13 @@ export const _updateNameAction_ = (name: string) => {
   };
 };
 
+export const updatePhotoAction = (path: string) => {
+  return {
+    type: ACTION_AUTH.UPDATE_PHOTO,
+    path: path,
+  };
+};
+
 export const logout = () => {
   return {
     type: ACTION_AUTH.LOGOUT,

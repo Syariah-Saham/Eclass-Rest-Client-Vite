@@ -7,3 +7,7 @@ export interface IUpdatePasswordForm {
   new_password: string;
   new_password_confirmation: string;
 }
+
+export interface IUpdatePhotoForm {
+  photo: Blob;
+}

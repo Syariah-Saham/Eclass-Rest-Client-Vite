@@ -40,6 +40,15 @@ const authReducer = (state = initialState, action: AnyAction): IAuthState => {
         user: tmpUser,
       };
       break;
+    case ACTION_AUTH.UPDATE_PHOTO:
+      const photo = action.path;
+      let tmpUser2 = { ...state.user, profile_photo: photo } as IUser;
+      tmpState = {
+        ...state,
+        user: tmpUser2,
+      };
+      console.log(tmpState);
+      break;
     default:
       const localState = sessionStorage.getItem("eclass-auth");
       if (localState) {
