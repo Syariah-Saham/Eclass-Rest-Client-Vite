@@ -17,6 +17,11 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import { Link } from "react-router-dom";
 import { ICourseItemMember } from "../../interfaces/course-model";
 import { formatRp } from "../../helpers/formatRp";
+import { useAppDispatch } from "../../redux/hooks";
+import { openSnackbar } from "../../redux/actions/snackbar";
+import { addCartItem } from "../../services/member/cart";
+import { addCartItemAction } from "../../redux/actions/cart";
+import LoadingIndicator from "../LoadingIndicator";
 
 export const CardCourseMemberSkeleton: React.FC = () => {
   return (
@@ -64,7 +69,35 @@ interface ICardCourseMember {
   course: ICourseItemMember;
 }
 const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
+  const dispatch = useAppDispatch();
   const [isWishList, setIsWishList] = useState<boolean>(false);
+  const [loadingButton, setLoadingButton] = useState({
+    cart: false,
+    wishlist: false,
+  });
+
+  const handleCart = async () => {
+    setLoadingButton({ ...loadingButton, cart: true });
+    try {
+      await addCartItem({ id: course.id });
+      dispatch(addCartItemAction(course));
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Berhasil ditambahkan ke keranjang",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+    } finally {
+      setLoadingButton({ ...loadingButton, cart: false });
+    }
+  };
 
   return (
     <Card sx={{ height: "94%" }}>
@@ -131,7 +164,12 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
                 <ZoomOutMapRoundedIcon />
               </IconButton>
             </Link>
-            <IconButton size="large" color="info">
+            <IconButton
+              disabled={loadingButton.cart}
+              size="large"
+              color="info"
+              onClick={handleCart}
+            >
               <AddShoppingCartRoundedIcon />
             </IconButton>
             <IconButton

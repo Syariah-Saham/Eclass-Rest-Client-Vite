@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import MemberLayout from "../../layouts/dashboard/MemberLayout";
+import { storeCart } from "../../redux/actions/cart";
 import { storeCourses } from "../../redux/actions/courses";
 import { openSnackbar } from "../../redux/actions/snackbar";
 import { useAppDispatch } from "../../redux/hooks";
+import { getCartItems } from "../../services/member/cart";
 import { getCourses } from "../../services/member/courses";
+import { ACTION_CART } from "../../types/cart";
 import { ACTION_COURSES } from "../../types/courses";
 import Cart from "./Cart";
 import Certificates from "./Certificates";
@@ -18,8 +21,10 @@ const Member: React.FC = () => {
 
   const fetchAllCourses = async () => {
     try {
-      const response = await getCourses();
-      dispatch(storeCourses(response.data.courses));
+      const courses = await getCourses();
+      const cart = await getCartItems();
+      dispatch(storeCourses(courses.data.courses));
+      dispatch(storeCart(cart.data.items));
     } catch (error: any) {
       dispatch(
         openSnackbar({
@@ -29,6 +34,9 @@ const Member: React.FC = () => {
       );
       dispatch({
         type: ACTION_COURSES.STOP_LOADING,
+      });
+      dispatch({
+        type: ACTION_CART.STOP_LOADING,
       });
     }
   };

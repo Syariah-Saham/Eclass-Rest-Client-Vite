@@ -1,18 +1,56 @@
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import React from "react";
-import CardCart from "../../../components/dashboard/CardCart";
-import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
+import { Box, Grid, Pagination, Stack, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import CardCart, {
+  CardCartSkeleton,
+} from "../../../components/dashboard/CardCart";
+import { sliceIntoChunks } from "../../../helpers/chunk-array";
+import { usePage } from "../../../hooks/usePage";
+import { ICourseItemMember } from "../../../interfaces/course-model";
+import { removeCartItemAction } from "../../../redux/actions/cart";
+import { openSnackbar } from "../../../redux/actions/snackbar";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { removeCartItem } from "../../../services/member/cart";
+import CardCheckout from "./CardCheckout";
 
 const Cart: React.FC = () => {
-  const theme = useTheme();
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart);
+  const [showCartItem, setShowCartItem] = useState<ICourseItemMember[][]>([]);
+  const [loadingRemove, setLoadingRemove] = useState(false);
+  const { page, setTotal, changePage } = usePage({
+    current: 1,
+    total: 1,
+    perPage: 3,
+  });
+
+  useEffect(() => {
+    const tmpItems = sliceIntoChunks(cart.list, page.perPage);
+    setTotal(tmpItems.length);
+    setShowCartItem(tmpItems);
+  }, [cart.list]);
+
+  const handleRemove = async (id: number) => {
+    setLoadingRemove(true);
+    try {
+      await removeCartItem({ id: id });
+      dispatch(removeCartItemAction({ id: id }));
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Berhasil dihapus dari keranjang",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+    } finally {
+      setLoadingRemove(false);
+    }
+  };
 
   return (
     <Box>
@@ -20,94 +58,43 @@ const Cart: React.FC = () => {
         <Typography variant="h3">Keranjang</Typography>
         <Grid container spacing={5} sx={{ marginTop: "0px" }}>
           <Grid item md={8}>
-            <Stack direction={"column"} spacing={3}>
-              <CardCart />
-              <CardCart />
-              <CardCart />
+            {cart.loading && (
+              <Stack direction="column" spacing={3}>
+                <CardCartSkeleton />
+                <CardCartSkeleton />
+                <CardCartSkeleton />
+              </Stack>
+            )}
+            {!cart.loading && (
+              <Stack direction={"column"} spacing={3}>
+                {showCartItem[page.current - 1]?.map((course) => (
+                  <CardCart
+                    key={course.id}
+                    isCart
+                    course={course}
+                    loadingRemove={loadingRemove}
+                    handleRemove={handleRemove}
+                  />
+                ))}
+              </Stack>
+            )}
+
+            {!cart.list.length && !cart.loading && (
+              <Typography variant="h4">Tidak ada data</Typography>
+            )}
+            <Stack direction="row" justifyContent={"center"} marginTop="40px">
+              <Pagination
+                count={page.total}
+                variant={"outlined"}
+                onChange={changePage}
+              />
             </Stack>
           </Grid>
           <Grid item md={4}>
-            <Card sx={{ marginLeft: "50px" }}>
-              <Typography variant="h4" sx={{ marginBottom: "15px" }}>
-                Item
-              </Typography>
-              <Stack direction="column" spacing={1}>
-                <Box>
-                  <Typography variant="h6">
-                    1. Lorem ipsum dolor sit amet
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: theme.palette.warning.main,
-                      marginLeft: "20px",
-                    }}
-                  >
-                    Rp399.000
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="h6">
-                    2. Lorem ipsum dolor sit amet
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: theme.palette.warning.main,
-                      marginLeft: "20px",
-                    }}
-                  >
-                    Rp399.000
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="h6">
-                    3. Lorem ipsum dolor sit amet
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: theme.palette.warning.main,
-                      marginLeft: "20px",
-                    }}
-                  >
-                    Rp399.000
-                  </Typography>
-                </Box>
-              </Stack>
-              <Box
-                sx={{
-                  marginTop: "20px",
-                  paddingTop: "20px",
-                  borderTop: `1px solid ${theme.palette.secondary.dark}`,
-                }}
-              >
-                <Typography
-                  fontWeight={"bold"}
-                  variant="h5"
-                  sx={{ marginLeft: "20px" }}
-                >
-                  Total Pembayaran
-                </Typography>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    color: theme.palette.warning.main,
-                    marginLeft: "20px",
-                  }}
-                >
-                  Rp1.499.000
-                </Typography>
-              </Box>
-              <Button
-                color="secondary"
-                size="large"
-                sx={{ width: "100%", marginTop: "20px" }}
-                startIcon={<AccountBalanceWalletRoundedIcon />}
-              >
-                Checkout
-              </Button>
-            </Card>
+            <CardCheckout
+              loadingRemove={loadingRemove}
+              handleRemove={handleRemove}
+            />
           </Grid>
         </Grid>
       </Box>
@@ -116,9 +103,9 @@ const Cart: React.FC = () => {
         <Grid container spacing={5} sx={{ marginTop: "0px" }}>
           <Grid item md={8}>
             <Stack direction={"column"} spacing={3}>
-              <CardCart />
-              <CardCart />
-              <CardCart />
+              {/* <CardCart isCart={false} />
+              <CardCart isCart={false} />
+              <CardCart isCart={false} /> */}
             </Stack>
           </Grid>
           <Grid item md={4}></Grid>
