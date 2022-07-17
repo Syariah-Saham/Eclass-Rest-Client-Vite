@@ -1,4 +1,12 @@
-import { Stack, useTheme, Box, Typography, Card, Button } from "@mui/material";
+import {
+  Stack,
+  useTheme,
+  Box,
+  Typography,
+  Card,
+  Button,
+  Skeleton,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ILesson } from "../../../../interfaces/lesson-model";
@@ -6,6 +14,19 @@ import { openSnackbar } from "../../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../../redux/hooks";
 import { getLessonByCourse } from "../../../../services/lessons";
 import ModalAddLesson from "../ModalAddLesson";
+
+const styles = {
+  lessonBox: {
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontWeight: "bold",
+  },
+};
 
 const LessonItem: React.FC<{
   order: number;
@@ -18,14 +39,8 @@ const LessonItem: React.FC<{
     <Stack direction="row" alignItems="center" spacing={2}>
       <Box
         sx={{
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
+          ...styles.lessonBox,
           background: theme.palette.background.default,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontWeight: "bold",
         }}
       >
         {props.order}
@@ -46,6 +61,21 @@ const LessonItem: React.FC<{
       </Link>
     </Stack>
   );
+};
+
+const CardLessonListSkeleton: React.FC = () => {
+  const results: any[] = [];
+
+  for (let i = 0; i < 10; i++) {
+    results.push(
+      <Stack key={i} direction="row" alignItems="center" spacing={2}>
+        <Skeleton variant="circular" sx={styles.lessonBox} />
+        <Skeleton variant="text" width="75%" height="24px" />
+      </Stack>
+    );
+  }
+
+  return <>{results}</>;
 };
 
 const CardLessonsList: React.FC = () => {
@@ -96,9 +126,13 @@ const CardLessonsList: React.FC = () => {
         Tambah Materi
       </Button>
       <Stack direction="column" spacing={2}>
-        {lessons.map((lesson, i) => (
-          <LessonItem key={lesson.id} lesson={lesson} order={i + 1} />
-        ))}
+        {loading ? (
+          <CardLessonListSkeleton />
+        ) : (
+          lessons?.map((lesson, i) => (
+            <LessonItem key={lesson.id} lesson={lesson} order={i + 1} />
+          ))
+        )}
       </Stack>
 
       <ModalAddLesson

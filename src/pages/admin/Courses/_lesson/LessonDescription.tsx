@@ -1,7 +1,41 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Skeleton, Stack, Typography } from "@mui/material";
 import React from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { ILesson } from "../../../../interfaces/lesson-model";
+
+export const LessonDescriptionSkeleton: React.FC = () => {
+  return (
+    <Box sx={{ marginTop: "40px" }}>
+      <Skeleton
+        variant="text"
+        width="50%"
+        height="52px"
+        sx={{ marginBottom: "17px" }}
+      />
+      <Box>
+        <Card>
+          <Stack direction="column" gap={3}>
+            <Stack direction="column" alignItems="flex-end" gap={1}>
+              <Skeleton variant="text" width="80%" height={"28px"} />
+              <Skeleton variant="text" width="100%" height={"28px"} />
+              <Skeleton variant="text" width="100%" height={"28px"} />
+            </Stack>
+            <Stack direction="column" alignItems="flex-end" gap={1}>
+              <Skeleton variant="text" width="80%" height={"28px"} />
+              <Skeleton variant="text" width="100%" height={"28px"} />
+              <Skeleton variant="text" width="100%" height={"28px"} />
+            </Stack>
+            <Stack direction="column" alignItems="flex-end" gap={1}>
+              <Skeleton variant="text" width="80%" height={"28px"} />
+              <Skeleton variant="text" width="100%" height={"28px"} />
+              <Skeleton variant="text" width="100%" height={"28px"} />
+            </Stack>
+          </Stack>
+        </Card>
+      </Box>
+    </Box>
+  );
+};
 
 interface ILessonDescriptionProps {
   lesson: ILesson;

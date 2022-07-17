@@ -6,9 +6,11 @@ import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getLessonById } from "../../../services/lessons";
 import CardLessonsList from "./_lesson/CardLessonsList";
-import LessonDescription from "./_lesson/LessonDescription";
+import LessonDescription, {
+  LessonDescriptionSkeleton,
+} from "./_lesson/LessonDescription";
 import Navigation from "./_lesson/Navigation";
-import VideoFrame from "./_lesson/VideoFrame";
+import VideoFrame, { VideoFrameSkeleton } from "./_lesson/VideoFrame";
 
 const Lesson: React.FC = () => {
   const { lessonId } = useParams();
@@ -42,7 +44,10 @@ const Lesson: React.FC = () => {
       <Grid container spacing={5}>
         <Grid item md={8}>
           {loading ? (
-            <p>loading</p>
+            <>
+              <VideoFrameSkeleton />
+              <LessonDescriptionSkeleton />
+            </>
           ) : (
             lesson && (
               <>
