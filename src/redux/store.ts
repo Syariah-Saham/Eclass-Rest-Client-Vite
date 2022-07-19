@@ -5,6 +5,7 @@ import coursesReducer from "./reducers/courses";
 import dashboardReducer from "./reducers/dashboard";
 import snackbarReducer from "./reducers/snackbar";
 import wishlistReducer from "./reducers/wishlist";
+import paymentsReducer from "./reducers/payments";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     courses: coursesReducer,
     cart: cartReducer,
     wishlist: wishlistReducer,
+    payments: paymentsReducer,
   },
 });
 
