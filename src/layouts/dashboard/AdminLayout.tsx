@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { changePage } from "../../redux/actions/dashboard";
 import { logout } from "../../redux/actions/auth";
 import SnackBarComp from "../../components/Snackbar";
+import { useMenuDashboard } from "../../hooks/useMenuDashboard";
 
 const menus: IMenuItemProps[] = [
   {
@@ -60,6 +61,7 @@ const menus: IMenuItemProps[] = [
 ];
 
 const AdminLayout: React.FC<PropsWithChildren> = (props) => {
+  useMenuDashboard({ menus });
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

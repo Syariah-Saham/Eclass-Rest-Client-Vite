@@ -7,6 +7,7 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SnackBarComp from "../../components/Snackbar";
 import ProfileAvatar from "./_MemberLayout/ProfileAvatar";
 import MenuCart from "./_MemberLayout/MenuCart";
+import { useMenuDashboard } from "../../hooks/useMenuDashboard";
 
 const menus: IMenuItemProps[] = [
   {
@@ -60,6 +61,7 @@ const menus: IMenuItemProps[] = [
 ];
 
 const MemberLayout: React.FC<PropsWithChildren> = (props) => {
+  useMenuDashboard({ menus });
   return (
     <Box sx={{ height: "100vh" }}>
       <Sidebar menus={menus} />
