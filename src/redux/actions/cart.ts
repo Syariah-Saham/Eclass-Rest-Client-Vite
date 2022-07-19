@@ -21,3 +21,9 @@ export const removeCartItemAction = (data: { id: number }) => {
     id: data.id,
   };
 };
+
+export const checkoutCartAction = () => {
+  return {
+    type: ACTION_CART.CHECKOUT_CART,
+  };
+};

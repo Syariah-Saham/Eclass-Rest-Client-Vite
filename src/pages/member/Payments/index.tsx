@@ -40,6 +40,13 @@ const Payments: React.FC = () => {
     setShowItems(tmpItems);
   }, [payments.list]);
 
+  const statusColor = {
+    SETTLED: theme.palette.success.main,
+    PAID: theme.palette.secondary.main,
+    EXPIRY: theme.palette.error.main,
+    PENDING: theme.palette.warning.main,
+  };
+
   return (
     <Box>
       <Typography variant="h3">Riwayat Pembayaran</Typography>
@@ -76,7 +83,12 @@ const Payments: React.FC = () => {
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ width: "100px" }}>
-                    <Typography fontWeight={"bold"}>
+                    <Typography
+                      fontWeight={"bold"}
+                      sx={{
+                        color: `${statusColor[payment.status]} !important`,
+                      }}
+                    >
                       {payment.status}
                     </Typography>
                   </TableCell>
@@ -88,9 +100,14 @@ const Payments: React.FC = () => {
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Bayar" placement="top">
-                        <IconButton color="success">
-                          <PaymentsTwoToneIcon />
-                        </IconButton>
+                        <a
+                          target="_blank"
+                          href={`https://checkout-staging.xendit.co/web/${payment?.invoice_id}`}
+                        >
+                          <IconButton color="success">
+                            <PaymentsTwoToneIcon />
+                          </IconButton>
+                        </a>
                       </Tooltip>
                     </Stack>
                   </TableCell>

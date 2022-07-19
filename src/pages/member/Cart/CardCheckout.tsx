@@ -9,8 +9,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { formatRp } from "../../../helpers/formatRp";
+import { openSnackbar } from "../../../redux/actions/snackbar";
+import { checkoutCart } from "../../../services/member/cart";
+import { checkoutCartAction } from "../../../redux/actions/cart";
+import LoadingIndicator from "../../../components/LoadingIndicator";
 
 const CourseItemSkeleton: React.FC = () => {
   return (
@@ -37,14 +41,36 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
   loadingRemove,
 }) => {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
   const [totalBill, setTotalBill] = useState(0);
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
 
   useEffect(() => {
     let total = 0;
     cart.list?.forEach((course) => (total += course.price));
     setTotalBill(total);
   }, [cart.list]);
+
+  const handleCheckout = async () => {
+    setLoadingCheckout(true);
+    try {
+      const response = await checkoutCart();
+      dispatch(checkoutCartAction());
+      window.location.replace(
+        `https://checkout-staging.xendit.co/web/${response.data.payment?.invoice_id}`
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+    } finally {
+      setLoadingCheckout(false);
+    }
+  };
 
   return (
     <Card sx={{ marginLeft: "50px" }}>
@@ -120,9 +146,11 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
         color="secondary"
         size="large"
         sx={{ width: "100%", marginTop: "20px" }}
-        startIcon={<AccountBalanceWalletRoundedIcon />}
+        startIcon={!loadingCheckout && <AccountBalanceWalletRoundedIcon />}
+        onClick={handleCheckout}
+        disabled={loadingCheckout || !cart.list.length}
       >
-        Checkout
+        {loadingCheckout ? <LoadingIndicator /> : "Checkout"}
       </Button>
     </Card>
   );

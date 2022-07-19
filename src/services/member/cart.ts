@@ -2,6 +2,7 @@ import { apiService, methodServices } from "../api-service";
 import { store } from "../../redux/store";
 import {
   IMCartAddItemResponse,
+  IMCartCheckoutResponse,
   IMCartRemoveItemResponse,
   IMGetCartResponse,
 } from "../../interfaces/api/member/cart";
@@ -37,6 +38,17 @@ export const removeCartItem = (data: { id: number }) => {
   return apiService<IMCartRemoveItemResponse, any>(
     URL.BASE_CART + `/${data.id}`,
     methodServices.DELETE,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+export const checkoutCart = () => {
+  const token = store.getState().auth.token;
+  return apiService<IMCartCheckoutResponse, any>(
+    URL.BASE_CART + `/checkout`,
+    methodServices.POST,
     null,
     null,
     { Authorization: `Bearer ${token}` }

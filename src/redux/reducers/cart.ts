@@ -36,6 +36,11 @@ const cartReducer = (state = initialState, action: AnyAction): ICartState => {
         ...state,
         list: newList,
       };
+    case ACTION_CART.CHECKOUT_CART:
+      return {
+        ...state,
+        list: [],
+      };
     default:
       return state;
   }
