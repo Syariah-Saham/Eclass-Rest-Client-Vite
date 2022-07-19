@@ -28,3 +28,8 @@ export interface ICourseItemMember extends ICourse {
   is_cart: boolean;
   is_owned: boolean;
 }
+
+export interface ICourseDetailMember extends ICourseItemMember {
+  lessons: ILesson[];
+  mentor: IUser;
+}

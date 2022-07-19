@@ -20,8 +20,15 @@ import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Link } from "react-router-dom";
+import { ICourseDetailMember } from "../../interfaces/course-model";
+import { formatRp } from "../../helpers/formatRp";
 
-const CardCoursePayment_Member: React.FC = () => {
+interface ICardCoursePayment_MemberProps {
+  course: ICourseDetailMember;
+}
+const CardCoursePayment_Member: React.FC<ICardCoursePayment_MemberProps> = ({
+  course,
+}) => {
   return (
     <Card>
       <Typography
@@ -30,7 +37,7 @@ const CardCoursePayment_Member: React.FC = () => {
       >
         Rp1.000.000
       </Typography>
-      <Typography variant="h3">Rp399.000</Typography>
+      <Typography variant="h3">{formatRp(course.price)}</Typography>
       <Box sx={{ margin: "24px auto" }}>
         <Link to={`/member/courses/1/corridor`}>
           <Button
@@ -56,7 +63,7 @@ const CardCoursePayment_Member: React.FC = () => {
         <Stack direction="column" spacing={3} sx={{ marginTop: "10px" }}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <VideoLibraryRoundedIcon />
-            <Typography>12 video pembelajaran</Typography>
+            <Typography>{course.lessons.length} video pembelajaran</Typography>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={2}>
             <TimelapseRoundedIcon />

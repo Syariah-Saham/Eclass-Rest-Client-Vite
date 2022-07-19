@@ -1,7 +1,11 @@
 import { Box, Typography, Avatar, Card, Stack } from "@mui/material";
 import React from "react";
+import { ICourseDetailMember } from "../../interfaces/course-model";
 
-const CardMentorMember: React.FC = () => {
+interface ICardMentorMemberProps {
+  course: ICourseDetailMember;
+}
+const CardMentorMember: React.FC<ICardMentorMemberProps> = ({ course }) => {
   return (
     <Box>
       <Typography variant="h3" sx={{ marginBottom: "17px" }}>
@@ -19,13 +23,15 @@ const CardMentorMember: React.FC = () => {
           >
             <Avatar
               alt="User 1"
-              src="https://img.freepik.com/free-vector/man-shows-gesture-great-idea_10045-637.jpg?t=st=1656161411~exp=1656162011~hmac=aebaab7283e48b7380c3ec69824743876246b86f38e91bcef2e755fcc91f2e8a&w=826"
+              src={`${import.meta.env.VITE_STORAGE_URL}/${
+                course.mentor.profile_photo
+              }`}
               sx={{ height: "150px", width: "150px" }}
             />
           </Box>
           <Box>
             <Typography variant="h5" fontWeight="bold">
-              Mang Amsi
+              {course.mentor.name}
             </Typography>
             <Typography fontWeight="medium">Founder Syariah Saham</Typography>
             <Typography sx={{ marginTop: "12px" }}>

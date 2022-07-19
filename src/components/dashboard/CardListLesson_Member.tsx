@@ -7,12 +7,21 @@ import {
   Button,
   Collapse,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import PlayCircleFilledWhiteRoundedIcon from "@mui/icons-material/PlayCircleFilledWhiteRounded";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  ICourseDetailMember,
+  ICourseItemMember,
+} from "../../interfaces/course-model";
+import { ILesson } from "../../interfaces/lesson-model";
 
-const LessonItem: React.FC<{ order: number; title: string }> = (props) => {
+const LessonItem: React.FC<{
+  order: number;
+  lesson: ILesson;
+  course: ICourseItemMember;
+}> = (props) => {
   const theme = useTheme();
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -30,7 +39,21 @@ const LessonItem: React.FC<{ order: number; title: string }> = (props) => {
       >
         {props.order}
       </Box>
-      <Link to={`/member/courses/1/lesson/1`}>
+      {props.course.is_owned ? (
+        <Link
+          to={`/member/courses/${props.course.id}/lesson/${props.lesson.id}`}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": { color: theme.palette.secondary.main },
+            }}
+          >
+            {props.lesson.title}
+          </Typography>
+        </Link>
+      ) : (
         <Typography
           variant="h6"
           sx={{
@@ -38,34 +61,26 @@ const LessonItem: React.FC<{ order: number; title: string }> = (props) => {
             "&:hover": { color: theme.palette.secondary.main },
           }}
         >
-          {props.title}
+          {props.lesson.title}
         </Typography>
-      </Link>
+      )}
     </Stack>
   );
 };
 
 interface ICardListLesson_Member {
   canContinue?: boolean;
+  course: ICourseDetailMember;
 }
 const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState<boolean>(false);
-  const [lessons, setLessons] = useState([
-    { id: 1, title: "1Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 2, title: "2Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 3, title: "3Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 4, title: "4Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 5, title: "5Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 6, title: "6Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 7, title: "7Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 8, title: "8Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 9, title: "9Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    {
-      id: 10,
-      title: "10Lorem ipsum dolor sit amet lorem ipsum dolorsit amet.",
-    },
-  ]);
+  const [lessons, setLessons] = useState<ILesson[] | []>([]);
+
+  useEffect(() => {
+    setLessons(props.course.lessons);
+  }, [props.course]);
+
   return (
     <Box>
       <Typography variant="h3" sx={{ marginBottom: "17px" }}>
@@ -74,7 +89,12 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
       <Card>
         <Stack direction="column" spacing={3}>
           {lessons.slice(0, 5).map((lesson, i) => (
-            <LessonItem key={lesson.id} order={i + 1} title={lesson.title} />
+            <LessonItem
+              key={lesson.id}
+              order={i + 1}
+              lesson={lesson}
+              course={props.course}
+            />
           ))}
           <Collapse in={showMore}>
             <Stack direction="column" spacing={3}>
@@ -82,7 +102,8 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
                 <LessonItem
                   key={lesson.id}
                   order={i + 6}
-                  title={lesson.title}
+                  lesson={lesson}
+                  course={props.course}
                 />
               ))}
             </Stack>

@@ -1,4 +1,4 @@
-import { ICourseItemMember } from "../../course-model";
+import { ICourseDetailMember, ICourseItemMember } from "../../course-model";
 
 export interface IMGetCoursesResponse {
   courses: ICourseItemMember[];
@@ -10,4 +10,8 @@ export interface IMGetMyCoursesResponse {
 
 export interface IMGetCoursesByTitleResponse {
   courses: ICourseItemMember[];
+}
+
+export interface IMGetCourseByIdResponse {
+  course: ICourseDetailMember;
 }

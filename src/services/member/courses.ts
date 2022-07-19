@@ -1,6 +1,7 @@
 import { apiService, methodServices } from "../api-service";
 import { store } from "../../redux/store";
 import {
+  IMGetCourseByIdResponse,
   IMGetCoursesByTitleResponse,
   IMGetCoursesResponse,
   IMGetMyCoursesResponse,
@@ -39,6 +40,17 @@ export const getCoursesByTitle = (data: { title: string }) => {
   const token = store.getState().auth.token;
   return apiService<IMGetCoursesByTitleResponse, any>(
     URL.BASE_COURSES + `/search?title=${data.title}`,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+export const getCourseById = (data: { id: number }) => {
+  const token = store.getState().auth.token;
+  return apiService<IMGetCourseByIdResponse, any>(
+    URL.BASE_COURSES + `/${data.id}`,
     methodServices.GET,
     null,
     null,

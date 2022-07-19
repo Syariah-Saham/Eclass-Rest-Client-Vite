@@ -1,7 +1,13 @@
 import { Box } from "@mui/material";
 import React from "react";
+import { ICourseDetailMember } from "../../interfaces/course-model";
 
-const CourseBanner_Member: React.FC = () => {
+interface ICourseBanner_MemberProps {
+  course: ICourseDetailMember;
+}
+const CourseBanner_Member: React.FC<ICourseBanner_MemberProps> = ({
+  course,
+}) => {
   return (
     <Box
       sx={{
@@ -16,7 +22,7 @@ const CourseBanner_Member: React.FC = () => {
     >
       <img
         style={{ width: "100%" }}
-        src="https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg"
+        src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
       />
     </Box>
   );
