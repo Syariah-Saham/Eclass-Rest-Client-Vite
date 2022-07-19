@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { storeCourses } from "../redux/actions/courses";
+import { storeCourses, storeMyCourses } from "../redux/actions/courses";
 import { openSnackbar } from "../redux/actions/snackbar";
 import { useAppDispatch } from "../redux/hooks";
-import { getCourses } from "../services/member/courses";
+import { getCourses, getMyCourses } from "../services/member/courses";
 import { ACTION_COURSES } from "../types/courses";
 
 export const useStoreCourses = () => {
@@ -24,7 +24,25 @@ export const useStoreCourses = () => {
     }
   };
 
+  const fetchMyCourses = async () => {
+    try {
+      const myCourses = await getMyCourses();
+      dispatch(storeMyCourses(myCourses.data.courses));
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+      dispatch({
+        type: ACTION_COURSES.STOP_LOADING_OWNED,
+      });
+    }
+  };
+
   useEffect(() => {
     fetchAllCourses();
+    fetchMyCourses();
   }, []);
 };

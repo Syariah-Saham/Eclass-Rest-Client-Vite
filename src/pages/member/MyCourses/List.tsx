@@ -15,6 +15,7 @@ import { usePage } from "../../../hooks/usePage";
 import { useAppSelector } from "../../../redux/hooks";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { COURSE_LEVEL } from "../../../types/course_level";
+import MyCoursesList from "./_List/MyCoursesList";
 
 const listMenu = [
   {
@@ -46,7 +47,10 @@ const List: React.FC = () => {
   });
 
   useEffect(() => {
-    const tmpCourses = sliceIntoChunks(coursesState.list, page.perPage);
+    const tmpCourses = sliceIntoChunks(
+      coursesState.list.filter((course) => !course.is_owned),
+      page.perPage
+    );
     setShowCourses(tmpCourses);
     setTotal(tmpCourses.length);
   }, [coursesState.list]);
@@ -56,31 +60,24 @@ const List: React.FC = () => {
       const tmpResult = sliceIntoChunks(
         coursesState.list.filter(
           (course: ICourseItemMember) =>
-            course.category === menuActive.toLowerCase()
+            course.category === menuActive.toLowerCase() && !course.is_owned
         ),
         page.perPage
       );
       setTotalWithReset(tmpResult.length);
       return setShowCourses(tmpResult);
     }
-    const tmpResult = sliceIntoChunks(coursesState.list, page.perPage);
+    const tmpResult = sliceIntoChunks(
+      coursesState.list.filter((course) => !course.is_owned),
+      page.perPage
+    );
     setTotalWithReset(tmpResult.length);
     return setShowCourses(tmpResult);
   }, [menuActive]);
 
   return (
     <Box>
-      <Box>
-        <Typography variant="h3">Kelasku</Typography>
-        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-          {!coursesState.loading &&
-            showCourses[page.current - 1]?.slice(0, 4)?.map((course) => (
-              <Grid key={course.id} item md={3}>
-                <CardCourseMember course={course} />
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
+      <MyCoursesList />
       <Box sx={{ marginTop: "80px" }}>
         <Typography variant="h3">Kelas Populer</Typography>
         <Stack direction="row" spacing={3} sx={{ marginTop: "20px" }}>

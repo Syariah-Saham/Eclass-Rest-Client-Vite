@@ -8,6 +8,13 @@ export const storeCourses = (data: ICourseItemMember[]) => {
   };
 };
 
+export const storeMyCourses = (data: ICourseItemMember[]) => {
+  return {
+    type: ACTION_COURSES.STORE_OWNED,
+    data,
+  };
+};
+
 export const toggleWishlistCourses = (data: {
   id: number;
   status: boolean;

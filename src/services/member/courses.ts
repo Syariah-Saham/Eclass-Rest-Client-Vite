@@ -3,6 +3,7 @@ import { store } from "../../redux/store";
 import {
   IMGetCoursesByTitleResponse,
   IMGetCoursesResponse,
+  IMGetMyCoursesResponse,
 } from "../../interfaces/api/member/courses";
 
 const URL = {
@@ -20,6 +21,17 @@ export const getCourses = () => {
     {
       Authorization: `Bearer ${token}`,
     }
+  );
+};
+
+export const getMyCourses = () => {
+  const token = store.getState().auth.token;
+  return apiService<IMGetMyCoursesResponse, any>(
+    URL.BASE_COURSES + `/my-courses`,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
   );
 };
 

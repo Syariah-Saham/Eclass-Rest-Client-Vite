@@ -6,6 +6,7 @@ import {
   IconButton,
   Fade,
   Skeleton,
+  Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
@@ -30,6 +31,7 @@ import {
   removeWishlistItemAction,
 } from "../../redux/actions/wishlist";
 import { toggleWishlistCourses } from "../../redux/actions/courses";
+import PlayLessonIcon from "@mui/icons-material/PlayLesson";
 
 export const CardCourseMemberSkeleton: React.FC = () => {
   return (
@@ -211,31 +213,50 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
             alignItems="center"
             sx={{ marginTop: "10px" }}
           >
-            <Link to={`/member/courses/1`}>
-              <IconButton size="large" color="secondary">
-                <ZoomOutMapRoundedIcon />
-              </IconButton>
-            </Link>
-            <IconButton
-              disabled={loadingButton.cart}
-              size="large"
-              color="info"
-              onClick={handleCart}
-            >
-              <AddShoppingCartRoundedIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              color="error"
-              onClick={toggleWishlist}
-              disabled={loadingButton.wishlist}
-            >
-              {isWishList ? (
-                <FavoriteRoundedIcon />
-              ) : (
-                <FavoriteBorderRoundedIcon />
-              )}
-            </IconButton>
+            {course.is_owned ? (
+              <Stack
+                sx={{ marginTop: "10px", width: "100%" }}
+                justifyContent="center"
+              >
+                <Link to={`/member/courses/${course.id}/corridor`}>
+                  <Button
+                    sx={{ width: "100%" }}
+                    color="secondary"
+                    startIcon={<PlayLessonIcon />}
+                  >
+                    Lanjut Belajar
+                  </Button>
+                </Link>
+              </Stack>
+            ) : (
+              <>
+                <Link to={`/member/courses/${course.id}`}>
+                  <IconButton size="large" color="secondary">
+                    <ZoomOutMapRoundedIcon />
+                  </IconButton>
+                </Link>
+                <IconButton
+                  disabled={loadingButton.cart}
+                  size="large"
+                  color="info"
+                  onClick={handleCart}
+                >
+                  <AddShoppingCartRoundedIcon />
+                </IconButton>
+                <IconButton
+                  size="large"
+                  color="error"
+                  onClick={toggleWishlist}
+                  disabled={loadingButton.wishlist}
+                >
+                  {isWishList ? (
+                    <FavoriteRoundedIcon />
+                  ) : (
+                    <FavoriteBorderRoundedIcon />
+                  )}
+                </IconButton>
+              </>
+            )}
           </Stack>
         </Box>
       </Stack>

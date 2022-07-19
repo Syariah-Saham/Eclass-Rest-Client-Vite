@@ -5,6 +5,8 @@ import { ACTION_COURSES } from "../../types/courses";
 const initialState: ICoursesState = {
   list: [],
   loading: true,
+  owned_list: [],
+  loading_owned: true,
 };
 
 const coursesReducer = (
@@ -19,7 +21,19 @@ const coursesReducer = (
         list: data,
         loading: false,
       };
+    case ACTION_COURSES.STORE_OWNED:
+      const myCourses = action.data;
+      return {
+        ...state,
+        owned_list: myCourses,
+        loading_owned: false,
+      };
     case ACTION_COURSES.STOP_LOADING:
+      return {
+        ...state,
+        loading: false,
+      };
+    case ACTION_COURSES.STOP_LOADING_OWNED:
       return {
         ...state,
         loading: false,
