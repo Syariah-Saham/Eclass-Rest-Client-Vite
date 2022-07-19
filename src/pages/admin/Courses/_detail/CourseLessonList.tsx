@@ -8,7 +8,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ILesson } from "../../../../interfaces/lesson-model";
 
 const styles = {
@@ -64,6 +64,7 @@ interface ILessonItemProps {
 }
 const LessonItem: React.FC<ILessonItemProps> = (props) => {
   const theme = useTheme();
+  const { id } = useParams();
   return (
     <Stack direction="row" alignItems="center" sx={{ width: "100%" }}>
       <Box
@@ -74,7 +75,7 @@ const LessonItem: React.FC<ILessonItemProps> = (props) => {
       >
         <Typography variant="h5">{props.order}</Typography>
       </Box>
-      <Link to={`/admin/courses/1/lessons/${props.lesson.id}`}>
+      <Link to={`/admin/courses/${id}/lessons/${props.lesson.id}`}>
         <Typography
           sx={{
             ...styles.lessonText,
