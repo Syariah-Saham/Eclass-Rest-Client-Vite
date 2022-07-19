@@ -16,6 +16,7 @@ import Cart from "./Cart";
 import Certificates from "./Certificates";
 import Dashboard from "./Dashboard";
 import MyCourses from "./MyCourses";
+import Payments from "./Payments";
 import Profile from "./Profile";
 import WishList from "./WishList";
 
@@ -62,6 +63,7 @@ const Member: React.FC = () => {
         <Route path="/wishlist/*" element={<WishList />} />
         <Route path="/cart/*" element={<Cart />} />
         <Route path="/profile/*" element={<Profile />} />
+        <Route path="/payments/*" element={<Payments />} />
       </Routes>
     </MemberLayout>
   );
