@@ -1,4 +1,5 @@
 import { TPayment } from "../types/payments";
+import { ICourse } from "./course-model";
 import { IResources } from "./resources";
 
 export interface IPayment extends IResources {
@@ -10,4 +11,8 @@ export interface IPayment extends IResources {
   status: TPayment;
   expiry_date: string;
   description?: string;
+}
+
+export interface IPaymentDetail extends IPayment {
+  courses: ICourse[];
 }
