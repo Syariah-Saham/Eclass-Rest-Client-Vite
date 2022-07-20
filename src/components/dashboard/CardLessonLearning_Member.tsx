@@ -1,14 +1,17 @@
 import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { ILesson } from "../../interfaces/lesson-model";
 
 const LessonItem: React.FC<{
   order: number;
   lesson: { id: number; title: string };
 }> = (props) => {
   const theme = useTheme();
+  const { id, lessonId } = useParams();
+
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Box
@@ -25,11 +28,14 @@ const LessonItem: React.FC<{
       >
         {props.order}
       </Box>
-      <Link to={`/member/courses/1/lesson/${props.lesson.id}`}>
+      <Link to={`/member/courses/${id}/lesson/${props.lesson.id}`}>
         <Typography
           variant="h6"
           sx={{
-            color: theme.palette.text.primary,
+            color:
+              parseInt(lessonId!) === props.lesson.id
+                ? theme.palette.secondary.main
+                : theme.palette.text.primary,
             "&:hover": { color: theme.palette.secondary.main },
           }}
         >
@@ -40,22 +46,22 @@ const LessonItem: React.FC<{
   );
 };
 
-const CardLessonLearning_Member: React.FC = () => {
-  const [lessons, setLessons] = useState([
-    { id: 1, title: "1Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 2, title: "2Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 3, title: "3Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 4, title: "4Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 5, title: "5Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 6, title: "6Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 7, title: "7Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 8, title: "8Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    { id: 9, title: "9Lorem ipsum dolor sit amet lorem ipsum dolorsit amet." },
-    {
-      id: 10,
-      title: "10Lorem ipsum dolor sit amet lorem ipsum dolorsit amet.",
-    },
-  ]);
+const CardLessonLearning_Member: React.FC<{ lessons: ILesson[] }> = ({
+  lessons,
+}) => {
+  const { id, lessonId } = useParams();
+  const navigate = useNavigate();
+  const [nextId, setNextId] = useState<number | null>(null);
+  const [backId, setBackId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const currentIndex = lessons.findIndex(
+      (lesson) => lesson.id === parseInt(lessonId!)
+    );
+    setNextId(lessons[currentIndex + 1]?.id);
+    setBackId(lessons[currentIndex - 1]?.id);
+  }, [lessonId]);
+
   return (
     <Card>
       <Stack direction="row" justifyContent={"space-between"}>
@@ -64,6 +70,8 @@ const CardLessonLearning_Member: React.FC = () => {
           startIcon={<ArrowBackRoundedIcon />}
           size="large"
           sx={{ width: "47%" }}
+          disabled={!backId}
+          onClick={() => navigate(`/member/courses/${id}/lesson/${backId}`)}
         >
           Back
         </Button>
@@ -72,6 +80,8 @@ const CardLessonLearning_Member: React.FC = () => {
           endIcon={<ArrowForwardRoundedIcon />}
           size="large"
           sx={{ width: "47%" }}
+          disabled={!nextId}
+          onClick={() => navigate(`/member/courses/${id}/lesson/${nextId}`)}
         >
           Next
         </Button>
