@@ -122,7 +122,9 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
                 startIcon={<PlayCircleFilledWhiteRoundedIcon />}
                 size="large"
                 color="secondary"
-                onClick={() => navigate(`/member/courses/1/lesson/1`)}
+                onClick={() =>
+                  navigate(`/member/courses/${props.course.id}/lesson/1`)
+                }
               >
                 Lanjut Belajar
               </Button>

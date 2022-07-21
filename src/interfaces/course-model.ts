@@ -33,3 +33,17 @@ export interface ICourseDetailMember extends ICourseItemMember {
   lessons: ILesson[];
   mentor: IUser;
 }
+
+export interface ICertificate extends IResources {
+  id: number;
+  user_id: number;
+  course_id: number;
+  payment_id: number;
+  is_cart: number;
+  is_wishlist: number;
+  is_owned: number;
+  certificate_id: string;
+  graduation_date: string;
+  course: ICourse;
+  user: IUser;
+}
