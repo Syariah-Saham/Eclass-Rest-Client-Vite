@@ -1,8 +1,13 @@
 import { Box, Button, Card, Typography } from "@mui/material";
 import React from "react";
-import LocalPrintshopRoundedIcon from "@mui/icons-material/LocalPrintshopRounded";
+import { ICertificate } from "../../interfaces/course-model";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
-const CardCertificateMember: React.FC = () => {
+const CardCertificateMember: React.FC<{ certificate: ICertificate }> = ({
+  certificate,
+}) => {
   return (
     <Card>
       <Box
@@ -10,18 +15,22 @@ const CardCertificateMember: React.FC = () => {
       >
         <img
           style={{ width: "100%", height: "100%" }}
-          src="https://eclass.syariahsaham.id/storage/thumbnails/A8YjwC4JoPeDgzgIlku9rC6HzrQyaQvzVG0VSB5y9evg6beAWT.jpg"
+          src={`${import.meta.env.VITE_STORAGE_URL}/${certificate.thumbnail}`}
         />
       </Box>
-      <Typography variant="h5">Lorem ipsum dolor sit amet</Typography>
-      <Typography>4 Mei 2022</Typography>
-      <Button
-        startIcon={<LocalPrintshopRoundedIcon />}
-        color="secondary"
-        sx={{ width: "100%", marginTop: "15px" }}
-      >
-        Cetak Sertifikat
-      </Button>
+      <Typography variant="h5">{certificate.title}</Typography>
+      <Typography>
+        {moment(certificate.graduation_date).format("DD-MM-YYYY")}
+      </Typography>
+      <Link to={`/certificate/${certificate.certificate_id}`}>
+        <Button
+          startIcon={<VisibilityIcon />}
+          color="secondary"
+          sx={{ width: "100%", marginTop: "15px" }}
+        >
+          Lihat Sertifikat
+        </Button>
+      </Link>
     </Card>
   );
 };

@@ -48,3 +48,8 @@ export interface ICertificate extends IResources {
   course: ICourse;
   user: IUser;
 }
+
+export interface ICertificate extends ICourse {
+  certificate_id: string;
+  graduation_date: string;
+}

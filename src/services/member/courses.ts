@@ -1,6 +1,7 @@
 import { apiService, methodServices } from "../api-service";
 import { store } from "../../redux/store";
 import {
+  IMGetAllCertificatesResponse,
   IMGetCertificateResponse,
   IMGetCourseByIdResponse,
   IMGetCoursesByTitleResponse,
@@ -66,5 +67,16 @@ export const getCertificate = (data: { id: string }) => {
     null,
     null,
     {}
+  );
+};
+
+export const getCertificates = () => {
+  const token = store.getState().auth.token;
+  return apiService<IMGetAllCertificatesResponse, any>(
+    URL.BASE_COURSES + `/certificates`,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
   );
 };

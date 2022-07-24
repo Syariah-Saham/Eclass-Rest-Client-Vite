@@ -23,3 +23,7 @@ export interface IMGetCourseByIdResponse {
 export interface IMGetCertificateResponse {
   data: ICertificate;
 }
+
+export interface IMGetAllCertificatesResponse {
+  certificates: ICertificate[];
+}
