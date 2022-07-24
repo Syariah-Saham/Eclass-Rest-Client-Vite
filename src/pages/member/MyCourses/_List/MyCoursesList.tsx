@@ -6,7 +6,7 @@ import { usePage } from "../../../../hooks/usePage";
 import { ICourseItemMember } from "../../../../interfaces/course-model";
 import { useAppSelector } from "../../../../redux/hooks";
 
-const MyCoursesList: React.FC = () => {
+const MyCoursesList: React.FC<{ title?: string }> = ({ title = "Kelasku" }) => {
   const coursesState = useAppSelector((state) => state.courses);
   const [showCourses, setShowCourses] = useState<ICourseItemMember[][]>([]);
   const { page, setTotal, changePage } = usePage({
@@ -23,7 +23,7 @@ const MyCoursesList: React.FC = () => {
 
   return (
     <Box>
-      <Typography variant="h3">Kelasku</Typography>
+      <Typography variant="h3">{title}</Typography>
       <Grid container spacing={5} sx={{ marginTop: "0px" }}>
         {!coursesState.loading_owned &&
           showCourses[page.current - 1]?.slice(0, 4)?.map((course) => (

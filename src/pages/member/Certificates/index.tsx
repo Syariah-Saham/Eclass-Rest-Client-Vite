@@ -7,6 +7,7 @@ import LoadingIndicator from "../../../components/LoadingIndicator";
 import { ICertificate } from "../../../interfaces/course-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { getCertificates } from "../../../services/member/courses";
+import MyCoursesList from "../MyCourses/_List/MyCoursesList";
 
 const Certificates: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,21 +50,7 @@ const Certificates: React.FC = () => {
         )}
       </Box>
       <Box sx={{ marginTop: "60px" }}>
-        {/* <Typography variant="h3">Lanjut Belajar</Typography> */}
-        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-          {/* <Grid item md={3}>
-            <CardCourseMember />
-          </Grid>
-          <Grid item md={3}>
-            <CardCourseMember />
-          </Grid>
-          <Grid item md={3}>
-            <CardCourseMember />
-          </Grid>
-          <Grid item md={3}>
-            <CardCourseMember />
-          </Grid> */}
-        </Grid>
+        <MyCoursesList title="Lanjut Belajar" />
       </Box>
     </Box>
   );
