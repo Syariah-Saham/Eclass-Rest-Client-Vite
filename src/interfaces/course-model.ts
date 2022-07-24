@@ -27,6 +27,7 @@ export interface ICourseItemMember extends ICourse {
   is_wishlist: boolean;
   is_cart: boolean;
   is_owned: boolean;
+  certificate_id?: string;
 }
 
 export interface ICourseDetailMember extends ICourseItemMember {

@@ -42,6 +42,9 @@ const LessonItem: React.FC<{
       {props.course.is_owned ? (
         <Link
           to={`/member/courses/${props.course.id}/lesson/${props.lesson.id}`}
+          state={{
+            course: props.course,
+          }}
         >
           <Typography
             variant="h6"
@@ -118,24 +121,34 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
           {props.canContinue ? (
             <>
               <Button
-                sx={{ width: "47%" }}
+                sx={{ width: lessons.length > 5 ? "47%" : "100%" }}
                 startIcon={<PlayCircleFilledWhiteRoundedIcon />}
                 size="large"
                 color="secondary"
+                disabled={!lessons.length}
                 onClick={() =>
-                  navigate(`/member/courses/${props.course.id}/lesson/1`)
+                  navigate(
+                    `/member/courses/${props.course.id}/lesson/${lessons[0].id}`,
+                    {
+                      state: {
+                        course: props.course,
+                      },
+                    }
+                  )
                 }
               >
                 Lanjut Belajar
               </Button>
-              <Button
-                sx={{ width: "47%" }}
-                startIcon={<ReadMoreIcon />}
-                size="large"
-                onClick={() => setShowMore(!showMore)}
-              >
-                {showMore ? "Lebih Sedikit" : "Lihat Selengkapnya"}
-              </Button>
+              {lessons.length > 5 && (
+                <Button
+                  sx={{ width: "47%" }}
+                  startIcon={<ReadMoreIcon />}
+                  size="large"
+                  onClick={() => setShowMore(!showMore)}
+                >
+                  {showMore ? "Lebih Sedikit" : "Lihat Selengkapnya"}
+                </Button>
+              )}
             </>
           ) : (
             <>

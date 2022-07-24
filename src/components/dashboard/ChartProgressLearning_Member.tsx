@@ -1,9 +1,11 @@
 import React from "react";
 import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
-import { Box, useTheme, Card, Typography } from "@mui/material";
+import { Box, useTheme, Card } from "@mui/material";
 
-const ChartProgressLearning_Member: React.FC = () => {
+const ChartProgressLearning_Member: React.FC<{ value: number }> = ({
+  value = 0,
+}) => {
   const theme = useTheme();
 
   const options: ApexOptions = {
@@ -58,7 +60,7 @@ const ChartProgressLearning_Member: React.FC = () => {
     labels: ["Average Results"],
   };
 
-  const series = [67];
+  const series = [value];
 
   return (
     <Box sx={{ width: "100%" }}>

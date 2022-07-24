@@ -24,7 +24,7 @@ const authReducer = (state = initialState, action: AnyAction): IAuthState => {
       };
       break;
     case ACTION_AUTH.LOGOUT:
-      sessionStorage.clear();
+      localStorage.clear();
       tmpState = {
         status: false,
         token: null,
@@ -47,17 +47,16 @@ const authReducer = (state = initialState, action: AnyAction): IAuthState => {
         ...state,
         user: tmpUser2,
       };
-      console.log(tmpState);
       break;
     default:
-      const localState = sessionStorage.getItem("eclass-auth");
+      const localState = localStorage.getItem("eclass-auth");
       if (localState) {
         const tmpLocalState = JSON.parse(localState) as IAuthState;
         return tmpLocalState;
       }
       return state;
   }
-  sessionStorage.setItem("eclass-auth", JSON.stringify(tmpState));
+  localStorage.setItem("eclass-auth", JSON.stringify(tmpState));
   return tmpState;
 };
 

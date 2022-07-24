@@ -3,6 +3,7 @@ import { store } from "../../redux/store";
 import {
   IMGetLessonByIdResponse,
   IMGetLessonsByCourseIdResponse,
+  IMToggleStatusLessonResponse,
 } from "../../interfaces/api/member/lessons";
 
 const URL = {
@@ -25,6 +26,17 @@ export const getLessonById = (data: { id: number }) => {
   return apiService<IMGetLessonByIdResponse, any>(
     URL.BASE_LESSONS + `/${data.id}`,
     methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+export const toggleStatusLessonLearning = (data: { id: number }) => {
+  const token = store.getState().auth.token;
+  return apiService<IMToggleStatusLessonResponse, any>(
+    URL.BASE_LESSONS + `/${data.id}/status`,
+    methodServices.PATCH,
     null,
     null,
     { Authorization: `Bearer ${token}` }

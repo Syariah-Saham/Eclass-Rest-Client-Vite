@@ -7,4 +7,5 @@ export interface ILesson extends IResources {
   title: string;
   description: string;
   video_id: string;
+  is_done?: number | null | boolean;
 }

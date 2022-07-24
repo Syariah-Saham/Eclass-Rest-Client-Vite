@@ -21,6 +21,7 @@ const Corridor: React.FC = () => {
     try {
       const response = await getCourseById({ id: parseInt(id!) });
       if (!response.data.course.is_owned) navigate(`/member/courses/${id}`);
+      console.log(response.data.course);
       setCourse(response.data.course);
     } catch (error: any) {
       dispatch(
