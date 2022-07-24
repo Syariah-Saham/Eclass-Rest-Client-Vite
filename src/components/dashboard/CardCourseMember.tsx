@@ -204,7 +204,9 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
               sx={{ width: "45%" }}
             >
               <GroupsRoundedIcon />
-              <Typography fontWeight={"medium"}>120 Siswa</Typography>
+              <Typography fontWeight={"medium"}>
+                {course.enrolled_students} Siswa
+              </Typography>
             </Stack>
           </Stack>
           <Stack

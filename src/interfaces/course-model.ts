@@ -27,6 +27,7 @@ export interface ICourseItemMember extends ICourse {
   is_wishlist: boolean;
   is_cart: boolean;
   is_owned: boolean;
+  enrolled_students: number;
   certificate_id?: string;
 }
 
