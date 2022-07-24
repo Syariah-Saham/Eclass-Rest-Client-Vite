@@ -5,6 +5,7 @@ import CardCourseDescription_Member from "../../../components/dashboard/CardCour
 import CardListLesson_Member from "../../../components/dashboard/CardListLesson_Member";
 import CardMentorMember from "../../../components/dashboard/CardMentorMember";
 import CourseBanner_Member from "../../../components/dashboard/CourseBanner_Member";
+import { updateLastLearning } from "../../../helpers/updateLastLearning";
 import { ICourseDetailMember } from "../../../interfaces/course-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -21,7 +22,6 @@ const Corridor: React.FC = () => {
     try {
       const response = await getCourseById({ id: parseInt(id!) });
       if (!response.data.course.is_owned) navigate(`/member/courses/${id}`);
-      console.log(response.data.course);
       setCourse(response.data.course);
     } catch (error: any) {
       dispatch(
@@ -37,6 +37,7 @@ const Corridor: React.FC = () => {
 
   useEffect(() => {
     fetchCourse();
+    updateLastLearning(parseInt(id!));
   }, []);
 
   return (

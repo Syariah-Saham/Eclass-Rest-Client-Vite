@@ -27,7 +27,9 @@ export const useStoreCourses = () => {
   const fetchMyCourses = async () => {
     try {
       const myCourses = await getMyCourses();
-      dispatch(storeMyCourses(myCourses.data.courses));
+      dispatch(
+        storeMyCourses(myCourses.data.courses, myCourses.data.last_learning)
+      );
     } catch (error: any) {
       dispatch(
         openSnackbar({

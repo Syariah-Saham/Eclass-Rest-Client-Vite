@@ -7,6 +7,7 @@ const initialState: ICoursesState = {
   loading: true,
   owned_list: [],
   loading_owned: true,
+  last_learning: null,
 };
 
 const coursesReducer = (
@@ -23,9 +24,11 @@ const coursesReducer = (
       };
     case ACTION_COURSES.STORE_OWNED:
       const myCourses = action.data;
+      const last_learning = action.last_learning;
       return {
         ...state,
         owned_list: myCourses,
+        last_learning: last_learning,
         loading_owned: false,
       };
     case ACTION_COURSES.STOP_LOADING:
@@ -51,6 +54,12 @@ const coursesReducer = (
       return {
         ...state,
         list: newList,
+      };
+    case ACTION_COURSES.UPDATE_LEARN:
+      const course = action.course;
+      return {
+        ...state,
+        last_learning: course,
       };
     default:
       return state;

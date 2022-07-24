@@ -1,5 +1,6 @@
 import {
   ICertificate,
+  ICourse,
   ICourseDetailMember,
   ICourseItemMember,
 } from "../../course-model";
@@ -9,6 +10,7 @@ export interface IMGetCoursesResponse {
 }
 
 export interface IMGetMyCoursesResponse {
+  last_learning: ICourse;
   courses: ICourseItemMember[];
 }
 

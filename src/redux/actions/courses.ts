@@ -1,4 +1,4 @@
-import { ICourseItemMember } from "../../interfaces/course-model";
+import { ICourse, ICourseItemMember } from "../../interfaces/course-model";
 import { ACTION_COURSES } from "../../types/courses";
 
 export const storeCourses = (data: ICourseItemMember[]) => {
@@ -8,10 +8,14 @@ export const storeCourses = (data: ICourseItemMember[]) => {
   };
 };
 
-export const storeMyCourses = (data: ICourseItemMember[]) => {
+export const storeMyCourses = (
+  data: ICourseItemMember[],
+  last_learning: ICourse
+) => {
   return {
     type: ACTION_COURSES.STORE_OWNED,
     data,
+    last_learning,
   };
 };
 
