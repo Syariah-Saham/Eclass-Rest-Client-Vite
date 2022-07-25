@@ -9,6 +9,8 @@ export interface IUser extends IResources {
   email_verified_at?: string;
   profile_photo?: string;
   role: TRole;
+  occupation?: string;
+  short_profile?: string;
   created_at: string;
   updated_at?: string;
 }

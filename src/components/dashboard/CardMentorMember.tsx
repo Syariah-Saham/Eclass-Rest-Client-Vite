@@ -54,11 +54,11 @@ const CardMentorMember: React.FC<ICardMentorMemberProps> = ({ course }) => {
             <Typography variant="h5" fontWeight="bold">
               {course.mentor.name}
             </Typography>
-            <Typography fontWeight="medium">Founder Syariah Saham</Typography>
+            <Typography fontWeight="medium">
+              {course.mentor.occupation}
+            </Typography>
             <Typography sx={{ marginTop: "12px" }}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, eum
-              illo quis pariatur possimus soluta dolores tempore totam, officia
-              eveniet rerum animi repellendus aliquam mollitia!
+              {course.mentor.short_profile}
             </Typography>
           </Box>
         </Stack>

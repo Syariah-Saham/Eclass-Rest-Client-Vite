@@ -1,5 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Alert, Box, Button, Card, Collapse, Stack } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  Collapse,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +28,7 @@ const Create: React.FC = () => {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm<ICreateMentorForm>({
     mode: "onBlur",
@@ -29,6 +38,8 @@ const Create: React.FC = () => {
       email: "",
       password: "",
       password_confirmation: "",
+      occupation: "",
+      short_profile: "",
     },
   });
 
@@ -136,6 +147,46 @@ const Create: React.FC = () => {
                 />
               )}
             />
+            <Controller
+              control={control}
+              name="occupation"
+              render={({ field: { onChange, value } }) => (
+                <InputLabel
+                  label="Pekerjaan"
+                  error={!!errors?.occupation}
+                  helperText={errors.occupation?.message}
+                  inputProps={{
+                    type: "text",
+                    placeholder: "Pekerjaan",
+                    onChange: (e) => onChange(e.target.value),
+                    value: value,
+                  }}
+                />
+              )}
+            />
+            <Box sx={{ width: "100%" }}>
+              <Controller
+                control={control}
+                name="short_profile"
+                render={({ field: { onChange, value } }) => (
+                  <InputLabel
+                    label="Profil singkat"
+                    error={!!errors?.short_profile}
+                    helperText={errors.short_profile?.message}
+                    inputProps={{
+                      type: "password",
+                      multiline: true,
+                      placeholder: "Profil singkat",
+                      onChange: (e) => onChange(e.target.value),
+                      value: value,
+                    }}
+                  />
+                )}
+              />
+              <Typography variant="caption">
+                {watch("short_profile")?.length} / 250
+              </Typography>
+            </Box>
             <Stack direction="row" justifyContent={"center"}>
               <Button disabled={loading} type="submit">
                 {!loading ? "Submit" : <LoadingIndicator />}

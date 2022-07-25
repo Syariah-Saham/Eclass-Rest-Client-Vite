@@ -10,4 +10,9 @@ export const createMentorValidation = Yup.object({
     .min(5)
     .max(30)
     .required("This field is required"),
+  occupation: Yup.string().min(3).max(40).required("This field is required"),
+  short_profile: Yup.string()
+    .min(5)
+    .max(250)
+    .required("This field is required"),
 });
