@@ -1,10 +1,20 @@
 import { Box, Card, Grid, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CardMentorMember from "../../../components/dashboard/CardMentorMember";
-import CardListLesson_Member from "../../../components/dashboard/CardListLesson_Member";
-import CardCoursePayment_Member from "../../../components/dashboard/CardCoursePayment_Member";
-import CardCourseDescription_Member from "../../../components/dashboard/CardCourseDescription_Member";
-import CourseBanner_Member from "../../../components/dashboard/CourseBanner_Member";
+import CardMentorMember, {
+  SkeletonCardMentorMember,
+} from "../../../components/dashboard/CardMentorMember";
+import CardListLesson_Member, {
+  SkeletonCardListLesson_Member,
+} from "../../../components/dashboard/CardListLesson_Member";
+import CardCoursePayment_Member, {
+  SkeletonCardCoursePayment_Member,
+} from "../../../components/dashboard/CardCoursePayment_Member";
+import CardCourseDescription_Member, {
+  SkeletonCardCourseDescription_Member,
+} from "../../../components/dashboard/CardCourseDescription_Member";
+import CourseBanner_Member, {
+  SkeletonCourseBanner_Member,
+} from "../../../components/dashboard/CourseBanner_Member";
 import { ICourseDetailMember } from "../../../interfaces/course-model";
 import { useAppDispatch } from "../../../redux/hooks";
 import { openSnackbar } from "../../../redux/actions/snackbar";
@@ -43,7 +53,27 @@ const Preview: React.FC = () => {
   return (
     <Box>
       {loading ? (
-        <p>Loading...</p>
+        <>
+          <Box>
+            <SkeletonCourseBanner_Member />
+            <Grid container spacing={5}>
+              <Grid item md={8}>
+                <SkeletonCardMentorMember />
+                <Box sx={{ marginTop: "40px" }}>
+                  <SkeletonCardListLesson_Member />
+                </Box>
+              </Grid>
+              <Grid item md={4}>
+                <Box sx={{ marginTop: "60px" }}>
+                  <SkeletonCardCoursePayment_Member />
+                </Box>
+              </Grid>
+            </Grid>
+            <Box sx={{ marginTop: "40px" }}>
+              <SkeletonCardCourseDescription_Member />
+            </Box>
+          </Box>
+        </>
       ) : (
         !!course && (
           <>
