@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Stack, Avatar, Box, Typography } from "@mui/material";
 import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
@@ -6,6 +6,14 @@ import { useAppSelector } from "../../../redux/hooks";
 
 const CardUser: React.FC = () => {
   const auth = useAppSelector((state) => state.auth);
+  const [totalCertificates, setTotalCertificates] = useState(0);
+
+  const courses = useAppSelector((state) => state.courses.owned_list);
+
+  useEffect(() => {
+    const result = courses.filter((item) => !!item.certificate_id)?.length;
+    setTotalCertificates(result);
+  }, [courses]);
 
   return (
     <Card sx={{ width: "85%" }}>
@@ -30,12 +38,12 @@ const CardUser: React.FC = () => {
           <Stack direction="row" spacing={5}>
             <Stack direction="row" spacing={1} alignItems="center">
               <MenuBookRoundedIcon />
-              <Typography fontWeight={"bold"}>9</Typography>
+              <Typography fontWeight={"bold"}>{courses.length}</Typography>
               <Typography>Kelas</Typography>
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <WorkspacePremiumIcon />
-              <Typography fontWeight={"bold"}>3</Typography>
+              <Typography fontWeight={"bold"}>{totalCertificates}</Typography>
               <Typography>Sertifikat</Typography>
             </Stack>
           </Stack>
