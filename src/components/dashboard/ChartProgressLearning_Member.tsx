@@ -60,7 +60,7 @@ const ChartProgressLearning_Member: React.FC<{ value: number }> = ({
     labels: ["Average Results"],
   };
 
-  const series = [value];
+  const series = [Math.round(value)];
 
   return (
     <Box sx={{ width: "100%" }}>
