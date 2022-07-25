@@ -176,7 +176,7 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
               variant="body2"
               sx={{ textDecoration: "line-through", opacity: ".7" }}
             >
-              Rp1.000.000
+              {formatRp(course.actual_price)}
             </Typography>
             <Stack direction="row" alignItems="flex-end" gap={2}>
               <Typography variant="h4">{formatRp(course.price)}</Typography>

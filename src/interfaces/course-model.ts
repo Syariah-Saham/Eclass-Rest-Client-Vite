@@ -13,6 +13,7 @@ export interface ICourse extends IResources {
   description: string;
   short_description: string;
   price: number;
+  actual_price: number;
   rating: number;
   is_publish: BOOL;
 }

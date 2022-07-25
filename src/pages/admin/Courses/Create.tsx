@@ -78,6 +78,7 @@ const Create: React.FC = () => {
     defaultValues: {
       title: "",
       price: 0,
+      actual_price: 0,
       description: "",
       short_description: "",
     },
@@ -181,23 +182,42 @@ const Create: React.FC = () => {
                       />
                     )}
                   />
-                  <Controller
-                    control={control}
-                    name="price"
-                    render={({ field: { onChange, value } }) => (
-                      <InputLabel
-                        label="Harga"
-                        error={!!errors?.price}
-                        helperText={errors?.price?.message}
-                        inputProps={{
-                          type: "text",
-                          placeholder: "Harga",
-                          onChange: (e) => onChange(e.target.value),
-                          value: value,
-                        }}
-                      />
-                    )}
-                  />
+                  <Stack direction="row" gap={3}>
+                    <Controller
+                      control={control}
+                      name="price"
+                      render={({ field: { onChange, value } }) => (
+                        <InputLabel
+                          label="Harga"
+                          error={!!errors?.price}
+                          helperText={errors?.price?.message}
+                          inputProps={{
+                            type: "text",
+                            placeholder: "Harga",
+                            onChange: (e) => onChange(e.target.value),
+                            value: value,
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="actual_price"
+                      render={({ field: { onChange, value } }) => (
+                        <InputLabel
+                          label="Harga Sebenarnya"
+                          error={!!errors?.actual_price}
+                          helperText={errors?.actual_price?.message}
+                          inputProps={{
+                            type: "text",
+                            placeholder: "Harga Sebenarnya",
+                            onChange: (e) => onChange(e.target.value),
+                            value: value,
+                          }}
+                        />
+                      )}
+                    />
+                  </Stack>
                   <Controller
                     control={control}
                     name="category"
