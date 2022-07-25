@@ -6,6 +6,7 @@ import dashboardReducer from "./reducers/dashboard";
 import snackbarReducer from "./reducers/snackbar";
 import wishlistReducer from "./reducers/wishlist";
 import paymentsReducer from "./reducers/payments";
+import notificationReducer from "./reducers/notifications";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     cart: cartReducer,
     wishlist: wishlistReducer,
     payments: paymentsReducer,
+    notification: notificationReducer,
   },
 });
 

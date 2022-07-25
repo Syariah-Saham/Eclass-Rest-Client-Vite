@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useStoreCart } from "../../hooks/useStoreCart";
 import { useStoreCourses } from "../../hooks/useStoreCourses";
+import { useStoreNotifications } from "../../hooks/useStoreNotifications";
 import { useStorePayments } from "../../hooks/useStorePayments";
 import { useStoreWishlist } from "../../hooks/useStoreWishlist";
 import MemberLayout from "../../layouts/dashboard/MemberLayout";
@@ -15,6 +16,7 @@ import WishList from "./WishList";
 
 const Member: React.FC = () => {
   useStoreCourses();
+  useStoreNotifications();
   useStoreCart();
   useStoreWishlist();
   useStorePayments();

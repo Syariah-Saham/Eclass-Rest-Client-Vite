@@ -53,7 +53,7 @@ const styles = {
 const MenuCart: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [menuChart, setMenuChart] = useState<{
+  const [menuCart, setMenuCart] = useState<{
     status: boolean;
     anchorEl: null | HTMLElement;
   }>({
@@ -61,15 +61,15 @@ const MenuCart: React.FC = () => {
     anchorEl: null,
   });
 
-  const openMenuChart = (event: React.MouseEvent<HTMLElement>) => {
-    setMenuChart({
+  const openMenuCart = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuCart({
       status: true,
       anchorEl: event.currentTarget,
     });
   };
 
-  const closeMenuChart = () => {
-    setMenuChart({
+  const closeMenuCart = () => {
+    setMenuCart({
       status: false,
       anchorEl: null,
     });
@@ -79,17 +79,17 @@ const MenuCart: React.FC = () => {
 
   return (
     <>
-      <IconButton color="secondary" size="large" onClick={openMenuChart}>
+      <IconButton color="secondary" size="large" onClick={openMenuCart}>
         <Badge badgeContent={cart.list?.length} color="info">
           <ShoppingCartOutlined />
         </Badge>
       </IconButton>
 
       <Menu
-        open={menuChart.status}
-        anchorEl={menuChart.anchorEl}
-        onClose={closeMenuChart}
-        onClick={closeMenuChart}
+        open={menuCart.status}
+        anchorEl={menuCart.anchorEl}
+        onClose={closeMenuCart}
+        onClick={closeMenuCart}
         PaperProps={{
           elevation: 1,
           sx: styles.menuPaper,
@@ -124,6 +124,12 @@ const MenuCart: React.FC = () => {
             </Stack>
           </MenuItem>
         ))}
+
+        {!cart.list.length && (
+          <Box sx={{ padding: "20px" }}>
+            <Typography textAlign={"center"}>Tidak ada data</Typography>
+          </Box>
+        )}
         <Box sx={{ padding: "10px 40px" }}>
           <Link to="/member/cart">
             <Button sx={{ width: "100%" }} color="secondary">

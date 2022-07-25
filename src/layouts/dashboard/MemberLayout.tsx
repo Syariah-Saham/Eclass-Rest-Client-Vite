@@ -1,13 +1,13 @@
-import { Badge, Box, IconButton, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React, { PropsWithChildren } from "react";
 import Content from "../../components/dashboard/Content";
 import Sidebar from "../../components/dashboard/Sidebar";
 import { IMenuItemProps, TMenu } from "../../interfaces/components/menu-item";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SnackBarComp from "../../components/Snackbar";
 import ProfileAvatar from "./_MemberLayout/ProfileAvatar";
 import MenuCart from "./_MemberLayout/MenuCart";
 import { useMenuDashboard } from "../../hooks/useMenuDashboard";
+import MenuNotifications from "./_MemberLayout/MenuNotifications";
 
 const menus: IMenuItemProps[] = [
   {
@@ -68,11 +68,7 @@ const MemberLayout: React.FC<PropsWithChildren> = (props) => {
       <Content>
         <Stack direction="row" justifyContent={"flex-end"} gap={1}>
           <Box>
-            <IconButton color="secondary" size="large">
-              <Badge badgeContent={4} color="info">
-                <NotificationsOutlinedIcon />
-              </Badge>
-            </IconButton>
+            <MenuNotifications />
           </Box>
           <Box>
             <MenuCart />
