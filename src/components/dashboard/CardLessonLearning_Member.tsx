@@ -1,9 +1,40 @@
-import { Box, Button, Card, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Skeleton,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ILesson } from "../../interfaces/lesson-model";
+
+export const SkeletonCardLessonLearning_Member = () => {
+  return (
+    <Box>
+      <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+        Materi yang Dipelajari
+      </Typography>
+      <Card>
+        <Stack direction="column" gap={3}>
+          {[1, 2, 3, 4, 5].map((item) => (
+            <Stack key={item} direction="row" alignItems="center" gap={3}>
+              <Skeleton
+                variant="circular"
+                sx={{ width: "40px", height: "40px" }}
+              />
+              <Skeleton variant="text" sx={{ width: "80%", height: "24px" }} />
+            </Stack>
+          ))}
+        </Stack>
+      </Card>
+    </Box>
+  );
+};
 
 const LessonItem: React.FC<{
   order: number;

@@ -1,8 +1,9 @@
 import { Box, Typography, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import CardCertificateMember from "../../../components/dashboard/CardCertificateMember";
-import CardCourseMember from "../../../components/dashboard/CardCourseMember";
+import CardCertificateMember, {
+  SkeletonCardCertificateMember,
+} from "../../../components/dashboard/CardCertificateMember";
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import { ICertificate } from "../../../interfaces/course-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
@@ -38,7 +39,14 @@ const Certificates: React.FC = () => {
     <Box>
       <Box>
         <Typography variant="h3">Sertifikat</Typography>
-        {loading && <LoadingIndicator />}
+        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
+          {loading &&
+            [1, 2, 3, 4].map((item) => (
+              <Grid item md={3}>
+                <SkeletonCardCertificateMember />
+              </Grid>
+            ))}
+        </Grid>
         {!loading && (
           <Grid container spacing={5} sx={{ marginTop: "0px" }}>
             {certificates.map((certificate) => (

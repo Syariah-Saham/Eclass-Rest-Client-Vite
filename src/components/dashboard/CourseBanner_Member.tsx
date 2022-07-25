@@ -1,6 +1,15 @@
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import React from "react";
 import { ICourseDetailMember } from "../../interfaces/course-model";
+
+export const SkeletonCourseBanner_Member: React.FC = () => {
+  return (
+    <Skeleton
+      variant="rectangular"
+      sx={{ height: "300px", borderRadius: "26px", marginBottom: "35px" }}
+    />
+  );
+};
 
 interface ICourseBanner_MemberProps {
   course: ICourseDetailMember;

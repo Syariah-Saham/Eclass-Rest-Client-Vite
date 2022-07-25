@@ -1,10 +1,14 @@
-import { Box, Grid, Typography, Stack, Button } from "@mui/material";
+import { Box, Grid, Typography, Stack, Button, Skeleton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import IFrame from "react-iframe";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CardLessonDescription_Member from "../../../components/dashboard/CardLessonDescription_Member";
-import CardLessonLearning_Member from "../../../components/dashboard/CardLessonLearning_Member";
+import CardLessonDescription_Member, {
+  SkeletonCardLessonDescription_Member,
+} from "../../../components/dashboard/CardLessonDescription_Member";
+import CardLessonLearning_Member, {
+  SkeletonCardLessonLearning_Member,
+} from "../../../components/dashboard/CardLessonLearning_Member";
 import ChartProgressLearning_Member from "../../../components/dashboard/ChartProgressLearning_Member";
 import LoadingIndicator from "../../../components/LoadingIndicator";
 import { ICourseItemMember } from "../../../interfaces/course-model";
@@ -16,6 +20,24 @@ import {
   getLessonsByCourseId,
   toggleStatusLessonLearning,
 } from "../../../services/member/lessons";
+
+const SkeletonLoadingLesson = () => {
+  return (
+    <Box>
+      <Skeleton
+        variant="rectangular"
+        sx={{ width: "100%", height: "700px", borderRadius: "22px" }}
+      />
+      <Box sx={{ marginTop: "40px" }}>
+        <Skeleton
+          variant="text"
+          sx={{ width: "30%", height: "50px", marginBottom: "10px" }}
+        />
+        <SkeletonCardLessonDescription_Member />
+      </Box>
+    </Box>
+  );
+};
 
 const Lesson: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -131,7 +153,7 @@ const Lesson: React.FC = () => {
     <Box>
       <Grid container spacing={5}>
         <Grid item md={8}>
-          {loadingLesson && <p>loading...</p>}
+          {loadingLesson && <SkeletonLoadingLesson />}
 
           {!loadingLesson && (
             <>
@@ -189,7 +211,7 @@ const Lesson: React.FC = () => {
         <Grid item md={4}>
           <ChartProgressLearning_Member value={percentProgress} />
           <Box sx={{ marginTop: "25px" }}>
-            {loadingLessons && <p>Loading ...</p>}
+            {loadingLessons && <SkeletonCardLessonLearning_Member />}
             {!loadingLessons && <CardLessonLearning_Member lessons={lessons} />}
           </Box>
         </Grid>

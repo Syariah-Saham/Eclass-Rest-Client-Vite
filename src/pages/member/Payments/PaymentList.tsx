@@ -3,6 +3,7 @@ import {
   IconButton,
   Pagination,
   Paper,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -24,6 +25,41 @@ import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { formatRp } from "../../../helpers/formatRp";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+
+const SkeletonTable = () => {
+  const tmpResult = [];
+  for (let i = 1; i <= 10; i++) {
+    tmpResult.push(
+      <TableRow key={i}>
+        <TableCell sx={{ width: "30px" }}>
+          <Skeleton variant="circular" width={40} height={40} />
+        </TableCell>
+        <TableCell>
+          <Skeleton variant="text" />
+        </TableCell>
+        <TableCell sx={{ width: "100px" }}>
+          <Skeleton variant="text" />
+        </TableCell>
+        <TableCell sx={{ width: "130px" }}>
+          <Skeleton variant="text" />
+        </TableCell>
+        <TableCell sx={{ width: "320px" }}>
+          <Skeleton variant="text" />
+        </TableCell>
+        <TableCell sx={{ width: "100px" }}>
+          <Skeleton variant="text" />
+        </TableCell>
+        <TableCell align="center" sx={{ width: "140px" }}>
+          <Stack direction="row" gap={2}>
+            <Skeleton variant="circular" width={40} height={40} />
+            <Skeleton variant="circular" width={40} height={40} />
+          </Stack>
+        </TableCell>
+      </TableRow>
+    );
+  }
+  return <>{tmpResult}</>;
+};
 
 const PaymentList: React.FC = () => {
   const theme = useTheme();
@@ -66,6 +102,8 @@ const PaymentList: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
+            {payments.loading && <SkeletonTable />}
+
             {!payments.loading &&
               showItems[page.current - 1]?.map((payment, i) => (
                 <TableRow key={payment.id}>

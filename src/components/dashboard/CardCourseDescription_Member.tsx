@@ -1,7 +1,34 @@
-import { Box, Typography, Card } from "@mui/material";
+import { Box, Typography, Card, Stack, Skeleton } from "@mui/material";
 import React from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { ICourseDetailMember } from "../../interfaces/course-model";
+
+export const SkeletonCardCourseDescription_Member: React.FC = () => {
+  return (
+    <Box>
+      <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+        Deskripsi
+      </Typography>
+      <Card>
+        <Stack direction="column" gap={3}>
+          {[1, 2, 3].map((item) => (
+            <Stack
+              key={item}
+              direction={"column"}
+              alignItems="flex-end"
+              gap={1}
+            >
+              <Skeleton variant="text" height="25px" width="80%" />
+              <Skeleton variant="text" height="25px" width="100%" />
+              <Skeleton variant="text" height="25px" width="100%" />
+              <Skeleton variant="text" height="25px" width="100%" />
+            </Stack>
+          ))}
+        </Stack>
+      </Card>
+    </Box>
+  );
+};
 
 interface ICardCourseDescription_MemberProps {
   course: ICourseDetailMember;

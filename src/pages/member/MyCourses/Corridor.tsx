@@ -1,10 +1,18 @@
 import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import CardCourseDescription_Member from "../../../components/dashboard/CardCourseDescription_Member";
-import CardListLesson_Member from "../../../components/dashboard/CardListLesson_Member";
-import CardMentorMember from "../../../components/dashboard/CardMentorMember";
-import CourseBanner_Member from "../../../components/dashboard/CourseBanner_Member";
+import CardCourseDescription_Member, {
+  SkeletonCardCourseDescription_Member,
+} from "../../../components/dashboard/CardCourseDescription_Member";
+import CardListLesson_Member, {
+  SkeletonCardListLesson_Member,
+} from "../../../components/dashboard/CardListLesson_Member";
+import CardMentorMember, {
+  SkeletonCardMentorMember,
+} from "../../../components/dashboard/CardMentorMember";
+import CourseBanner_Member, {
+  SkeletonCourseBanner_Member,
+} from "../../../components/dashboard/CourseBanner_Member";
 import { updateLastLearning } from "../../../helpers/updateLastLearning";
 import { ICourseDetailMember } from "../../../interfaces/course-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
@@ -43,7 +51,22 @@ const Corridor: React.FC = () => {
   return (
     <Box>
       {loading ? (
-        <p>Loading...</p>
+        <>
+          <Box>
+            <SkeletonCourseBanner_Member />
+            <Grid container spacing={5}>
+              <Grid item md={6}>
+                <SkeletonCardListLesson_Member />
+              </Grid>
+              <Grid item md={6}>
+                <SkeletonCardMentorMember />
+              </Grid>
+              <Grid item md={12}>
+                <SkeletonCardCourseDescription_Member />
+              </Grid>
+            </Grid>
+          </Box>
+        </>
       ) : (
         !!course && (
           <>

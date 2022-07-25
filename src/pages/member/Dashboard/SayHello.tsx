@@ -19,7 +19,7 @@ const SayHello: React.FC = () => {
           }}
         />
       </Typography>
-      <Typography>
+      <Typography sx={{ marginTop: "10px" }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus omnis
         eveniet, voluptates nesciunt error explicabo provident beatae aut
         asperiores doloremque.

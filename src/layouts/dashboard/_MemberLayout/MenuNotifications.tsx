@@ -102,7 +102,7 @@ const MenuNotifications: React.FC = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {notifications.list.map((item) => (
+        {notifications.list.slice(0, 20).map((item) => (
           <MenuItem
             key={item.id}
             onClick={handleClick.bind(null, item)}

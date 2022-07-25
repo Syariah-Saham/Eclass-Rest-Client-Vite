@@ -6,6 +6,7 @@ import {
   useTheme,
   Button,
   Collapse,
+  Skeleton,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
@@ -16,6 +17,29 @@ import {
   ICourseItemMember,
 } from "../../interfaces/course-model";
 import { ILesson } from "../../interfaces/lesson-model";
+
+export const SkeletonCardListLesson_Member = () => {
+  return (
+    <Box>
+      <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+        Materi yang Dipelajari
+      </Typography>
+      <Card>
+        <Stack direction="column" gap={3}>
+          {[1, 2, 3, 4, 5].map((item) => (
+            <Stack key={item} direction="row" alignItems="center" gap={3}>
+              <Skeleton
+                variant="circular"
+                sx={{ width: "40px", height: "40px" }}
+              />
+              <Skeleton variant="text" sx={{ width: "80%", height: "24px" }} />
+            </Stack>
+          ))}
+        </Stack>
+      </Card>
+    </Box>
+  );
+};
 
 const LessonItem: React.FC<{
   order: number;
