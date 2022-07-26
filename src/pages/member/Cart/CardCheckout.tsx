@@ -47,8 +47,10 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
   const [loadingCheckout, setLoadingCheckout] = useState(false);
 
   useEffect(() => {
-    let total = 0;
-    cart.list?.forEach((course) => (total += course.price));
+    let total = cart.list.reduce((total, item) => {
+      const price = item.price.toString();
+      return total + parseInt(price);
+    }, 0);
     setTotalBill(total);
   }, [cart.list]);
 

@@ -44,7 +44,7 @@ const WishList: React.FC = () => {
           ))}
 
         {!wishlist.loading && !wishlist.list.length && (
-          <Grid md={12}>
+          <Grid item md={12}>
             <Typography variant="h4" textAlign={"center"}>
               Tidak ada data
             </Typography>

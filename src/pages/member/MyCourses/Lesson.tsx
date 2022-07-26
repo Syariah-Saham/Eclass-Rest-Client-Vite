@@ -179,7 +179,7 @@ const Lesson: React.FC = () => {
                     <Link to={`/certificate/${course.certificate_id}`}>
                       <Button color="secondary">Lihat Sertifikat</Button>
                     </Link>
-                  ) : lesson?.is_done ? (
+                  ) : !!lesson?.is_done ? (
                     <Button
                       disabled={loadingToggle}
                       onClick={handleToggleStatus}
@@ -212,7 +212,13 @@ const Lesson: React.FC = () => {
           <ChartProgressLearning_Member value={percentProgress} />
           <Box sx={{ marginTop: "25px" }}>
             {loadingLessons && <SkeletonCardLessonLearning_Member />}
-            {!loadingLessons && <CardLessonLearning_Member lessons={lessons} />}
+            {!loadingLessons && (
+              <CardLessonLearning_Member
+                lessons={lessons}
+                lesson={lesson}
+                handleToggleStatus={handleToggleStatus}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>

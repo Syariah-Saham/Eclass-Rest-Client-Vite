@@ -12,6 +12,7 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ILesson } from "../../interfaces/lesson-model";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 
 export const SkeletonCardLessonLearning_Member = () => {
   return (
@@ -38,27 +39,44 @@ export const SkeletonCardLessonLearning_Member = () => {
 
 const LessonItem: React.FC<{
   order: number;
-  lesson: { id: number; title: string };
+  lesson: ILesson;
 }> = (props) => {
   const theme = useTheme();
   const { id, lessonId } = useParams();
+  console.log(props.lesson.is_done);
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Box
-        sx={{
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
-          background: theme.palette.background.default,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontWeight: "bold",
-        }}
-      >
-        {props.order}
-      </Box>
+      {props.lesson.is_done ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: "bold",
+          }}
+        >
+          <CheckCircleRoundedIcon
+            sx={{ color: theme.palette.secondary.light, fontSize: "40px" }}
+          />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            background: theme.palette.background.default,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: "bold",
+          }}
+        >
+          {props.lesson.is_done}
+          {props.order}
+        </Box>
+      )}
       <Link to={`/member/courses/${id}/lesson/${props.lesson.id}`}>
         <Typography
           variant="h6"
@@ -77,9 +95,11 @@ const LessonItem: React.FC<{
   );
 };
 
-const CardLessonLearning_Member: React.FC<{ lessons: ILesson[] }> = ({
-  lessons,
-}) => {
+const CardLessonLearning_Member: React.FC<{
+  lessons: ILesson[];
+  lesson: ILesson | null;
+  handleToggleStatus: () => void;
+}> = ({ lessons, handleToggleStatus, lesson }) => {
   const { id, lessonId } = useParams();
   const navigate = useNavigate();
   const [nextId, setNextId] = useState<number | null>(null);
@@ -112,7 +132,12 @@ const CardLessonLearning_Member: React.FC<{ lessons: ILesson[] }> = ({
           size="large"
           sx={{ width: "47%" }}
           disabled={!nextId}
-          onClick={() => navigate(`/member/courses/${id}/lesson/${nextId}`)}
+          onClick={async () => {
+            if (!lesson?.is_done) {
+              await handleToggleStatus();
+            }
+            navigate(`/member/courses/${id}/lesson/${nextId}`);
+          }}
         >
           Next
         </Button>
