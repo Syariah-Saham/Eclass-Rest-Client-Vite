@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import CardCertificateMember, {
   SkeletonCardCertificateMember,
 } from "../../../components/dashboard/CardCertificateMember";
-import LoadingIndicator from "../../../components/LoadingIndicator";
+import DataEmptySection from "../../../components/dashboard/DataEmptySection";
 import { ICertificate } from "../../../interfaces/course-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { getCertificates } from "../../../services/member/courses";
@@ -42,10 +42,12 @@ const Certificates: React.FC = () => {
         <Grid container spacing={5} sx={{ marginTop: "0px" }}>
           {loading &&
             [1, 2, 3, 4].map((item) => (
-              <Grid item md={3}>
+              <Grid key={item} item md={3}>
                 <SkeletonCardCertificateMember />
               </Grid>
             ))}
+
+          {!loading && !certificates.length && <DataEmptySection />}
         </Grid>
         {!loading && (
           <Grid container spacing={5} sx={{ marginTop: "0px" }}>

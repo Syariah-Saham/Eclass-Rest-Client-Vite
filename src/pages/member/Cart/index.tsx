@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CardCart, {
   CardCartSkeleton,
 } from "../../../components/dashboard/CardCart";
+import DataEmptySection from "../../../components/dashboard/DataEmptySection";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { usePage } from "../../../hooks/usePage";
 import { ICourseItemMember } from "../../../interfaces/course-model";
@@ -80,9 +81,7 @@ const Cart: React.FC = () => {
               </Stack>
             )}
 
-            {!cart.list.length && !cart.loading && (
-              <Typography variant="h4">Tidak ada data</Typography>
-            )}
+            {!cart.list.length && !cart.loading && <DataEmptySection />}
             <Stack direction="row" justifyContent={"center"} marginTop="40px">
               <Pagination
                 count={page.total}

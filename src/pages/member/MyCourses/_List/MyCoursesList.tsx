@@ -1,6 +1,7 @@
 import { Box, Grid, Pagination, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CardCourseMember from "../../../../components/dashboard/CardCourseMember";
+import DataEmptySection from "../../../../components/dashboard/DataEmptySection";
 import { sliceIntoChunks } from "../../../../helpers/chunk-array";
 import { usePage } from "../../../../hooks/usePage";
 import { ICourseItemMember } from "../../../../interfaces/course-model";
@@ -25,6 +26,12 @@ const MyCoursesList: React.FC<{ title?: string }> = ({ title = "Kelasku" }) => {
     <Box>
       <Typography variant="h3">{title}</Typography>
       <Grid container spacing={5} sx={{ marginTop: "0px" }}>
+        {!coursesState.loading_owned && !coursesState.owned_list.length && (
+          <Grid item md={12}>
+            <DataEmptySection />
+          </Grid>
+        )}
+
         {!coursesState.loading_owned &&
           showCourses[page.current - 1]?.slice(0, 4)?.map((course) => (
             <Grid key={course.id} item md={3}>

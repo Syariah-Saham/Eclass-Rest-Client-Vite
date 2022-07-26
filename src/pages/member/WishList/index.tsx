@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CardCourseMember, {
   CardCourseMemberSkeleton,
 } from "../../../components/dashboard/CardCourseMember";
+import DataEmptySection from "../../../components/dashboard/DataEmptySection";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { usePage } from "../../../hooks/usePage";
 import { ICourseItemMember } from "../../../interfaces/course-model";
@@ -45,9 +46,7 @@ const WishList: React.FC = () => {
 
         {!wishlist.loading && !wishlist.list.length && (
           <Grid item md={12}>
-            <Typography variant="h4" textAlign={"center"}>
-              Tidak ada data
-            </Typography>
+            <DataEmptySection />
           </Grid>
         )}
       </Grid>

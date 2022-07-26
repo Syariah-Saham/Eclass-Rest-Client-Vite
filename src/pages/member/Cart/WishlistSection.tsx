@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import CardCart, {
   CardCartSkeleton,
 } from "../../../components/dashboard/CardCart";
+import DataEmptySection from "../../../components/dashboard/DataEmptySection";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { usePage } from "../../../hooks/usePage";
 import { ICourseItemMember } from "../../../interfaces/course-model";
@@ -37,6 +38,8 @@ const WishlistSection: React.FC = () => {
               <CardCartSkeleton />
             </Stack>
           )}
+
+          {!wishlist.loading && !wishlist.list.length && <DataEmptySection />}
 
           <Stack direction={"column"} spacing={3}>
             {!wishlist.loading &&
