@@ -12,7 +12,7 @@ import {
 import React, { PropsWithChildren, useState } from "react";
 import Content from "../../components/dashboard/Content";
 import Sidebar from "../../components/dashboard/Sidebar";
-import { IMenuItemProps, TMenu } from "../../interfaces/components/menu-item";
+import { TMenu } from "../../interfaces/components/menu-item";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,45 +20,7 @@ import { changePage } from "../../redux/actions/dashboard";
 import { logout } from "../../redux/actions/auth";
 import SnackBarComp from "../../components/Snackbar";
 import { useMenuDashboard } from "../../hooks/useMenuDashboard";
-
-const menus: IMenuItemProps[] = [
-  {
-    target: "/admin/dashboard",
-    icon: "dashboard",
-    text: "Dashboard",
-    name: TMenu.DASHBOARD,
-  },
-  {
-    target: "/admin/courses",
-    icon: "courses",
-    text: "Kelas",
-    name: TMenu.COURSES,
-  },
-  {
-    target: "/admin/admins",
-    icon: "admins",
-    text: "Admin",
-    name: TMenu.ADMINS,
-  },
-  {
-    target: "/admin/mentors",
-    icon: "mentors",
-    text: "Mentor",
-    name: TMenu.MENTORS,
-  },
-  {
-    target: "/admin/members",
-    icon: "members",
-    text: "Member",
-    name: TMenu.MEMBERS,
-  },
-  {
-    target: "/admin/profile",
-    icon: "profile",
-    text: "Profile",
-    name: TMenu.PROFILE,
-  },
-];
+import menus from "../../constant/admin-menus";
 
 const AdminLayout: React.FC<PropsWithChildren> = (props) => {
   useMenuDashboard({ menus });

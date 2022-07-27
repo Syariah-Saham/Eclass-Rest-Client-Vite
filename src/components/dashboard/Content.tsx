@@ -8,11 +8,14 @@ const Content: React.FC<PropsWithChildren> = (props) => {
   return (
     <Box
       sx={{
+        paddingLeft: {
+          xs: "18px",
+          md: dashboard.showSidebar ? "340px" : "115px",
+        },
         transition: ".5s",
-        paddingLeft: dashboard.showSidebar ? "340px" : "115px",
-        paddingRight: "50px",
-        paddingTop: "50px",
-        paddingBottom: "50px",
+        paddingRight: { xs: "18px", md: "50px" },
+        paddingTop: { xs: "18px", md: "50px" },
+        paddingBottom: { xs: "18px", md: "50px" },
         position: "fixed",
         overflow: "auto",
         height: "100vh",
