@@ -52,7 +52,7 @@ const Certificates: React.FC = () => {
         {!loading && (
           <Grid container spacing={5} sx={{ marginTop: "0px" }}>
             {certificates.map((certificate) => (
-              <Grid item md={3}>
+              <Grid key={certificate.id} item md={3}>
                 <CardCertificateMember certificate={certificate} />
               </Grid>
             ))}

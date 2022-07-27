@@ -149,6 +149,11 @@ const Lesson: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(lesson?.is_done);
+    console.log(!!lesson?.is_done);
+  }, [lesson?.is_done]);
+
   return (
     <Box>
       <Grid container spacing={5}>
@@ -179,7 +184,7 @@ const Lesson: React.FC = () => {
                     <Link to={`/certificate/${course.certificate_id}`}>
                       <Button color="secondary">Lihat Sertifikat</Button>
                     </Link>
-                  ) : !!lesson?.is_done ? (
+                  ) : parseInt(lesson?.is_done?.toString() || "0") === 1 ? (
                     <Button
                       disabled={loadingToggle}
                       onClick={handleToggleStatus}

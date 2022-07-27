@@ -43,7 +43,6 @@ const LessonItem: React.FC<{
 }> = (props) => {
   const theme = useTheme();
   const { id, lessonId } = useParams();
-  console.log(props.lesson.is_done);
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -73,7 +72,6 @@ const LessonItem: React.FC<{
             fontWeight: "bold",
           }}
         >
-          {props.lesson.is_done}
           {props.order}
         </Box>
       )}
@@ -133,7 +131,7 @@ const CardLessonLearning_Member: React.FC<{
           sx={{ width: "47%" }}
           disabled={!nextId}
           onClick={async () => {
-            if (!lesson?.is_done) {
+            if (parseInt(lesson?.is_done?.toString() || "1") === 0) {
               await handleToggleStatus();
             }
             navigate(`/member/courses/${id}/lesson/${nextId}`);
