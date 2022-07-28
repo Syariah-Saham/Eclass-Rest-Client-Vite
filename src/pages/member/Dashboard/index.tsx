@@ -10,20 +10,22 @@ import ListCourses from "./ListCourses";
 const Dashboard: React.FC = () => {
   return (
     <Box>
-      <Grid container spacing={3}>
-        <Grid item md={6}>
-          <SayHello />
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
+        <Grid container spacing={3}>
+          <Grid item md={6}>
+            <SayHello />
+          </Grid>
+          <Grid item md={6}>
+            <CardUser />
+          </Grid>
+          <Grid item md={6}>
+            <ListBenefit />
+          </Grid>
+          <Grid item md={6}>
+            <ContinueLearning />
+          </Grid>
         </Grid>
-        <Grid item md={6}>
-          <CardUser />
-        </Grid>
-        <Grid item md={6}>
-          <ListBenefit />
-        </Grid>
-        <Grid item md={6}>
-          <ContinueLearning />
-        </Grid>
-      </Grid>
+      </Box>
 
       <ListCourses />
     </Box>

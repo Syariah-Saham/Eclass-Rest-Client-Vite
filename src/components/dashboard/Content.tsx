@@ -15,7 +15,7 @@ const Content: React.FC<PropsWithChildren> = (props) => {
         transition: ".5s",
         paddingRight: { xs: "18px", md: "50px" },
         paddingTop: { xs: "18px", md: "50px" },
-        paddingBottom: { xs: "18px", md: "50px" },
+        paddingBottom: { xs: "130px", md: "50px" },
         position: "fixed",
         overflow: "auto",
         height: "100vh",

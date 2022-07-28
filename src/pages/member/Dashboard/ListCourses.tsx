@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import CardCourseMember, {
   CardCourseMemberSkeleton,
 } from "../../../components/dashboard/CardCourseMember";
+import Select from "../../../components/Select";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { usePage } from "../../../hooks/usePage";
 import { ICourseItemMember } from "../../../interfaces/course-model";
@@ -20,19 +21,19 @@ import { COURSE_LEVEL } from "../../../types/course_level";
 const listMenu = [
   {
     label: "Semua",
-    name: "ALL",
+    value: "ALL",
   },
   {
     label: "Pemula",
-    name: COURSE_LEVEL.BEGINNER,
+    value: COURSE_LEVEL.BEGINNER,
   },
   {
     label: "Menengah",
-    name: COURSE_LEVEL.INTERMEDIETE,
+    value: COURSE_LEVEL.INTERMEDIETE,
   },
   {
     label: "Professional",
-    name: COURSE_LEVEL.EXPERT,
+    value: COURSE_LEVEL.EXPERT,
   },
 ];
 
@@ -71,30 +72,63 @@ const ListCourses: React.FC = () => {
   }, [menuActive]);
 
   return (
-    <Box sx={{ marginTop: "60px" }}>
-      <Typography variant="h2" sx={{ textAlign: "center" }}>
-        Learn With{" "}
-        <b style={{ color: theme.palette.secondary.light }}>Expert</b>
-      </Typography>
-      <Typography variant="h2" sx={{ textAlign: "center" }}>
-        Anytime & Anywhere
-      </Typography>
-      <Stack
-        direction="row"
-        justifyContent={"center"}
-        spacing={3}
-        sx={{ marginTop: "25px" }}
-      >
-        {listMenu.map((menu) => (
-          <Button
-            key={menu.name}
-            onClick={setMenuActive.bind(null, menu.name)}
-            color={menuActive === menu.name ? "info" : "secondary"}
+    <Box sx={{ marginTop: { md: "60px" } }}>
+      {/* ============ Mobile View ============ */}
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Box sx={{ textAlign: "center", display: { xs: "block", md: "none" } }}>
+          <Typography variant="h4">
+            Learn With{" "}
+            <b style={{ color: theme.palette.secondary.light }}>Expert</b>
+          </Typography>
+          <Typography variant="h4">Anytime & Anywhere</Typography>
+        </Box>
+
+        <Box sx={{ margin: "15px auto", width: "60%" }}>
+          <Typography
+            variant="body1"
+            textAlign={"center"}
+            sx={{ marginBottom: "5px" }}
           >
-            {menu.label}
-          </Button>
-        ))}
-      </Stack>
+            Kategori
+          </Typography>
+          <Select
+            placeholder="Pilih Kategori"
+            options={listMenu}
+            value={listMenu.find((menu) => menu.value === menuActive)}
+            onChange={(item) => {
+              let newItem = item as { value: COURSE_LEVEL };
+              setMenuActive(newItem.value);
+            }}
+          />
+        </Box>
+      </Box>
+
+      {/* ================ Laptop View ============== */}
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
+        <Typography variant={"h2"} sx={{ textAlign: "center" }}>
+          Learn With{" "}
+          <b style={{ color: theme.palette.secondary.light }}>Expert</b>
+        </Typography>
+        <Typography variant="h2" sx={{ textAlign: "center" }}>
+          Anytime & Anywhere
+        </Typography>
+        <Stack
+          direction="row"
+          justifyContent={"center"}
+          spacing={3}
+          sx={{ marginTop: "25px" }}
+        >
+          {listMenu.map((menu) => (
+            <Button
+              key={menu.value}
+              onClick={setMenuActive.bind(null, menu.value)}
+              color={menuActive === menu.value ? "info" : "secondary"}
+            >
+              {menu.label}
+            </Button>
+          ))}
+        </Stack>
+      </Box>
 
       <Box>
         {coursesState.loading ? (
