@@ -4,9 +4,9 @@ import {
   Typography,
   Stack,
   IconButton,
-  Fade,
   Skeleton,
   Button,
+  useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
@@ -15,7 +15,7 @@ import ZoomOutMapRoundedIcon from "@mui/icons-material/ZoomOutMapRounded";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ICourseItemMember } from "../../interfaces/course-model";
 import { formatRp } from "../../helpers/formatRp";
 import { useAppDispatch } from "../../redux/hooks";
@@ -32,6 +32,7 @@ import {
 } from "../../redux/actions/wishlist";
 import { toggleWishlistCourses } from "../../redux/actions/courses";
 import PlayLessonIcon from "@mui/icons-material/PlayLesson";
+import { parseCategory } from "../../helpers/parseCategory";
 
 export const CardCourseMemberSkeleton: React.FC = () => {
   return (
@@ -80,6 +81,8 @@ interface ICardCourseMember {
 }
 const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const theme = useTheme();
   const [isWishList, setIsWishList] = useState<boolean>(false);
   const [loadingButton, setLoadingButton] = useState({
     cart: false,
@@ -146,123 +149,238 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
   };
 
   return (
-    <Card sx={{ height: "95%" }}>
-      <Stack
-        direction="column"
-        justifyContent={"space-between"}
-        sx={{ height: "100%" }}
-      >
-        <Box>
-          <Box
+    <>
+      <Box sx={{ height: "100%", display: { xs: "none", md: "block" } }}>
+        <Card sx={{ height: "95%" }}>
+          <Stack
+            direction="column"
+            justifyContent={"space-between"}
+            sx={{ height: "100%" }}
+          >
+            <Box>
+              <Box
+                sx={{
+                  margin: "-40px",
+                  marginBottom: "25px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  style={{ width: "100%" }}
+                  src={`${import.meta.env.VITE_STORAGE_URL}/${
+                    course.thumbnail
+                  }`}
+                />
+              </Box>
+              <Typography variant="h5">{course.title}</Typography>
+              <Typography>{course.short_description}</Typography>
+            </Box>
+            <Box>
+              <Box sx={{ margin: "20px auto" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ textDecoration: "line-through", opacity: ".7" }}
+                >
+                  {formatRp(course.actual_price)}
+                </Typography>
+                <Stack direction="row" alignItems="flex-end" gap={2}>
+                  <Typography variant="h4">{formatRp(course.price)}</Typography>
+                  <Typography variant="h6" sx={{ display: "inline-block" }}>
+                    / Selamanya
+                  </Typography>
+                </Stack>
+              </Box>
+              <Stack direction="row" sx={{ marginTop: "10px" }}>
+                <Stack
+                  direction="row"
+                  alignItems={"center"}
+                  spacing={1}
+                  sx={{ width: "45%" }}
+                >
+                  <VideoLibraryRoundedIcon />
+                  <Typography fontWeight={"medium"}>
+                    {course.total_lessons} Materi
+                  </Typography>
+                </Stack>
+                <Stack
+                  direction="row"
+                  alignItems={"center"}
+                  spacing={1}
+                  sx={{ width: "45%" }}
+                >
+                  <GroupsRoundedIcon />
+                  <Typography fontWeight={"medium"}>
+                    {course.enrolled_students} Siswa
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="space-around"
+                alignItems="center"
+                sx={{ marginTop: "10px" }}
+              >
+                {course.is_owned ? (
+                  <Stack
+                    sx={{ marginTop: "10px", width: "100%" }}
+                    justifyContent="center"
+                  >
+                    <Link to={`/member/courses/${course.id}/corridor`}>
+                      <Button
+                        sx={{ width: "100%" }}
+                        color="secondary"
+                        startIcon={<PlayLessonIcon />}
+                      >
+                        Lanjut Belajar
+                      </Button>
+                    </Link>
+                  </Stack>
+                ) : (
+                  <>
+                    <Link to={`/member/courses/${course.id}`}>
+                      <IconButton size="large" color="secondary">
+                        <ZoomOutMapRoundedIcon />
+                      </IconButton>
+                    </Link>
+                    <IconButton
+                      disabled={loadingButton.cart}
+                      size="large"
+                      color="info"
+                      onClick={handleCart}
+                    >
+                      <AddShoppingCartRoundedIcon />
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      color="error"
+                      onClick={toggleWishlist}
+                      disabled={loadingButton.wishlist}
+                    >
+                      {isWishList ? (
+                        <FavoriteRoundedIcon />
+                      ) : (
+                        <FavoriteBorderRoundedIcon />
+                      )}
+                    </IconButton>
+                  </>
+                )}
+              </Stack>
+            </Box>
+          </Stack>
+        </Card>
+      </Box>
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Link
+          to={`/member/courses/${course.id}/${
+            course.is_owned ? "corridor" : ""
+          }`}
+        >
+          <Card
             sx={{
-              margin: "-40px",
-              marginBottom: "25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              padding: "14px",
+              "&:hover": {
+                boxShadow: `0px 0px 1px 1px ${theme.palette.secondary.main}`,
+              },
             }}
           >
-            <img
-              style={{ width: "100%" }}
-              src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
-            />
-          </Box>
-          <Typography variant="h5">{course.title}</Typography>
-          <Typography>{course.short_description}</Typography>
-        </Box>
-        <Box>
-          <Box sx={{ margin: "20px auto" }}>
-            <Typography
-              variant="body2"
-              sx={{ textDecoration: "line-through", opacity: ".7" }}
-            >
-              {formatRp(course.actual_price)}
-            </Typography>
-            <Stack direction="row" alignItems="flex-end" gap={2}>
-              <Typography variant="h4">{formatRp(course.price)}</Typography>
-              <Typography variant="h6" sx={{ display: "inline-block" }}>
-                / Selamanya
-              </Typography>
-            </Stack>
-          </Box>
-          <Stack direction="row" sx={{ marginTop: "10px" }}>
-            <Stack
-              direction="row"
-              alignItems={"center"}
-              spacing={1}
-              sx={{ width: "45%" }}
-            >
-              <VideoLibraryRoundedIcon />
-              <Typography fontWeight={"medium"}>
-                {course.total_lessons} Materi
-              </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              alignItems={"center"}
-              spacing={1}
-              sx={{ width: "45%" }}
-            >
-              <GroupsRoundedIcon />
-              <Typography fontWeight={"medium"}>
-                {course.enrolled_students} Siswa
-              </Typography>
-            </Stack>
-          </Stack>
-          <Stack
-            direction="row"
-            justifyContent="space-around"
-            alignItems="center"
-            sx={{ marginTop: "10px" }}
-          >
-            {course.is_owned ? (
-              <Stack
-                sx={{ marginTop: "10px", width: "100%" }}
-                justifyContent="center"
+            <Stack direction={"row"} gap={2} alignItems={"flex-start"}>
+              <Box sx={{ width: "30%" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+
+                    overflow: "hidden",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <img
+                    style={{ width: "100%" }}
+                    src={`${import.meta.env.VITE_STORAGE_URL}/${
+                      course.thumbnail
+                    }`}
+                  />
+                </Box>
+                <Typography
+                  variant={"caption"}
+                  sx={{
+                    display: "block",
+                    marginTop: "5px",
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {parseCategory(course.category)}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  width: "70%",
+                }}
               >
-                <Link to={`/member/courses/${course.id}/corridor`}>
+                <Typography variant="body2" fontWeight={"bold"}>
+                  {course.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ color: `${theme.palette.warning.main} !important` }}
+                >
+                  {formatRp(course.price)}
+                </Typography>
+                {course.is_owned ? (
                   <Button
-                    sx={{ width: "100%" }}
                     color="secondary"
-                    startIcon={<PlayLessonIcon />}
+                    sx={{
+                      padding: "2px 5px",
+                      fontSize: "12px",
+                      marginTop: "10px",
+                    }}
                   >
                     Lanjut Belajar
                   </Button>
-                </Link>
-              </Stack>
-            ) : (
-              <>
-                <Link to={`/member/courses/${course.id}`}>
-                  <IconButton size="large" color="secondary">
-                    <ZoomOutMapRoundedIcon />
-                  </IconButton>
-                </Link>
-                <IconButton
-                  disabled={loadingButton.cart}
-                  size="large"
-                  color="info"
-                  onClick={handleCart}
-                >
-                  <AddShoppingCartRoundedIcon />
-                </IconButton>
-                <IconButton
-                  size="large"
-                  color="error"
-                  onClick={toggleWishlist}
-                  disabled={loadingButton.wishlist}
-                >
-                  {isWishList ? (
-                    <FavoriteRoundedIcon />
-                  ) : (
-                    <FavoriteBorderRoundedIcon />
-                  )}
-                </IconButton>
-              </>
-            )}
-          </Stack>
-        </Box>
-      </Stack>
-    </Card>
+                ) : (
+                  <Stack
+                    direction="row"
+                    sx={{ marginTop: "10px" }}
+                    alignItems="center"
+                    gap={3}
+                  >
+                    <IconButton
+                      color="info"
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleCart();
+                      }}
+                    >
+                      <AddShoppingCartRoundedIcon sx={{ fontSize: "20px" }} />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleWishlist();
+                      }}
+                    >
+                      {isWishList ? (
+                        <FavoriteRoundedIcon sx={{ fontSize: "20px" }} />
+                      ) : (
+                        <FavoriteBorderRoundedIcon sx={{ fontSize: "20px" }} />
+                      )}
+                    </IconButton>
+                  </Stack>
+                )}
+              </Box>
+            </Stack>
+          </Card>
+        </Link>
+      </Box>
+    </>
   );
 };
 

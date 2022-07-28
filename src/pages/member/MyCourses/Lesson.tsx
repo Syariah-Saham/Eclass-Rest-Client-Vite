@@ -149,11 +149,6 @@ const Lesson: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(lesson?.is_done);
-    console.log(!!lesson?.is_done);
-  }, [lesson?.is_done]);
-
   return (
     <Box>
       <Grid container spacing={5}>
@@ -162,7 +157,13 @@ const Lesson: React.FC = () => {
 
           {!loadingLesson && (
             <>
-              <Box sx={{ borderRadius: "22px", overflow: "hidden" }}>
+              <Box
+                sx={{
+                  borderRadius: "22px",
+                  overflow: "hidden",
+                  display: { xs: "none", md: "block" },
+                }}
+              >
                 <IFrame
                   url={`https://www.youtube.com/embed/${lesson?.video_id}`}
                   width={"100%"}
@@ -171,13 +172,48 @@ const Lesson: React.FC = () => {
                   frameBorder={0}
                 />
               </Box>
-              <Box sx={{ marginTop: "40px" }}>
+              <Box
+                sx={{
+                  borderRadius: "22px",
+                  overflow: "hidden",
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                <IFrame
+                  url={`https://www.youtube.com/embed/${lesson?.video_id}`}
+                  width={"100%"}
+                  height="360"
+                  position="relative"
+                  frameBorder={0}
+                />
+              </Box>
+              <Box
+                sx={{
+                  marginTop: { xs: "20px", md: "40px" },
+                }}
+              >
                 <Stack
-                  direction="row"
+                  direction={{ xs: "column", md: "row" }}
+                  sx={{ marginBottom: "20px" }}
                   justifyContent="space-between"
                   alignItems="center"
                 >
-                  <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      marginBottom: "17px",
+                      display: { xs: "none", md: "block" },
+                    }}
+                  >
+                    {lesson?.title}
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      marginBottom: "17px",
+                      display: { xs: "block", md: "none" },
+                    }}
+                  >
                     {lesson?.title}
                   </Typography>
                   {course?.certificate_id ? (
@@ -213,7 +249,7 @@ const Lesson: React.FC = () => {
             </>
           )}
         </Grid>
-        <Grid item md={4}>
+        <Grid item xs={12} md={4}>
           <ChartProgressLearning_Member value={percentProgress} />
           <Box sx={{ marginTop: "25px" }}>
             {loadingLessons && <SkeletonCardLessonLearning_Member />}

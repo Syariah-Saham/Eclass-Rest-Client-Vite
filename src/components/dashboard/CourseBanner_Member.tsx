@@ -20,7 +20,7 @@ const CourseBanner_Member: React.FC<ICourseBanner_MemberProps> = ({
   return (
     <Box
       sx={{
-        height: "300px",
+        height: { xs: "auto", md: "300px" },
         borderRadius: "26px",
         overflow: "hidden",
         display: "flex",

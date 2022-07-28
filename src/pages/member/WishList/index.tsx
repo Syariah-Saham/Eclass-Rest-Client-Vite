@@ -28,8 +28,13 @@ const WishList: React.FC = () => {
 
   return (
     <Box>
-      <Typography variant="h3">Ingin Dipelajari</Typography>
-      <Grid container spacing={5} sx={{ marginTop: "0px" }}>
+      <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+        Ingin Dipelajari
+      </Typography>
+      <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
+        Ingin Dipelajari
+      </Typography>
+      <Grid container spacing={{ xs: 2, md: 5 }} sx={{ marginTop: "0px" }}>
         {wishlist.loading &&
           [1, 2, 3, 4].map((item) => (
             <Grid item key={item} md={3}>
@@ -45,7 +50,7 @@ const WishList: React.FC = () => {
           ))}
 
         {!wishlist.loading && !wishlist.list.length && (
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <DataEmptySection />
           </Grid>
         )}

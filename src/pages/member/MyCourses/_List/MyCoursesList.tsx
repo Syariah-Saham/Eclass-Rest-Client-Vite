@@ -26,8 +26,13 @@ const MyCoursesList: React.FC<{ title?: string }> = ({ title = "Kelasku" }) => {
 
   return (
     <Box>
-      <Typography variant="h3">{title}</Typography>
-      <Grid container spacing={5} sx={{ marginTop: "0px" }}>
+      <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+        {title}
+      </Typography>
+      <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
+        {title}
+      </Typography>
+      <Grid container spacing={{ xs: 2, md: 5 }} sx={{ marginTop: "0px" }}>
         {coursesState.loading_owned &&
           [1, 2, 3, 4].map((item) => (
             <Grid key={item} item md={3}>

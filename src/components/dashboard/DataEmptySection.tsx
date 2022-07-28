@@ -8,8 +8,8 @@ const DataEmptySection: React.FC = () => {
     <Box
       sx={{
         width: "100%",
-        paddingTop: "60px",
-        paddingBottom: "60px",
+        paddingTop: { xs: "30px", md: "60px" },
+        paddingBottom: { xs: "30px", md: "60px" },
         border: `1px solid ${theme.palette.background.paper}`,
       }}
     >
@@ -19,8 +19,15 @@ const DataEmptySection: React.FC = () => {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <ScreenSearchDesktopTwoToneIcon sx={{ fontSize: "150px" }} />
-        <Typography variant="h3">Tidak ada data</Typography>
+        <ScreenSearchDesktopTwoToneIcon
+          sx={{ fontSize: { xs: "80px", md: "150px" } }}
+        />
+        <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+          Tidak ada data
+        </Typography>
+        <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
+          Tidak ada data
+        </Typography>
       </Stack>
     </Box>
   );

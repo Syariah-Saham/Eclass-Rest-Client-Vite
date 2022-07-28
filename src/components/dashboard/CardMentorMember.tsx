@@ -29,11 +29,25 @@ interface ICardMentorMemberProps {
 const CardMentorMember: React.FC<ICardMentorMemberProps> = ({ course }) => {
   return (
     <Box>
-      <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+      <Typography
+        variant="h3"
+        sx={{ marginBottom: "17px", display: { xs: "none", md: "block" } }}
+      >
         Mentor Pengajar
       </Typography>
-      <Card>
-        <Stack direction="row" sx={{ padding: "25px" }} spacing={4}>
+      <Typography
+        variant="h5"
+        sx={{ marginBottom: "10px", display: { xs: "block", md: "none" } }}
+      >
+        Mentor Pengajar
+      </Typography>
+      <Card sx={{ padding: { xs: "5px", md: "initial" } }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          alignItems={{ xs: "center", md: "flex-start" }}
+          sx={{ padding: "25px" }}
+          spacing={4}
+        >
           <Box
             sx={{
               width: "35%",

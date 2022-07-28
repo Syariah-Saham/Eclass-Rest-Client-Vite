@@ -130,9 +130,9 @@ const ListCourses: React.FC = () => {
         </Stack>
       </Box>
 
-      <Box>
+      <Box sx={{ marginTop: "20px" }}>
         {coursesState.loading ? (
-          <Grid container spacing={5} sx={{ marginTop: "20px" }}>
+          <Grid container spacing={{ xs: 2, md: 5 }}>
             {[1, 2, 3, 4].map((item) => (
               <Grid key={item} item md={3}>
                 <CardCourseMemberSkeleton />
@@ -140,7 +140,7 @@ const ListCourses: React.FC = () => {
             ))}
           </Grid>
         ) : (
-          <Grid container spacing={5} sx={{ marginTop: "20px" }}>
+          <Grid container spacing={{ xs: 2, md: 5 }}>
             {showCourses[page.current - 1]?.map((course) => (
               <Grid key={course.id} item md={3}>
                 <CardCourseMember course={course} />

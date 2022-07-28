@@ -38,7 +38,16 @@ const CardCourseDescription_Member: React.FC<
 > = ({ course }) => {
   return (
     <Box>
-      <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+      <Typography
+        variant="h3"
+        sx={{ marginBottom: "17px", display: { xs: "none", md: "block" } }}
+      >
+        Deskripsi
+      </Typography>
+      <Typography
+        variant="h5"
+        sx={{ marginBottom: "17px", display: { xs: "block", md: "none" } }}
+      >
         Deskripsi
       </Typography>
       <Card>

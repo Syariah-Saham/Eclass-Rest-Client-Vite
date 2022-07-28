@@ -309,7 +309,7 @@ const FormUpdateProfilePicture: React.FC = () => {
   return (
     <Stack direction="column" gap={4} sx={{ width: "400px" }}>
       <form onSubmit={onSubmit}>
-        <Box>
+        <Box sx={{ width: { xs: "300px", md: "100%" } }}>
           <FilePond
             files={file}
             onupdatefiles={(val) => setFile(val)}
@@ -321,7 +321,9 @@ const FormUpdateProfilePicture: React.FC = () => {
           />
         </Box>
 
-        <Box sx={{ textAlign: "center" }}>
+        <Box
+          sx={{ textAlign: "center", marginLeft: { xs: "-100px", md: "0" } }}
+        >
           <Button type="submit" disabled={loading} color="primary">
             {loading ? <LoadingIndicator /> : "Upload"}
           </Button>
@@ -333,12 +335,12 @@ const FormUpdateProfilePicture: React.FC = () => {
 
 const Profile: React.FC = () => {
   return (
-    <Grid container gap={4}>
-      <Grid item md={4}>
+    <Grid container gap={4} flexDirection={{ xs: "column-reverse", md: "row" }}>
+      <Grid item xs={12} md={4}>
         <FormUpdateName />
         <FormUpdatePassword />
       </Grid>
-      <Grid item md={4}>
+      <Grid item xs={12} md={4}>
         <FormUpdateProfilePicture />
       </Grid>
     </Grid>

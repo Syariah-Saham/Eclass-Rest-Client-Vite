@@ -204,7 +204,12 @@ const CardCoursePayment_Member: React.FC<ICardCoursePayment_MemberProps> = ({
       >
         {formatRp(course.actual_price)}
       </Typography>
-      <Typography variant="h3">{formatRp(course.price)}</Typography>
+      <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+        {formatRp(course.price)}
+      </Typography>
+      <Typography variant="h4" sx={{ display: { xs: "block", md: "none" } }}>
+        {formatRp(course.price)}
+      </Typography>
       <Box sx={{ margin: "24px auto" }}>
         <Button
           color="secondary"

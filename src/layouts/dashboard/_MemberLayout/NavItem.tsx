@@ -88,6 +88,7 @@ const NavItem: React.FC<{ menu: TMenu }> = ({ menu }) => {
         color: location.pathname.includes(menu)
           ? theme.palette.secondary.main
           : "inherit",
+        transition: ".3s",
       }}
     >
       {icons[menu]}

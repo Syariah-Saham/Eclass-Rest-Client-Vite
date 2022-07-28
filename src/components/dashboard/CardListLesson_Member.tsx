@@ -75,21 +75,45 @@ const LessonItem: React.FC<{
             sx={{
               color: theme.palette.text.primary,
               "&:hover": { color: theme.palette.secondary.main },
+              display: { xs: "none", md: "block" },
+            }}
+          >
+            {props.lesson.title}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": { color: theme.palette.secondary.main },
+              display: { xs: "block", md: "none" },
             }}
           >
             {props.lesson.title}
           </Typography>
         </Link>
       ) : (
-        <Typography
-          variant="h6"
-          sx={{
-            color: theme.palette.text.primary,
-            "&:hover": { color: theme.palette.secondary.main },
-          }}
-        >
-          {props.lesson.title}
-        </Typography>
+        <>
+          <Typography
+            variant="h6"
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": { color: theme.palette.secondary.main },
+              display: { xs: "none", md: "block" },
+            }}
+          >
+            {props.lesson.title}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": { color: theme.palette.secondary.main },
+              display: { xs: "block", md: "none" },
+            }}
+          >
+            {props.lesson.title}
+          </Typography>
+        </>
       )}
     </Stack>
   );
@@ -109,12 +133,21 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
   }, [props.course]);
 
   return (
-    <Box>
-      <Typography variant="h3" sx={{ marginBottom: "17px" }}>
+    <Box sx={{ width: "100%" }}>
+      <Typography
+        variant="h3"
+        sx={{ marginBottom: "17px", display: { xs: "none", md: "block" } }}
+      >
         Materi yang Dipelajari
       </Typography>
-      <Card>
-        <Stack direction="column" spacing={3}>
+      <Typography
+        variant="h5"
+        sx={{ marginBottom: "10px", display: { xs: "block", md: "none" } }}
+      >
+        Materi yang Dipelajari
+      </Typography>
+      <Card sx={{ width: "90%" }}>
+        <Stack direction="column" spacing={{ xs: 2, md: 3 }}>
           {lessons.slice(0, 5).map((lesson, i) => (
             <LessonItem
               key={lesson.id}
@@ -124,7 +157,7 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
             />
           ))}
           <Collapse in={showMore}>
-            <Stack direction="column" spacing={3}>
+            <Stack direction="column" spacing={{ xs: 2, md: 3 }}>
               {lessons.slice(5, lessons.length).map((lesson, i) => (
                 <LessonItem
                   key={lesson.id}
@@ -141,6 +174,7 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
           alignItems="center"
           justifyContent="space-between"
           sx={{ marginTop: "15px" }}
+          gap={3}
         >
           {props.canContinue ? (
             <>
@@ -161,7 +195,14 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
                   )
                 }
               >
-                Lanjut Belajar
+                <Typography
+                  sx={{
+                    display: { xs: "none", md: "block" },
+                    color: `#fff !important`,
+                  }}
+                >
+                  Lanjut Belajar
+                </Typography>
               </Button>
               {lessons.length > 5 && (
                 <Button
@@ -170,7 +211,14 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
                   size="large"
                   onClick={() => setShowMore(!showMore)}
                 >
-                  {showMore ? "Lebih Sedikit" : "Lihat Selengkapnya"}
+                  <Typography
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      color: `#fff !important`,
+                    }}
+                  >
+                    {showMore ? "Lebih Sedikit" : "Lihat Selengkapnya"}
+                  </Typography>
                 </Button>
               )}
             </>
@@ -183,7 +231,14 @@ const CardListLesson_Member: React.FC<ICardListLesson_Member> = (props) => {
                   size="large"
                   onClick={() => setShowMore(!showMore)}
                 >
-                  {showMore ? "Lebih Sedikit" : "Lihat Selengkapnya"}
+                  <Typography
+                    sx={{
+                      display: { xs: "none", md: "block" },
+                      color: `#fff !important`,
+                    }}
+                  >
+                    {showMore ? "Lebih Sedikit" : "Lihat Selengkapnya"}
+                  </Typography>
                 </Button>
               )}
             </>

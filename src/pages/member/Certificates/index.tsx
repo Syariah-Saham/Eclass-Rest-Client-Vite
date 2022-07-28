@@ -38,7 +38,12 @@ const Certificates: React.FC = () => {
   return (
     <Box>
       <Box>
-        <Typography variant="h3">Sertifikat</Typography>
+        <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+          Sertifikat
+        </Typography>
+        <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
+          Sertifikat
+        </Typography>
         <Grid container spacing={5} sx={{ marginTop: "0px" }}>
           {loading &&
             [1, 2, 3, 4].map((item) => (

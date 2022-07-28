@@ -79,13 +79,13 @@ const Preview: React.FC = () => {
           <>
             <CourseBanner_Member course={course} />
             <Grid container spacing={5}>
-              <Grid item md={8}>
+              <Grid item xs={12} md={8}>
                 <CardMentorMember course={course} />
                 <Box sx={{ marginTop: "40px" }}>
                   <CardListLesson_Member course={course} />
                 </Box>
               </Grid>
-              <Grid item md={4}>
+              <Grid item xs={12} md={4}>
                 <Box sx={{ marginTop: "60px" }}>
                   <CardCoursePayment_Member course={course} />
                 </Box>

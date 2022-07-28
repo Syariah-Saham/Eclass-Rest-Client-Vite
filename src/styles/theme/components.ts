@@ -193,7 +193,6 @@ export const components: Components<Theme> = {
       root: {
         padding: "24px",
         borderRadius: "22px",
-        // boxShadow: "0px 4px 10px rgba(9, 12, 2, 0.1)",
         boxShadow: "none",
       },
     },

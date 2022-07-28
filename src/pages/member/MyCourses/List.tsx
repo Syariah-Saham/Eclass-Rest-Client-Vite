@@ -16,23 +16,24 @@ import { useAppSelector } from "../../../redux/hooks";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
 import { COURSE_LEVEL } from "../../../types/course_level";
 import MyCoursesList from "./_List/MyCoursesList";
+import Select from "../../../components/Select";
 
 const listMenu = [
   {
     label: "Semua",
-    name: "ALL",
+    value: "ALL",
   },
   {
     label: "Pemula",
-    name: COURSE_LEVEL.BEGINNER,
+    value: COURSE_LEVEL.BEGINNER,
   },
   {
     label: "Menengah",
-    name: COURSE_LEVEL.INTERMEDIETE,
+    value: COURSE_LEVEL.INTERMEDIETE,
   },
   {
     label: "Professional",
-    name: COURSE_LEVEL.EXPERT,
+    value: COURSE_LEVEL.EXPERT,
   },
 ];
 
@@ -79,19 +80,47 @@ const List: React.FC = () => {
     <Box>
       <MyCoursesList />
       <Box sx={{ marginTop: "80px" }}>
-        <Typography variant="h3">Kelas Populer</Typography>
-        <Stack direction="row" spacing={3} sx={{ marginTop: "20px" }}>
-          {listMenu.map((menu) => (
-            <Button
-              key={menu.name}
-              onClick={setMenuActive.bind(null, menu.name)}
-              color={menuActive === menu.name ? "info" : "secondary"}
-            >
-              {menu.label}
-            </Button>
-          ))}
-        </Stack>
-        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
+        {/* ========== Mobile View ============== */}
+        <Box sx={{ display: { xs: "block", md: "none" } }}>
+          <Typography variant="h5">Kelas Populer</Typography>
+          <Box sx={{ margin: "15px auto", width: "100%" }}>
+            <Typography variant="body1" sx={{ marginBottom: "5px" }}>
+              Kategori
+            </Typography>
+            <Box sx={{ width: "70%" }}>
+              <Select
+                placeholder="Pilih Kategori"
+                options={listMenu}
+                value={listMenu.find((menu) => menu.value === menuActive)}
+                onChange={(item) => {
+                  let newItem = item as { value: COURSE_LEVEL };
+                  setMenuActive(newItem.value);
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
+
+        {/* ========== Laptop View ============== */}
+        <Box sx={{ display: { xs: "none", md: "block" } }}>
+          <Typography variant="h3">Kelas Populer</Typography>
+          <Stack direction="row" spacing={3} sx={{ marginTop: "20px" }}>
+            {listMenu.map((menu) => (
+              <Button
+                key={menu.value}
+                onClick={setMenuActive.bind(null, menu.value)}
+                color={menuActive === menu.value ? "info" : "secondary"}
+              >
+                {menu.label}
+              </Button>
+            ))}
+          </Stack>
+        </Box>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 5 }}
+          sx={{ marginTop: { xs: "20px", md: "0px" } }}
+        >
           {coursesState.loading &&
             [1, 2, 3, 4].map((item) => (
               <Grid key={item} item md={3}>
