@@ -38,16 +38,19 @@ const Certificates: React.FC = () => {
   return (
     <Box>
       <Box>
-        <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+        <Typography
+          variant="h3"
+          sx={{ display: { xs: "none", md: "block" }, marginBottom: "40px" }}
+        >
           Sertifikat
         </Typography>
         <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
           Sertifikat
         </Typography>
-        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
+        <Grid container spacing={{ xs: 3, md: 5 }} sx={{ marginTop: "0px" }}>
           {loading &&
             [1, 2, 3, 4].map((item) => (
-              <Grid key={item} item md={3}>
+              <Grid key={item} item xs={12} md={3}>
                 <SkeletonCardCertificateMember />
               </Grid>
             ))}
@@ -57,7 +60,7 @@ const Certificates: React.FC = () => {
         {!loading && (
           <Grid container spacing={5} sx={{ marginTop: "0px" }}>
             {certificates.map((certificate) => (
-              <Grid key={certificate.id} item md={3}>
+              <Grid key={certificate.id} item xs={12} md={3}>
                 <CardCertificateMember certificate={certificate} />
               </Grid>
             ))}

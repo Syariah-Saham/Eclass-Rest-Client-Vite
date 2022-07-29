@@ -28,7 +28,10 @@ const WishList: React.FC = () => {
 
   return (
     <Box>
-      <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+      <Typography
+        variant="h3"
+        sx={{ display: { xs: "none", md: "block" }, marginBottom: "40px" }}
+      >
         Ingin Dipelajari
       </Typography>
       <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>

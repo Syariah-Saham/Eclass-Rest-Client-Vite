@@ -1,10 +1,12 @@
 import {
   Box,
+  Button,
   Card,
   IconButton,
   Skeleton,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import VideoLibraryRoundedIcon from "@mui/icons-material/VideoLibraryRounded";
@@ -20,6 +22,8 @@ import { addCartItemAction } from "../../redux/actions/cart";
 import { removeWishlistItem } from "../../services/member/wishlist";
 import { removeWishlistItemAction } from "../../redux/actions/wishlist";
 import { toggleWishlistCourses } from "../../redux/actions/courses";
+import { parseCategory } from "../../helpers/parseCategory";
+import { Link } from "react-router-dom";
 
 const styles = {
   box: {
@@ -79,6 +83,7 @@ const CardCart: React.FC<ICardCartProps> = ({
   loadingRemove,
 }) => {
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const handleAddToCart = async () => {
     setLoading(true);
@@ -108,72 +113,173 @@ const CardCart: React.FC<ICardCartProps> = ({
   };
 
   return (
-    <Card sx={{ width: "100%" }}>
-      <Stack direction="row" spacing={3}>
-        <Box sx={styles.box}>
-          <img
-            style={{ height: "100%" }}
-            src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
-          />
-        </Box>
-        <Stack
-          direction="column"
-          justifyContent="space-between"
-          sx={{ width: "75%" }}
-        >
-          <Box>
-            <Typography variant="h5">{course.title}</Typography>
-            <Typography>{course.short_description}</Typography>
+    <>
+      <Card sx={{ width: "100%", display: { xs: "none", md: "block" } }}>
+        <Stack direction="row" spacing={3}>
+          <Box sx={styles.box}>
+            <img
+              style={{ height: "100%" }}
+              src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
+            />
           </Box>
-          <Stack direction="row" spacing={5}>
-            <Stack
-              direction="row"
-              alignItems={"center"}
-              spacing={1}
-              sx={{ width: "200px" }}
-            >
-              <VideoLibraryRoundedIcon />
-              <Typography fontWeight={"medium"}>
-                {course.total_lessons} Materi
+          <Stack
+            direction="column"
+            justifyContent="space-between"
+            sx={{ width: "75%" }}
+          >
+            <Box>
+              <Typography variant="h5">{course.title}</Typography>
+              <Typography
+                variant="body1"
+                sx={{ display: { xs: "none", md: "block" } }}
+              >
+                {course.short_description}
               </Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              alignItems={"center"}
-              spacing={1}
-              sx={{ width: "200px" }}
-            >
-              <GroupsRoundedIcon />
-              <Typography fontWeight={"medium"}>120 Siswa</Typography>
+            </Box>
+            <Stack direction="row" spacing={5}>
+              <Stack
+                direction="row"
+                alignItems={"center"}
+                spacing={1}
+                sx={{ width: "200px" }}
+              >
+                <VideoLibraryRoundedIcon />
+                <Typography fontWeight={"medium"}>
+                  {course.total_lessons} Materi
+                </Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                alignItems={"center"}
+                spacing={1}
+                sx={{ width: "200px" }}
+              >
+                <GroupsRoundedIcon />
+                <Typography fontWeight={"medium"}>120 Siswa</Typography>
+              </Stack>
             </Stack>
           </Stack>
-        </Stack>
-        <Stack direction="column" justifyContent={"space-between"}>
-          <Stack direction="row" justifyContent={"flex-end"} spacing={2}>
-            {!isCart ? (
-              <IconButton
-                size="large"
-                color="info"
-                disabled={loading}
-                onClick={handleAddToCart}
-              >
-                <AddShoppingCartRoundedIcon />
-              </IconButton>
-            ) : (
-              <IconButton
-                size="large"
-                color="error"
-                onClick={handleRemove?.bind(null, course.id)}
-                disabled={loadingRemove}
-              >
-                <DeleteOutlineRoundedIcon />
-              </IconButton>
-            )}
+          <Stack direction="column" justifyContent={"space-between"}>
+            <Stack direction="row" justifyContent={"flex-end"} spacing={2}>
+              {!isCart ? (
+                <IconButton
+                  size="large"
+                  color="info"
+                  disabled={loading}
+                  onClick={handleAddToCart}
+                >
+                  <AddShoppingCartRoundedIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  size="large"
+                  color="error"
+                  onClick={handleRemove?.bind(null, course.id)}
+                  disabled={loadingRemove}
+                >
+                  <DeleteOutlineRoundedIcon />
+                </IconButton>
+              )}
+            </Stack>
+            <Typography variant="h4">{formatRp(course.price)}</Typography>
           </Stack>
-          <Typography variant="h4">{formatRp(course.price)}</Typography>
         </Stack>
-      </Stack>
-    </Card>
+      </Card>
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
+        <Link
+          to={`/member/courses/${course.id}/${
+            course.is_owned ? "corridor" : ""
+          }`}
+        >
+          <Card
+            sx={{
+              padding: "14px",
+              "&:hover": {
+                boxShadow: `0px 0px 1px 1px ${theme.palette.secondary.main}`,
+              },
+            }}
+          >
+            <Stack direction={"row"} gap={2} alignItems={"flex-start"}>
+              <Box sx={{ width: "30%" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+
+                    overflow: "hidden",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <img
+                    style={{ width: "100%" }}
+                    src={`${import.meta.env.VITE_STORAGE_URL}/${
+                      course.thumbnail
+                    }`}
+                  />
+                </Box>
+                <Typography
+                  variant={"caption"}
+                  sx={{
+                    display: "block",
+                    marginTop: "5px",
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {parseCategory(course.category)}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  width: "70%",
+                }}
+              >
+                <Typography variant="body2" fontWeight={"bold"}>
+                  {course.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ color: `${theme.palette.warning.main} !important` }}
+                >
+                  {formatRp(course.price)}
+                </Typography>
+                {!isCart ? (
+                  <Button
+                    size="small"
+                    color="info"
+                    sx={{ padding: "0px", fontSize: "12px", marginTop: "10px" }}
+                    disabled={loading}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddToCart();
+                    }}
+                  >
+                    keranjang
+                  </Button>
+                ) : (
+                  <Button
+                    size="small"
+                    color="error"
+                    disabled={loadingRemove}
+                    sx={{ padding: "0px", fontSize: "12px", marginTop: "10px" }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (handleRemove) {
+                        handleRemove(course.id);
+                      }
+                    }}
+                  >
+                    hapus
+                  </Button>
+                )}
+              </Box>
+            </Stack>
+          </Card>
+        </Link>
+      </Box>
+    </>
   );
 };
 
