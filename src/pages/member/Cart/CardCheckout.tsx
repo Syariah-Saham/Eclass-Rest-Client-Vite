@@ -75,56 +75,61 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
   };
 
   return (
-    <Card sx={{ marginLeft: "50px" }}>
-      <Typography variant="h4" sx={{ marginBottom: "15px" }}>
-        Item
-      </Typography>
-      <Stack direction="column" spacing={2}>
-        {cart.loading &&
-          [1, 2, 3, 4].map((item) => <CourseItemSkeleton key={item} />)}
+    <Card sx={{ marginLeft: { md: "50px" } }}>
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
+        <Typography variant="h4" sx={{ marginBottom: "15px" }}>
+          Item
+        </Typography>
+        <Stack direction="column" spacing={2}>
+          {cart.loading &&
+            [1, 2, 3, 4].map((item) => <CourseItemSkeleton key={item} />)}
 
-        {!cart.loading &&
-          cart.list?.map((course, i) => (
-            <Box key={course.id}>
-              <Typography variant="h6">
-                {i + 1}. {course.title}
-              </Typography>
-              <Stack
-                direction={"row"}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: theme.palette.warning.main,
-                    marginLeft: "20px",
-                  }}
-                >
-                  {formatRp(course.price)}
+          {!cart.loading &&
+            cart.list?.map((course, i) => (
+              <Box key={course.id}>
+                <Typography variant="h6">
+                  {i + 1}. {course.title}
                 </Typography>
-                <Button
-                  variant="text"
-                  size="small"
-                  color="error"
-                  onClick={handleRemove?.bind(null, course.id)}
-                  disabled={loadingRemove}
+                <Stack
+                  direction={"row"}
+                  alignItems="center"
+                  justifyContent="space-between"
                 >
-                  hapus
-                </Button>
-              </Stack>
-            </Box>
-          ))}
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: theme.palette.warning.main,
+                      marginLeft: "20px",
+                    }}
+                  >
+                    {formatRp(course.price)}
+                  </Typography>
+                  <Button
+                    variant="text"
+                    size="small"
+                    color="error"
+                    onClick={handleRemove?.bind(null, course.id)}
+                    disabled={loadingRemove}
+                  >
+                    hapus
+                  </Button>
+                </Stack>
+              </Box>
+            ))}
 
-        {!cart.list.length && !cart.loading && (
-          <Typography>Tidak ada data</Typography>
-        )}
-      </Stack>
+          {!cart.list.length && !cart.loading && (
+            <Typography>Tidak ada data</Typography>
+          )}
+        </Stack>
+      </Box>
       <Box
         sx={{
-          marginTop: "20px",
-          paddingTop: "20px",
-          borderTop: `1px solid ${theme.palette.secondary.dark}`,
+          marginTop: { md: "20px" },
+          paddingTop: { md: "20px" },
+          borderTop: {
+            xs: "none",
+            md: `1px solid ${theme.palette.secondary.dark}`,
+          },
         }}
       >
         <Typography

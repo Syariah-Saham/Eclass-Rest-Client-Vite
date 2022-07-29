@@ -36,43 +36,59 @@ import { parseCategory } from "../../helpers/parseCategory";
 
 export const CardCourseMemberSkeleton: React.FC = () => {
   return (
-    <Card sx={{ height: "94%" }}>
-      <Stack
-        direction="column"
-        justifyContent={"space-between"}
-        sx={{ height: "100%" }}
-      >
-        <Box>
-          <Box sx={{ margin: "-25px", marginBottom: "25px" }}>
-            <Skeleton variant="rectangular" width="100%" height="280px" />
+    <>
+      <Card sx={{ height: "94%", display: { xs: "none", md: "block" } }}>
+        <Stack
+          direction="column"
+          justifyContent={"space-between"}
+          sx={{ height: "100%" }}
+        >
+          <Box>
+            <Box sx={{ margin: "-25px", marginBottom: "25px" }}>
+              <Skeleton variant="rectangular" width="100%" height="280px" />
+            </Box>
+            <Skeleton variant="text" height="30px" width="65%" />
+            <Skeleton variant="text" height="22px" width="100%" />
+            <Skeleton variant="text" height="22px" width="100%" />
+            <Skeleton variant="text" height="22px" width="30%" />
           </Box>
-          <Skeleton variant="text" height="30px" width="65%" />
-          <Skeleton variant="text" height="22px" width="100%" />
-          <Skeleton variant="text" height="22px" width="100%" />
-          <Skeleton variant="text" height="22px" width="30%" />
-        </Box>
-        <Box>
-          <Box sx={{ margin: "20px auto" }}>
-            <Skeleton variant="text" height="23px" width="45%" />
-            <Skeleton variant="text" height="40px" width="90%" />
+          <Box>
+            <Box sx={{ margin: "20px auto" }}>
+              <Skeleton variant="text" height="23px" width="45%" />
+              <Skeleton variant="text" height="40px" width="90%" />
+            </Box>
+            <Stack direction="row" sx={{ marginTop: "10px" }}>
+              <Skeleton variant="rectangular" width="30%" height="20px" />
+              <Skeleton variant="rectangular" width="30%" height="20px" />
+            </Stack>
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center"
+              sx={{ marginTop: "10px" }}
+            >
+              <Skeleton variant="circular" width="46px" height="46px" />
+              <Skeleton variant="circular" width="46px" height="46px" />
+              <Skeleton variant="circular" width="46px" height="46px" />
+            </Stack>
           </Box>
-          <Stack direction="row" sx={{ marginTop: "10px" }}>
-            <Skeleton variant="rectangular" width="30%" height="20px" />
-            <Skeleton variant="rectangular" width="30%" height="20px" />
-          </Stack>
-          <Stack
-            direction="row"
-            justifyContent="space-around"
-            alignItems="center"
-            sx={{ marginTop: "10px" }}
-          >
-            <Skeleton variant="circular" width="46px" height="46px" />
-            <Skeleton variant="circular" width="46px" height="46px" />
-            <Skeleton variant="circular" width="46px" height="46px" />
-          </Stack>
-        </Box>
-      </Stack>
-    </Card>
+        </Stack>
+      </Card>
+      <Card sx={{ padding: "14px", display: { xs: "block", md: "none" } }}>
+        <Stack direction={"row"} gap={2} alignItems={"flex-start"}>
+          <Skeleton
+            variant="rectangular"
+            width="30%"
+            height="70px"
+            sx={{ borderRadius: "5px" }}
+          />
+          <Box sx={{ width: "70%" }}>
+            <Skeleton variant="text" width="80%" height="30px" />
+            <Skeleton variant="text" width="40%" height="20px" />
+          </Box>
+        </Stack>
+      </Card>
+    </>
   );
 };
 
@@ -81,7 +97,6 @@ interface ICardCourseMember {
 }
 const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const theme = useTheme();
   const [isWishList, setIsWishList] = useState<boolean>(false);
   const [loadingButton, setLoadingButton] = useState({

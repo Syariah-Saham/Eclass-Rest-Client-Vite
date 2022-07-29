@@ -28,9 +28,18 @@ const WishlistSection: React.FC = () => {
 
   return (
     <Box sx={{ marginTop: "80px" }}>
-      <Typography variant="h3">Ingin Dipelajari</Typography>
-      <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-        <Grid item md={8}>
+      <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+        Ingin Dipelajari
+      </Typography>
+      <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
+        Ingin Dipelajari
+      </Typography>
+      <Grid
+        container
+        spacing={5}
+        sx={{ marginTop: { xs: "-40px", md: "0px" } }}
+      >
+        <Grid item xs={12} md={8}>
           {wishlist.loading && (
             <Stack direction="column" spacing={3}>
               <CardCartSkeleton />

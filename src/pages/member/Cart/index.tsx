@@ -57,9 +57,14 @@ const Cart: React.FC = () => {
   return (
     <Box>
       <Box>
-        <Typography variant="h3">Keranjang</Typography>
-        <Grid container spacing={5} sx={{ marginTop: "0px" }}>
-          <Grid item md={8}>
+        <Typography variant="h3" sx={{ display: { xs: "none", md: "block" } }}>
+          Keranjang
+        </Typography>
+        <Typography variant="h5" sx={{ display: { xs: "block", md: "none" } }}>
+          Keranjang
+        </Typography>
+        <Grid container spacing={{ xs: 3, md: 5 }} sx={{ marginTop: "0px" }}>
+          <Grid item xs={12} md={8}>
             {cart.loading && (
               <Stack direction="column" spacing={3}>
                 <CardCartSkeleton />
@@ -90,7 +95,7 @@ const Cart: React.FC = () => {
               />
             </Stack>
           </Grid>
-          <Grid item md={4}>
+          <Grid item xs={12} md={4}>
             <CardCheckout
               loadingRemove={loadingRemove}
               handleRemove={handleRemove}
