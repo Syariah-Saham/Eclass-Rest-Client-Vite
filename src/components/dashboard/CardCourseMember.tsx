@@ -15,7 +15,7 @@ import ZoomOutMapRoundedIcon from "@mui/icons-material/ZoomOutMapRounded";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ICourseItemMember } from "../../interfaces/course-model";
 import { formatRp } from "../../helpers/formatRp";
 import { useAppDispatch } from "../../redux/hooks";
@@ -33,6 +33,32 @@ import {
 import { toggleWishlistCourses } from "../../redux/actions/courses";
 import PlayLessonIcon from "@mui/icons-material/PlayLesson";
 import { parseCategory } from "../../helpers/parseCategory";
+import Rating from "./Rating";
+
+const styles = {
+  thumbnail: {
+    margin: "-40px",
+    marginBottom: "25px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  thumbnailStack: {
+    position: "absolute",
+    zIndex: 1000,
+    top: 25,
+    left: 25,
+    right: 25,
+  },
+  category: {
+    textTransform: "uppercase",
+    fontWeight: "medium",
+    marginBottom: 2,
+    padding: "10px 20px",
+    borderRadius: "15px",
+  },
+};
 
 export const CardCourseMemberSkeleton: React.FC = () => {
   return (
@@ -173,15 +199,24 @@ const CardCourseMember: React.FC<ICardCourseMember> = ({ course }) => {
             sx={{ height: "100%" }}
           >
             <Box>
-              <Box
-                sx={{
-                  margin: "-40px",
-                  marginBottom: "25px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <Box sx={styles.thumbnail}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={styles.thumbnailStack}
+                >
+                  <Rating star={course.rating} />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      backgroundColor: theme.palette.background.paper,
+                      ...styles.category,
+                    }}
+                  >
+                    {parseCategory(course.category)}
+                  </Typography>
+                </Stack>
                 <img
                   style={{ width: "100%" }}
                   src={`${import.meta.env.VITE_STORAGE_URL}/${

@@ -15,6 +15,7 @@ import { formatRp } from "../helpers/formatRp";
 import { parseCategory } from "../helpers/parseCategory";
 import { ICardCourse } from "../interfaces/components/card-course";
 import { useAppSelector } from "../redux/hooks";
+import Rating from "./dashboard/Rating";
 
 const styles = {
   rating: {
@@ -45,26 +46,6 @@ const styles = {
     padding: "10px 20px",
     borderRadius: "15px",
   },
-};
-
-const Rating: React.FC = () => {
-  const theme = useTheme();
-  return (
-    <Stack
-      direction="row"
-      justifyContent={"center"}
-      alignItems="center"
-      gap={1}
-      sx={{
-        color: theme.palette.primary.main,
-        backgroundColor: theme.palette.background.paper,
-        ...styles.rating,
-      }}
-    >
-      <img src={StarIcon} alt="star icon" style={{ height: "20px" }} />
-      <Typography variant="body2">5</Typography>
-    </Stack>
-  );
 };
 
 export const CardCourseSkeleton: React.FC = () => {
@@ -109,7 +90,7 @@ const CardCourse: React.FC<ICardCourse> = (course) => {
           alignItems="center"
           sx={styles.thumbnailStack}
         >
-          <Rating />
+          <Rating star={course.rating} />
           <Typography
             variant="body2"
             sx={{
