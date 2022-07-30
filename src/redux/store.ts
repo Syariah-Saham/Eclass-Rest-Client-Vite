@@ -7,6 +7,7 @@ import snackbarReducer from "./reducers/snackbar";
 import wishlistReducer from "./reducers/wishlist";
 import paymentsReducer from "./reducers/payments";
 import notificationReducer from "./reducers/notifications";
+import statisticsReducer from "./reducers/statistics";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     wishlist: wishlistReducer,
     payments: paymentsReducer,
     notification: notificationReducer,
+    statistics: statisticsReducer,
   },
 });
 

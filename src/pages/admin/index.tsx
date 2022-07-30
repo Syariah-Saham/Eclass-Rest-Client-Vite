@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { useStoreStatistics } from "../../hooks/useStoreStatistics";
 import AdminLayout from "../../layouts/dashboard/AdminLayout";
 import Admins from "./Admins";
 import Courses from "./Courses";
@@ -9,6 +10,8 @@ import Mentors from "./Mentors";
 import Profile from "./Profile";
 
 const Admin: React.FC = () => {
+  useStoreStatistics();
+
   return (
     <AdminLayout>
       <Routes>

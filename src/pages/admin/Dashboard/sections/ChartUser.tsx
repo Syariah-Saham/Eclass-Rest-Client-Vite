@@ -1,10 +1,34 @@
 import { Box, Card, Typography, useTheme } from "@mui/material";
 import { ApexOptions } from "apexcharts";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { getMonth } from "../../../../helpers/getMonth";
+import { useAppSelector } from "../../../../redux/hooks";
 
 const ChartUser: React.FC = () => {
   const theme = useTheme();
+  const [data, setData] = useState<{
+    labels: string[];
+    values: number[];
+  }>({
+    labels: [],
+    values: [],
+  });
+
+  const statistics = useAppSelector((state) => state.statistics);
+
+  useEffect(() => {
+    const labels: string[] = [];
+    const values: number[] = [];
+    statistics.list.forEach((item) => {
+      labels.push(getMonth(item.month));
+      values.push(item.users);
+    });
+    setData({
+      labels,
+      values,
+    });
+  }, [statistics]);
 
   const options: ApexOptions = {
     chart: {
@@ -28,15 +52,7 @@ const ChartUser: React.FC = () => {
     },
     xaxis: {
       type: "category",
-      categories: [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mei",
-        "Juni",
-        "Juli",
-      ],
+      categories: data.labels,
     },
     tooltip: {
       x: {
@@ -47,8 +63,8 @@ const ChartUser: React.FC = () => {
 
   const series = [
     {
-      name: "series1",
-      data: [21, 40, 28, 51, 42, 59, 55],
+      name: "users",
+      data: data.values,
     },
   ];
 
