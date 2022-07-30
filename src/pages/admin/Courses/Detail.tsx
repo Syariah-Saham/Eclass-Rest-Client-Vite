@@ -48,6 +48,12 @@ const Detail: React.FC = () => {
     setCourse({ ...course!, lessons: [...course!.lessons, lesson] });
   };
 
+  const updateDescription = (description: string) => {
+    if (course) {
+      setCourse({ ...course, description });
+    }
+  };
+
   return (
     <Box>
       <Navigation status={course?.is_publish} />
@@ -72,7 +78,11 @@ const Detail: React.FC = () => {
               />
             </Grid>
             <Grid item md={7.5}>
-              <DescriptionMarkdown content={course?.description} />
+              <DescriptionMarkdown
+                courseId={course?.id}
+                content={course?.description}
+                updateDescription={updateDescription}
+              />
             </Grid>
           </Grid>
         )

@@ -10,3 +10,7 @@ export interface ICreateCourseForm {
   description: string;
   short_description: string;
 }
+
+export interface IUpdateDescriptionForm {
+  description: string;
+}

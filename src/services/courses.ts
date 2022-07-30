@@ -85,3 +85,17 @@ export const toggleStatusCourse = (data: { id: number }) => {
     { Authorization: `Bearer ${token}` }
   );
 };
+
+export const updateDescriptionCourse = (data: {
+  id: number;
+  description: string;
+}) => {
+  const token = store.getState().auth.token;
+  return apiService<{ message: string }, any>(
+    URL.BASE_COURSES + `/${data.id}/description`,
+    methodServices.PATCH,
+    data,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
