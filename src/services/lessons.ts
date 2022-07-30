@@ -67,3 +67,17 @@ export const deleteLesson = (data: { id: number }) => {
     { Authorization: `Bearer ${token}` }
   );
 };
+
+export const updateDescriptionLesson = (data: {
+  id: number;
+  description: string;
+}) => {
+  const token = store.getState().auth.token;
+  return apiService<{ message: string }, any>(
+    URL.BASE_LESSONS + `/${data.id}/description`,
+    methodServices.PATCH,
+    data,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};

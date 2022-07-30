@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { openSnackbar } from "../../redux/actions/snackbar";
 import LoadingIndicator from "../LoadingIndicator";
 import { updateDescriptionCourse } from "../../services/courses";
+import { updateDescriptionLesson } from "../../services/lessons";
 
 interface IProps {
   show: boolean;
@@ -35,11 +36,16 @@ const ModalEditDescription: React.FC<IProps> = (props) => {
     try {
       switch (props.type) {
         case "course":
-          const response = await updateDescriptionCourse({
+          await updateDescriptionCourse({
             id: props.rowId,
             description: data.description,
           });
-          console.log(response.data);
+          break;
+        case "lesson":
+          await updateDescriptionLesson({
+            id: props.rowId,
+            description: data.description,
+          });
           break;
       }
       props.onClose();

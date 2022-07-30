@@ -6,10 +6,12 @@ import {
   useTheme,
   Box,
   Skeleton,
+  IconButton,
 } from "@mui/material";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { ILesson } from "../../../../interfaces/lesson-model";
+import PlaylistAddRoundedIcon from "@mui/icons-material/PlaylistAddRounded";
 
 const styles = {
   boxLesson: {
@@ -105,9 +107,9 @@ const CourseLessonList: React.FC<ICourseLessonListProps> = (props) => {
         sx={{ marginBottom: "15px" }}
       >
         <Typography variant="h5">Materi</Typography>
-        <Button color="secondary" onClick={props.showModal}>
-          Tambah
-        </Button>
+        <IconButton color="secondary" onClick={props.showModal}>
+          <PlaylistAddRoundedIcon />
+        </IconButton>
       </Stack>
       <Stack direction="column" gap={4} alignItems="center">
         {props.lessons?.map((lesson, i) => (

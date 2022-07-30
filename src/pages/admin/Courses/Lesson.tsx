@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ILesson } from "../../../interfaces/lesson-model";
@@ -38,6 +38,12 @@ const Lesson: React.FC = () => {
     fetchLesson();
   }, [lessonId]);
 
+  const updateDescription = (description: string) => {
+    if (lesson) {
+      setLesson({ ...lesson, description: description });
+    }
+  };
+
   return (
     <Box>
       <Navigation />
@@ -52,7 +58,10 @@ const Lesson: React.FC = () => {
             lesson && (
               <>
                 <VideoFrame lesson={lesson} />
-                <LessonDescription lesson={lesson} />
+                <LessonDescription
+                  lesson={lesson}
+                  updateDescription={updateDescription}
+                />
               </>
             )
           )}

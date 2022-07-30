@@ -1,7 +1,16 @@
-import { Card, Stack, Typography, Button, Box, Skeleton } from "@mui/material";
+import {
+  Card,
+  Stack,
+  Typography,
+  Button,
+  Box,
+  Skeleton,
+  IconButton,
+} from "@mui/material";
 import React, { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import ModalEditDescription from "../../../../components/modals/ModalEditDescription";
+import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 
 export const DescriptionMarkdownSkeleton = () => {
   return (
@@ -56,12 +65,12 @@ const DescriptionMarkdown: React.FC<{
           sx={{ marginBottom: "10px" }}
         >
           <Typography variant="h5">Deskripsi</Typography>
-          <Button
+          <IconButton
             color="success"
             onClick={() => setModalEdit({ ...modalEdit, show: true })}
           >
-            Edit
-          </Button>
+            <CreateRoundedIcon />
+          </IconButton>
         </Stack>
         <Box>
           <div data-color-mode="dark" className="wmde-markdown-var">
