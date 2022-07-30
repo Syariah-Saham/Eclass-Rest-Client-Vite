@@ -7,7 +7,10 @@ import { openSnackbar } from "../../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../../redux/hooks";
 import { deleteCourse, toggleStatusCourse } from "../../../../services/courses";
 
-const Navigation: React.FC<{ status?: number }> = ({ status }) => {
+const Navigation: React.FC<{ status?: number; openModalEdit: () => void }> = ({
+  status,
+  openModalEdit,
+}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -80,7 +83,9 @@ const Navigation: React.FC<{ status?: number }> = ({ status }) => {
   return (
     <>
       <Stack direction="row" gap={3} sx={{ marginBottom: "30px" }}>
-        <Button color="success">Edit</Button>
+        <Button color="success" onClick={openModalEdit}>
+          Edit
+        </Button>
         <Button color="error" onClick={handleDelete.bind(null, id)}>
           Hapus
         </Button>

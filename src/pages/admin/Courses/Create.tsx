@@ -22,21 +22,7 @@ import LoadingIndicator from "../../../components/LoadingIndicator";
 import { createNewCourse } from "../../../services/courses";
 import { useAppDispatch } from "../../../redux/hooks";
 import { openSnackbar } from "../../../redux/actions/snackbar";
-
-const levelOptions = [
-  {
-    label: "Pemula",
-    value: "beginner",
-  },
-  {
-    label: "Menengah",
-    value: "intermediete",
-  },
-  {
-    label: "Professional",
-    value: "expert",
-  },
-];
+import { levelOptions } from "../../../constant/level-options";
 
 const Create: React.FC = () => {
   const navigate = useNavigate();

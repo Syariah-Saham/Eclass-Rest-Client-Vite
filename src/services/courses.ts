@@ -5,7 +5,10 @@ import {
   IGetCoursesResponse,
   IToggleStatusCourseResponse,
 } from "../interfaces/api/admin/courses";
-import { ICreateCourseForm } from "../interfaces/forms/admin/courses";
+import {
+  ICreateCourseForm,
+  IUpdateCourseForm,
+} from "../interfaces/forms/admin/courses";
 import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
 
@@ -93,6 +96,20 @@ export const updateDescriptionCourse = (data: {
   const token = store.getState().auth.token;
   return apiService<{ message: string }, any>(
     URL.BASE_COURSES + `/${data.id}/description`,
+    methodServices.PATCH,
+    data,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+interface IUpdateInfoCourseParam extends IUpdateCourseForm {
+  id: number;
+}
+export const updateInfoCourse = (data: IUpdateInfoCourseParam) => {
+  const token = store.getState().auth.token;
+  return apiService<{ message: string }, any>(
+    URL.BASE_COURSES + `/${data.id}/info`,
     methodServices.PATCH,
     data,
     null,

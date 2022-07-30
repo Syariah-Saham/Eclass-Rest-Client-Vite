@@ -1,6 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ModalEditCourse from "../../../components/modals/ModalEditCourse";
 import { ICourseDetail } from "../../../interfaces/course-model";
 import { ILesson } from "../../../interfaces/lesson-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
@@ -22,6 +23,10 @@ const Detail: React.FC = () => {
     show: false,
     onClose: () => setModalAdd({ ...modalAdd, show: false }),
   });
+  const [modalEdit, setModalEdit] = useState({
+    show: false,
+    onClose: () => setModalEdit({ ...modalEdit, show: false }),
+  });
   const [loading, setLoading] = useState<boolean>(true);
   const [course, setCourse] = useState<ICourseDetail | null>(null);
 
@@ -42,7 +47,7 @@ const Detail: React.FC = () => {
   };
   useEffect(() => {
     fetchCourse();
-  }, []);
+  }, [modalEdit.show]);
 
   const appendNewLesson = (lesson: ILesson) => {
     setCourse({ ...course!, lessons: [...course!.lessons, lesson] });
@@ -56,7 +61,10 @@ const Detail: React.FC = () => {
 
   return (
     <Box>
-      <Navigation status={course?.is_publish} />
+      <Navigation
+        status={course?.is_publish}
+        openModalEdit={() => setModalEdit({ ...modalEdit, show: true })}
+      />
       {loading ? (
         <CourseDetailSkeleton />
       ) : (
@@ -92,6 +100,13 @@ const Detail: React.FC = () => {
         onClose={modalAdd.onClose}
         appendNewLesson={appendNewLesson}
       />
+      {course && (
+        <ModalEditCourse
+          show={modalEdit.show}
+          onClose={modalEdit.onClose}
+          course={course}
+        />
+      )}
     </Box>
   );
 };
