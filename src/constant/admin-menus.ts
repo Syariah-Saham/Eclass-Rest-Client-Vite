@@ -32,6 +32,12 @@ const menus: IMenuItemProps[] = [
     name: TMenu.MEMBERS,
   },
   {
+    target: "/admin/payments",
+    icon: "payments",
+    text: "Pembayaran",
+    name: TMenu.PAYMENTS,
+  },
+  {
     target: "/admin/profile",
     icon: "profile",
     text: "Profile",

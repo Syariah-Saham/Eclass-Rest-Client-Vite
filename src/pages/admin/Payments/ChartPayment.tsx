@@ -1,11 +1,11 @@
-import { Box, Card, Typography, useTheme } from "@mui/material";
-import { ApexOptions } from "apexcharts";
 import React, { useEffect, useState } from "react";
+import { getMonth } from "../../../helpers/getMonth";
+import { useAppSelector } from "../../../redux/hooks";
+import { ApexOptions } from "apexcharts";
+import { Box, Card, Typography, useTheme } from "@mui/material";
 import Chart from "react-apexcharts";
-import { getMonth } from "../../../../helpers/getMonth";
-import { useAppSelector } from "../../../../redux/hooks";
 
-const ChartUser: React.FC = () => {
+const ChartPayment: React.FC = () => {
   const theme = useTheme();
   const [data, setData] = useState<{
     labels: string[];
@@ -22,7 +22,7 @@ const ChartUser: React.FC = () => {
     const values: number[] = [];
     statistics.list.forEach((item) => {
       labels.push(getMonth(item.month));
-      values.push(item.users);
+      values.push(item.incomes);
     });
     setData({
       labels,
@@ -63,7 +63,7 @@ const ChartUser: React.FC = () => {
 
   const series = [
     {
-      name: "users",
+      name: "incomes",
       data: data.values,
     },
   ];
@@ -71,7 +71,7 @@ const ChartUser: React.FC = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <Card sx={{ height: "450px" }}>
-        <Typography variant="h5">Grafik Member</Typography>
+        <Typography variant="h5">Grafik Pendapatan</Typography>
         <Chart
           options={options}
           series={series}
@@ -84,4 +84,4 @@ const ChartUser: React.FC = () => {
   );
 };
 
-export default ChartUser;
+export default ChartPayment;

@@ -7,6 +7,7 @@ import Courses from "./Courses";
 import Dashboard from "./Dashboard";
 import Members from "./Members";
 import Mentors from "./Mentors";
+import Payments from "./Payments";
 import Profile from "./Profile";
 
 const Admin: React.FC = () => {
@@ -18,8 +19,9 @@ const Admin: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/courses/*" element={<Courses />} />
         <Route path="/admins/*" element={<Admins />} />
-        <Route path="/members/*" element={<Members />} />
         <Route path="/mentors/*" element={<Mentors />} />
+        <Route path="/members/*" element={<Members />} />
+        <Route path="/payments/*" element={<Payments />} />
         <Route path="/profile/*" element={<Profile />} />
       </Routes>
     </AdminLayout>
