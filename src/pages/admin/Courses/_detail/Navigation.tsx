@@ -97,7 +97,6 @@ const Navigation: React.FC<{ status?: number }> = ({ status }) => {
             "Publish"
           )}
         </Button>
-        <Button color="warning">Ujian</Button>
       </Stack>
       <ModalDelete
         show={modalDelete.show}
