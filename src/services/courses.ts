@@ -116,3 +116,20 @@ export const updateInfoCourse = (data: IUpdateInfoCourseParam) => {
     { Authorization: `Bearer ${token}` }
   );
 };
+
+export const updateThumbnailCourse = (data: {
+  id: number;
+  thumbnail: Blob;
+}) => {
+  const token = store.getState().auth.token;
+  const fd = new FormData();
+  fd.append("thumbnail", data.thumbnail);
+  return apiService<{ message: string }, any>(
+    URL.BASE_COURSES + `/${data.id}/thumbnail`,
+    methodServices.POST,
+    fd,
+    null,
+    { Authorization: `Bearer ${token}` },
+    true
+  );
+};

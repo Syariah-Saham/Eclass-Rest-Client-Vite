@@ -2,6 +2,7 @@ import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ModalEditCourse from "../../../components/modals/ModalEditCourse";
+import ModalEditThumbnailCourse from "../../../components/modals/ModalEditThumbnailCourse";
 import { ICourseDetail } from "../../../interfaces/course-model";
 import { ILesson } from "../../../interfaces/lesson-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
@@ -27,6 +28,10 @@ const Detail: React.FC = () => {
     show: false,
     onClose: () => setModalEdit({ ...modalEdit, show: false }),
   });
+  const [modalThumbnail, setModalThumbnail] = useState({
+    show: false,
+    onClose: () => setModalThumbnail({ ...modalThumbnail, show: false }),
+  });
   const [loading, setLoading] = useState<boolean>(true);
   const [course, setCourse] = useState<ICourseDetail | null>(null);
 
@@ -47,7 +52,7 @@ const Detail: React.FC = () => {
   };
   useEffect(() => {
     fetchCourse();
-  }, [modalEdit.show]);
+  }, [modalEdit.show, modalThumbnail.show]);
 
   const appendNewLesson = (lesson: ILesson) => {
     setCourse({ ...course!, lessons: [...course!.lessons, lesson] });
@@ -71,7 +76,12 @@ const Detail: React.FC = () => {
         course && (
           <Grid container gap={3} wrap="wrap">
             <Grid item md={4}>
-              <CourseThumbnail source={course?.thumbnail} />
+              <CourseThumbnail
+                source={course?.thumbnail}
+                openModal={() =>
+                  setModalThumbnail({ ...modalThumbnail, show: true })
+                }
+              />
             </Grid>
             <Grid item md={5}>
               <CourseDescription course={course} />
@@ -101,11 +111,18 @@ const Detail: React.FC = () => {
         appendNewLesson={appendNewLesson}
       />
       {course && (
-        <ModalEditCourse
-          show={modalEdit.show}
-          onClose={modalEdit.onClose}
-          course={course}
-        />
+        <>
+          <ModalEditCourse
+            show={modalEdit.show}
+            onClose={modalEdit.onClose}
+            course={course}
+          />
+          <ModalEditThumbnailCourse
+            show={modalThumbnail.show}
+            onClose={modalThumbnail.onClose}
+            rowId={course.id}
+          />
+        </>
       )}
     </Box>
   );
