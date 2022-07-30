@@ -4,3 +4,8 @@ export interface ICreateLessonForm {
   video_id: string;
   description: string;
 }
+
+export interface IUpdateLessonForm {
+  title: string;
+  video_id: string;
+}

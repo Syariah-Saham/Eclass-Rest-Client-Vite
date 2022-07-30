@@ -81,3 +81,18 @@ export const updateDescriptionLesson = (data: {
     { Authorization: `Bearer ${token}` }
   );
 };
+
+export const updateInfoLesson = (data: {
+  id: number;
+  title: string;
+  video_id: string;
+}) => {
+  const token = store.getState().auth.token;
+  return apiService<{ message: string }, any>(
+    URL.BASE_LESSONS + `/${data.id}/info`,
+    methodServices.PATCH,
+    data,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};

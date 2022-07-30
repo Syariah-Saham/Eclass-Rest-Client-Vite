@@ -6,7 +6,9 @@ import { openSnackbar } from "../../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../../redux/hooks";
 import { deleteLesson } from "../../../../services/lessons";
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC<{ openModalEdit: () => void }> = ({
+  openModalEdit,
+}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { lessonId, id } = useParams();
@@ -42,7 +44,9 @@ const Navigation: React.FC = () => {
   return (
     <>
       <Stack direction={"row"} gap={3} sx={{ marginBottom: "30px" }}>
-        <Button color="success">Edit</Button>
+        <Button color="success" onClick={openModalEdit}>
+          Edit
+        </Button>
         <Button color="error" onClick={handleDelete}>
           Hapus
         </Button>

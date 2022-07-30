@@ -1,6 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ModalEditLesson from "../../../components/modals/ModalEditLesson";
 import { ILesson } from "../../../interfaces/lesson-model";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -17,6 +18,10 @@ const Lesson: React.FC = () => {
   const dispatch = useAppDispatch();
   const [lesson, setLesson] = useState<ILesson | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [modalEdit, setModalEdit] = useState({
+    show: false,
+    onClose: () => setModalEdit({ ...modalEdit, show: false }),
+  });
 
   const fetchLesson = async () => {
     try {
@@ -36,7 +41,7 @@ const Lesson: React.FC = () => {
 
   useEffect(() => {
     fetchLesson();
-  }, [lessonId]);
+  }, [lessonId, modalEdit.show]);
 
   const updateDescription = (description: string) => {
     if (lesson) {
@@ -46,7 +51,9 @@ const Lesson: React.FC = () => {
 
   return (
     <Box>
-      <Navigation />
+      <Navigation
+        openModalEdit={() => setModalEdit({ ...modalEdit, show: true })}
+      />
       <Grid container spacing={5}>
         <Grid item md={8}>
           {loading ? (
@@ -70,6 +77,14 @@ const Lesson: React.FC = () => {
           <CardLessonsList />
         </Grid>
       </Grid>
+
+      {lesson && (
+        <ModalEditLesson
+          show={modalEdit.show}
+          onClose={modalEdit.onClose}
+          lesson={lesson}
+        />
+      )}
     </Box>
   );
 };
