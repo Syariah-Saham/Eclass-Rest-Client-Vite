@@ -5,4 +5,5 @@ export interface ICreateMentorForm {
   password_confirmation: string;
   occupation: string;
   short_profile: string;
+  photo: Blob;
 }

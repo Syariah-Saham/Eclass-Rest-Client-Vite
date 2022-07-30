@@ -71,9 +71,8 @@ const CardMentors: React.FC = () => {
             <ListSkeleton />
           ) : (
             mentors.map((mentor) => (
-              <Fade in={!loading} timeout={400}>
+              <Fade in={!loading} key={mentor.id} timeout={400}>
                 <Stack
-                  key={mentor.id}
                   direction="row"
                   alignItems={"center"}
                   gap={3}

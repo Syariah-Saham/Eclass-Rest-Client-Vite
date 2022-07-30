@@ -81,10 +81,14 @@ export const getMentorById = (data: { id: number }) => {
 
 export const createNewMentor = (data: ICreateMentorForm) => {
   const token = store.getState().auth.token;
+  const fd = new FormData();
+  for (const [key, value] of Object.entries(data)) {
+    fd.append(key, value);
+  }
   return apiService<ICreateMentorResponse, any>(
     URL.BASE_MENTORS,
     methodServices.POST,
-    data,
+    fd,
     null,
     {
       Authorization: `Bearer ${token}`,
