@@ -1,5 +1,8 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
+import { IUser } from "../../../../interfaces/user-model";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { landingGetMentors } from "../../../../services/landing";
 import { palette } from "../../../../styles/theme/palette";
 import SectionLayout from "../components/SectionLayout";
 import TitleSection from "../components/TitleSection";
@@ -29,6 +32,24 @@ const listMentors = [
 ];
 
 const Mentors: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  const [mentors, setMentors] = useState<IUser[]>([]);
+
+  const fetchMentors = async () => {
+    try {
+      const response = await landingGetMentors();
+      setMentors(response.data.mentors);
+    } catch (error: any) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMentors();
+  }, []);
+
   return (
     <SectionLayout>
       <Stack direction="column" alignItems={"center"} id="mentors">
@@ -41,35 +62,38 @@ const Mentors: React.FC = () => {
         gap={4}
         sx={{ marginTop: "50px" }}
       >
-        {listMentors.map(
-          (mentor): ReactNode => (
-            <Grid key={mentor.id} item xs={12} md={3}>
-              <Stack direction="column" alignItems="center">
-                <Box
-                  sx={{
-                    width: "160px",
-                    height: "160px",
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    border: `4px solid ${palette.text.primary}`,
-                    marginBottom: "20px",
-                  }}
-                >
-                  <img
-                    style={{ width: "100%" }}
-                    src={mentor.photo}
-                    alt="mentor"
-                  />
-                </Box>
-                <Typography variant="h4">{mentor.name}</Typography>
-                <Typography variant="body1">{mentor.description}</Typography>
-              </Stack>
-            </Grid>
-          )
-        )}
+        {!loading &&
+          mentors.map(
+            (mentor): ReactNode => (
+              <Grid key={mentor.id} item xs={12} md={3}>
+                <Stack direction="column" alignItems="center">
+                  <Box
+                    sx={{
+                      width: "160px",
+                      height: "160px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: `4px solid ${palette.text.primary}`,
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <img
+                      style={{ width: "100%" }}
+                      src={`${import.meta.env.VITE_STORAGE_URL}/${
+                        mentor.profile_photo
+                      }`}
+                      alt="mentor"
+                    />
+                  </Box>
+                  <Typography variant="h4">{mentor.name}</Typography>
+                  <Typography variant="body1">{mentor.occupation}</Typography>
+                </Stack>
+              </Grid>
+            )
+          )}
       </Grid>
     </SectionLayout>
   );

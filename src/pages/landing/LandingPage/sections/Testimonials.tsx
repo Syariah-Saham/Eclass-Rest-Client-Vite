@@ -76,7 +76,9 @@ const Testimonials: React.FC = () => {
                   >
                     <img
                       style={{ width: "100%" }}
-                      src={student.photo}
+                      src={`${
+                        import.meta.env.VITE_STORAGE_URL
+                      }/profiles/default-profile.webp`}
                       alt="student"
                     />
                   </Box>

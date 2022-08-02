@@ -3,32 +3,43 @@ import {
   Button,
   Card,
   Divider,
+  Pagination,
   Stack,
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { palette } from "../../../../styles/theme/palette";
 import SectionLayout from "../components/SectionLayout";
 import TitleSection from "../components/TitleSection";
 import StarIcon from "../../../../assets/icons/star.svg";
+import { ICourse } from "../../../../interfaces/course-model";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { openSnackbar } from "../../../../redux/actions/snackbar";
+import { landingGetCourses } from "../../../../services/landing";
+import { COURSE_LEVEL } from "../../../../types/course_level";
+import { usePage } from "../../../../hooks/usePage";
+import { sliceIntoChunks } from "../../../../helpers/chunk-array";
+import { parseCategory } from "../../../../helpers/parseCategory";
+import { formatRp } from "../../../../helpers/formatRp";
+import { Link } from "react-router-dom";
 
 const listMenu = [
   {
     label: "Semua",
-    name: "all",
+    value: "ALL",
   },
   {
     label: "Pemula",
-    name: "beginner",
+    value: COURSE_LEVEL.BEGINNER,
   },
   {
     label: "Menengah",
-    name: "intermediete",
+    value: COURSE_LEVEL.INTERMEDIETE,
   },
   {
     label: "Professional",
-    name: "expert",
+    value: COURSE_LEVEL.EXPERT,
   },
 ];
 
@@ -97,8 +108,56 @@ const Rating: React.FC = () => {
   );
 };
 const Courses: React.FC = () => {
-  const [menuActive, setMenuActive] = useState<string>("all");
+  const [menuActive, setMenuActive] = useState<string>("ALL");
   const theme = useTheme();
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true);
+  const [courses, setCourses] = useState<ICourse[]>([]);
+  const [showCourses, setShowCourses] = useState<ICourse[][]>([]);
+  const { page, setTotal, setTotalWithReset, changePage } = usePage({
+    current: 1,
+    total: 1,
+    perPage: 6,
+  });
+
+  const fetchCourses = async () => {
+    try {
+      const response = await landingGetCourses();
+      setCourses(response.data.courses);
+      const tmpCourses = sliceIntoChunks(response.data.courses, page.perPage);
+      setShowCourses(tmpCourses);
+      setTotal(tmpCourses.length);
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  useEffect(() => {
+    if (menuActive !== "ALL") {
+      const tmpResult = sliceIntoChunks(
+        courses.filter(
+          (course: ICourse) => course.category === menuActive.toLowerCase()
+        ),
+        page.perPage
+      );
+      setTotalWithReset(tmpResult.length);
+      return setShowCourses(tmpResult);
+    }
+    const tmpResult = sliceIntoChunks(courses, page.perPage);
+    setTotalWithReset(tmpResult.length);
+    return setShowCourses(tmpResult);
+  }, [menuActive]);
 
   return (
     <SectionLayout>
@@ -113,10 +172,10 @@ const Courses: React.FC = () => {
       >
         {listMenu.map((menu) => (
           <Button
-            key={menu.name}
-            variant={menuActive === menu.name ? "contained" : "text"}
+            key={menu.value}
+            variant={menuActive === menu.value ? "contained" : "text"}
             color="secondary"
-            onClick={setMenuActive.bind(null, menu.name)}
+            onClick={setMenuActive.bind(null, menu.value)}
           >
             {menu.label}
           </Button>
@@ -128,7 +187,7 @@ const Courses: React.FC = () => {
         gap={5}
         flexWrap="wrap"
       >
-        {dataCourses.map((course) => (
+        {showCourses[page.current - 1]?.map((course) => (
           <Card
             key={course.id}
             sx={{
@@ -151,7 +210,7 @@ const Courses: React.FC = () => {
             >
               <img
                 style={{ width: "100%" }}
-                src={course.thumbnail}
+                src={`${import.meta.env.VITE_STORAGE_URL}/${course.thumbnail}`}
                 alt="thumbnail"
               />
             </Box>
@@ -171,12 +230,12 @@ const Courses: React.FC = () => {
                     marginBottom: 2,
                   }}
                 >
-                  {course.level}
+                  {parseCategory(course.category)}
                 </Typography>
               </Stack>
               <Box>
                 <Typography variant="h5">{course.title}</Typography>
-                <Typography>{course.description}</Typography>
+                <Typography>{course.short_description}</Typography>
               </Box>
               <Divider sx={{ margin: "20px auto" }} />
               <Stack
@@ -189,16 +248,22 @@ const Courses: React.FC = () => {
                   fontWeight={"medium"}
                   sx={{ color: `${palette.warning.main} !important` }}
                 >
-                  {course.price}
+                  {formatRp(course.price)}
                 </Typography>
-                <Button>Beli Sekarang</Button>
+                <Link to={`/member/courses/${course.id}`}>
+                  <Button>Beli Sekarang</Button>
+                </Link>
               </Stack>
             </Box>
           </Card>
         ))}
       </Stack>
-      <Stack direction="row" justifyContent="center">
-        <Button>Lihat Kelas</Button>
+      <Stack direction="row" justifyContent={"center"} marginTop="40px">
+        <Pagination
+          count={page.total}
+          variant={"outlined"}
+          onChange={changePage}
+        />
       </Stack>
     </SectionLayout>
   );
