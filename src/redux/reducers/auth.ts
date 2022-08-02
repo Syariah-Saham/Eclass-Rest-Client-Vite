@@ -48,6 +48,14 @@ const authReducer = (state = initialState, action: AnyAction): IAuthState => {
         user: tmpUser2,
       };
       break;
+    case ACTION_AUTH.UPDATE_EMAIL_VERIFIED:
+      const data = action.data;
+      let tmpUser3 = { ...state.user, email_verified_at: data.time } as IUser;
+      tmpState = {
+        ...state,
+        user: tmpUser3,
+      };
+      break;
     default:
       const localState = localStorage.getItem("eclass-auth");
       if (localState) {

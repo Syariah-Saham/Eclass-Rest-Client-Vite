@@ -1,6 +1,7 @@
 import { Box, Card, Container, Stack } from "@mui/material";
 import React from "react";
 import AuthIllustration from "../assets/images/auth-illustration.svg";
+import SnackbarComp from "../components/Snackbar";
 
 const AuthLayout: React.FC<React.PropsWithChildren> = (props) => {
   return (
@@ -44,6 +45,7 @@ const AuthLayout: React.FC<React.PropsWithChildren> = (props) => {
           </Stack>
         </Card>
       </Stack>
+      <SnackbarComp />
     </Container>
   );
 };

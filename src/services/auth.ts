@@ -4,6 +4,8 @@ import {
   ILoginForm,
   IRegisterForm,
 } from "../interfaces/auth";
+import { IUser } from "../interfaces/user-model";
+import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
 
 const URL = {
@@ -29,4 +31,26 @@ export const authLogin = (data: ILoginForm) => {
 
 export const authLogout = () => {
   return apiService(URL.BASE_AUTH + "/logout", methodServices.POST);
+};
+
+export const sendVerifyEmail = () => {
+  const token = store.getState().auth.token;
+  return apiService<{ status: string }, any>(
+    URL.BASE_AUTH + "/verify-email",
+    methodServices.POST,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
+};
+
+export const processVerificationEmail = (data: { path: string }) => {
+  const token = store.getState().auth.token;
+  return apiService<{ message: string; user: IUser }, any>(
+    `/${data.path}`,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
+  );
 };

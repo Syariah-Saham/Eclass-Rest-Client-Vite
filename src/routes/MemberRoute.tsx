@@ -5,6 +5,9 @@ import { useAppSelector } from "../redux/hooks";
 const MemberRoute: React.FC<PropsWithChildren> = (props) => {
   const authState = useAppSelector((state) => state.auth);
 
+  if (!authState.user?.email_verified_at) {
+    return <Navigate to="/verify-email" />;
+  }
   if (authState.role !== "member") {
     return <Navigate to="/login" />;
   }

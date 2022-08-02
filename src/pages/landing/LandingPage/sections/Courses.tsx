@@ -102,7 +102,7 @@ const Courses: React.FC = () => {
 
   return (
     <SectionLayout>
-      <Box>
+      <Box id="courses">
         <Typography variant="h5">Daftar Kelas</Typography>
         <TitleSection title="Pilih Kelas Untuk Memulai" />
       </Box>

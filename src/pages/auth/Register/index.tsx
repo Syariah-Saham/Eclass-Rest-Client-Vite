@@ -43,7 +43,7 @@ const Register: React.FC = () => {
       navigate("/login");
     } catch (error: any) {
       console.error(error);
-      if (error.response.status === 422) {
+      if (error.response?.status === 422) {
         setError({
           status: true,
           message: "Cek kembali data yang dimasukkan.",

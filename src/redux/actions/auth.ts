@@ -62,3 +62,10 @@ export const logout = () => {
     type: ACTION_AUTH.LOGOUT,
   };
 };
+
+export const updateEmailVerifiedAt = (data: { time: string }) => {
+  return {
+    type: ACTION_AUTH.UPDATE_EMAIL_VERIFIED,
+    data: data,
+  };
+};

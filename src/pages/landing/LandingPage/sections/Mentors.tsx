@@ -31,7 +31,7 @@ const listMentors = [
 const Mentors: React.FC = () => {
   return (
     <SectionLayout>
-      <Stack direction="column" alignItems={"center"}>
+      <Stack direction="column" alignItems={"center"} id="mentors">
         <Typography variant="h5">Mentor</Typography>
         <TitleSection title="Fasilitator Kelas" />
       </Stack>

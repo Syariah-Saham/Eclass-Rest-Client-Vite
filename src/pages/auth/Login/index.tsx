@@ -41,10 +41,14 @@ const Login: React.FC = () => {
     try {
       const response = (await dispatch(login(data))) as IAuthLoginResponse;
       if (response.user) {
-        if (response.user?.role === "admin") {
-          navigate("/admin/dashboard");
-        } else if (response.user.role === "member") {
-          navigate("/member/dashboard");
+        if (response.user.email_verified_at) {
+          if (response.user?.role === "admin") {
+            navigate("/admin/dashboard");
+          } else if (response.user.role === "member") {
+            navigate("/member/dashboard");
+          }
+        } else {
+          navigate("/verify-email");
         }
       } else {
         setError({
