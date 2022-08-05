@@ -1,4 +1,5 @@
 import { ICourseItemMember } from "../../course-model";
+import { IInvoice } from "../../invoice-model";
 import { IPayment } from "../../payment-model";
 
 export interface IMGetCartResponse {
@@ -15,4 +16,5 @@ export interface IMCartRemoveItemResponse {
 
 export interface IMCartCheckoutResponse {
   payment: IPayment;
+  invoice: IInvoice;
 }

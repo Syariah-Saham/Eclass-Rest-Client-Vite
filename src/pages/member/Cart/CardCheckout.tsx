@@ -59,9 +59,8 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
     try {
       const response = await checkoutCart();
       dispatch(checkoutCartAction());
-      window.location.replace(
-        `https://checkout-staging.xendit.co/web/${response.data.payment?.invoice_id}`
-      );
+      console.log(response.data);
+      window.location.replace(response.data.invoice.invoice_url);
     } catch (error: any) {
       dispatch(
         openSnackbar({
