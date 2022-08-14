@@ -61,7 +61,7 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
     try {
       const response = await checkoutCart();
       dispatch(checkoutCartAction());
-      // window.location.replace(response.data.invoice.invoice_url);
+
       window.open(response.data.invoice.invoice_url, "_blank");
       navigate("/member/payments");
     } catch (error: any) {
