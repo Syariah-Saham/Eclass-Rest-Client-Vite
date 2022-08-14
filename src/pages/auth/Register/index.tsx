@@ -12,8 +12,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerValidation } from "../../../validations/auth/register-form";
 import Alert from "@mui/material/Alert";
 import Collapse from "@mui/material/Collapse";
+import { useAppDispatch } from "../../../redux/hooks";
+import { openSnackbar } from "../../../redux/actions/snackbar";
 
 const Register: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [error, setError] = useState<{ status: boolean; message: string }>({
     status: false,
     message: "",
@@ -41,6 +44,12 @@ const Register: React.FC = () => {
     try {
       await authRegister(data);
       navigate("/login");
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Berhasil daftar. Silakan login untuk masuk.",
+        })
+      );
     } catch (error: any) {
       console.error(error);
       if (error.response?.status === 422) {
