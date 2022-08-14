@@ -15,6 +15,7 @@ import { openSnackbar } from "../../../redux/actions/snackbar";
 import { checkoutCart } from "../../../services/member/cart";
 import { checkoutCartAction } from "../../../redux/actions/cart";
 import LoadingIndicator from "../../../components/LoadingIndicator";
+import { useNavigate } from "react-router-dom";
 
 const CourseItemSkeleton: React.FC = () => {
   return (
@@ -42,6 +43,7 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
 }) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const cart = useAppSelector((state) => state.cart);
   const [totalBill, setTotalBill] = useState(0);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
@@ -59,8 +61,9 @@ const CardCheckout: React.FC<ICardCheckoutProps> = ({
     try {
       const response = await checkoutCart();
       dispatch(checkoutCartAction());
-      console.log(response.data);
-      window.location.replace(response.data.invoice.invoice_url);
+      // window.location.replace(response.data.invoice.invoice_url);
+      window.open(response.data.invoice.invoice_url, "_blank");
+      navigate("/member/payments");
     } catch (error: any) {
       dispatch(
         openSnackbar({

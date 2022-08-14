@@ -147,7 +147,9 @@ const PaymentList: React.FC = () => {
                       <Tooltip title="Bayar" placement="top">
                         <a
                           target="_blank"
-                          href={`https://checkout-staging.xendit.co/web/${payment?.invoice_id}`}
+                          href={`${import.meta.env.VITE_XENDIT_URL}/${
+                            payment?.invoice_id
+                          }`}
                         >
                           <IconButton color="success">
                             <PaymentsTwoToneIcon />
