@@ -6,7 +6,11 @@ import {
   IGetMentorsResponse,
   IGetTotalMentorsResponse,
 } from "../interfaces/api/admin/mentors";
-import { ICreateMentorForm } from "../interfaces/forms/admin/mentors";
+import {
+  ICreateMentorForm,
+  IUpdateMentorForm,
+} from "../interfaces/forms/admin/mentors";
+import { IUser } from "../interfaces/user-model";
 import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
 
@@ -106,5 +110,16 @@ export const deleteMentor = (data: { id: number }) => {
     {
       Authorization: `Bearer ${token}`,
     }
+  );
+};
+
+export const updateMentor = (data: IUpdateMentorForm) => {
+  const token = store.getState().auth.token;
+  return apiService<{ user: IUser }, any>(
+    URL.BASE_MENTORS + `/${data.id}`,
+    methodServices.PATCH,
+    data,
+    null,
+    { Authorization: `Bearer ${token}` }
   );
 };

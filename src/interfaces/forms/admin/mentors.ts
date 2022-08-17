@@ -7,3 +7,10 @@ export interface ICreateMentorForm {
   short_profile: string;
   photo: Blob;
 }
+
+export interface IUpdateMentorForm {
+  id: number;
+  name: string;
+  occupation: string;
+  short_profile: string;
+}

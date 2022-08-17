@@ -21,6 +21,8 @@ import { Link } from "react-router-dom";
 import Input from "../../../components/Input";
 import ModalDelete from "../../../components/modals/ModalDelete";
 import { sliceIntoChunks } from "../../../helpers/chunk-array";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import FaceRetouchingNaturalRoundedIcon from "@mui/icons-material/FaceRetouchingNaturalRounded";
 import { numColTable } from "../../../helpers/numColTable";
 import { IUser } from "../../../interfaces/user-model";
 import {
@@ -28,6 +30,8 @@ import {
   getMentorByName,
   getMentors,
 } from "../../../services/mentors";
+import ModalEditMentor from "../../../components/modals/ModalEditMentor";
+import ModalEditPhotoMentor from "../../../components/modals/ModalEditPhotoMentor";
 
 const SkeletonTable = () => {
   const tmpResult = [];
@@ -80,6 +84,28 @@ const List: React.FC = () => {
     },
     onDelete: () => {},
   });
+  const [modalEdit, setModalEdit] = useState<{
+    show: boolean;
+    onClose: () => void;
+    user: IUser | null;
+  }>({
+    show: false,
+    onClose: () => {
+      setModalEdit({ ...modalEdit, show: false });
+    },
+    user: null,
+  });
+  const [modalPhoto, setModalPhoto] = useState<{
+    show: boolean;
+    onClose: () => void;
+    user: IUser | null;
+  }>({
+    show: false,
+    onClose: () => {
+      setModalPhoto({ ...modalPhoto, show: false });
+    },
+    user: null,
+  });
 
   const getListMentors = async () => {
     try {
@@ -102,7 +128,7 @@ const List: React.FC = () => {
 
   useEffect(() => {
     getListMentors();
-  }, []);
+  }, [modalEdit.show]);
 
   useEffect(() => {
     if (!mentors[page.currentPage - 1]) {
@@ -212,6 +238,30 @@ const List: React.FC = () => {
                     <TableCell>{mentor.created_at}</TableCell>
                     <TableCell align="center">
                       <IconButton
+                        color="success"
+                        onClick={() =>
+                          setModalEdit({
+                            ...modalEdit,
+                            show: true,
+                            user: mentor,
+                          })
+                        }
+                      >
+                        <EditRoundedIcon />
+                      </IconButton>
+                      <IconButton
+                        color="info"
+                        onClick={() =>
+                          setModalPhoto({
+                            ...modalPhoto,
+                            show: true,
+                            user: mentor,
+                          })
+                        }
+                      >
+                        <FaceRetouchingNaturalRoundedIcon />
+                      </IconButton>
+                      <IconButton
                         color="error"
                         onClick={handleDelete.bind(null, mentor.id)}
                       >
@@ -236,6 +286,16 @@ const List: React.FC = () => {
           show={modalDelete.show}
           onClose={modalDelete.onClose}
           onDelete={modalDelete.onDelete}
+        />
+        <ModalEditMentor
+          show={modalEdit.show}
+          close={modalEdit.onClose}
+          user={modalEdit.user}
+        />
+        <ModalEditPhotoMentor
+          show={modalPhoto.show}
+          close={modalPhoto.onClose}
+          user={modalPhoto.user}
         />
       </Box>
     </Box>

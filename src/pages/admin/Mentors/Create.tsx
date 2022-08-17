@@ -194,7 +194,7 @@ const Create: React.FC = () => {
                         error={!!errors?.short_profile}
                         helperText={errors.short_profile?.message}
                         inputProps={{
-                          type: "password",
+                          type: "short_profile",
                           multiline: true,
                           placeholder: "Profil singkat",
                           onChange: (e) => onChange(e.target.value),

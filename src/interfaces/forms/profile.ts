@@ -9,5 +9,6 @@ export interface IUpdatePasswordForm {
 }
 
 export interface IUpdatePhotoForm {
+  id?: number;
   photo: Blob;
 }

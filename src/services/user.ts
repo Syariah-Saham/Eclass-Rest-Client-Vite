@@ -43,9 +43,12 @@ export const updatePassword = (data: IUpdatePasswordForm) => {
   );
 };
 
-export const updatePhoto = (data: IUpdatePhotoForm) => {
+interface IUpdatePhotoFormCond extends IUpdatePhotoForm {
+  id?: number;
+}
+export const updatePhoto = (data: IUpdatePhotoFormCond) => {
   const token = store.getState().auth.token;
-  const userId = store.getState().auth.user?.id;
+  const userId = data.id ? data.id : store.getState().auth.user?.id;
   const fd = new FormData();
   fd.append("photo", data?.photo);
   return apiService<IUpdatePhotoResponse, any>(

@@ -16,3 +16,13 @@ export const createMentorValidation = Yup.object({
     .max(250)
     .required("This field is required"),
 });
+
+export const updateMentorValidation = Yup.object({
+  id: Yup.string().required("This field is requred"),
+  name: Yup.string().required("This field is required"),
+  occupation: Yup.string().min(3).max(40).required("This field is required"),
+  short_profile: Yup.string()
+    .min(5)
+    .max(250)
+    .required("This field is required"),
+});

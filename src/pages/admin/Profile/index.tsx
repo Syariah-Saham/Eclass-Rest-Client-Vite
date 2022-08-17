@@ -273,7 +273,6 @@ const FormUpdateProfilePicture: React.FC = () => {
     setLoading(true);
     try {
       const response = await updatePhoto(data);
-      console.log(response.data.path);
       dispatch(
         openSnackbar({
           severity: "success",
