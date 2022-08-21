@@ -1,3 +1,5 @@
+import { ICertificate } from "../../course-model";
+import { IPayment } from "../../payment-model";
 import { IUser } from "../../user-model";
 
 export interface IGetMembersResponse {
@@ -14,6 +16,8 @@ export interface IGetTotalMembersResponse {
 
 export interface IGetMemberByIdResponse {
   member: IUser;
+  payments: IPayment[];
+  courses: ICertificate[];
 }
 
 export interface IDeleteMemberResponse {

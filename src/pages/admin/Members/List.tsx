@@ -26,6 +26,8 @@ import { DeleteRounded, Search } from "@mui/icons-material";
 import ModalDelete from "../../../components/modals/ModalDelete";
 import { Controller, useForm } from "react-hook-form";
 import Input from "../../../components/Input";
+import InfoIcon from "@mui/icons-material/Info";
+import { Link } from "react-router-dom";
 
 const SkeletonTable = () => {
   const tmpResult = [];
@@ -207,6 +209,11 @@ const List: React.FC = () => {
                     <TableCell>{member.email}</TableCell>
                     <TableCell>{member.created_at}</TableCell>
                     <TableCell align="center">
+                      <Link to={`/admin/members/${member.id}`}>
+                        <IconButton color="info">
+                          <InfoIcon />
+                        </IconButton>
+                      </Link>
                       <IconButton
                         onClick={handleDelete.bind(null, member.id)}
                         color="error"
