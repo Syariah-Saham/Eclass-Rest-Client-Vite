@@ -4,6 +4,7 @@ import {
   IGetMemberByNameResponse,
   IGetMembersResponse,
   IGetTotalMembersResponse,
+  IToggleCourseMemberResponse,
 } from "../interfaces/api/admin/members";
 import { store } from "../redux/store";
 import { apiService, methodServices } from "./api-service";
@@ -74,5 +75,16 @@ export const deleteMember = (data: { id: number }) => {
     {
       Authorization: `Bearer ${token}`,
     }
+  );
+};
+
+export const toggleCourseMember = (data: { id: number; courseId: number }) => {
+  const token = store.getState().auth.token;
+  return apiService<IToggleCourseMemberResponse, any>(
+    URL.BASE_MEMBERS + `/${data.id}/course/${data.courseId}`,
+    methodServices.PATCH,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
   );
 };

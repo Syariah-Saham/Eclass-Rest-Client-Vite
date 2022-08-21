@@ -3,6 +3,7 @@ import {
   IDeleteCourseResponse,
   IGetCourseByIdResponse,
   IGetCoursesResponse,
+  IGetCoursesTinyResponse,
   IToggleStatusCourseResponse,
 } from "../interfaces/api/admin/courses";
 import {
@@ -26,6 +27,17 @@ export const getCourses = () => {
     {
       Authorization: `Bearer ${token}`,
     }
+  );
+};
+
+export const getCoursesTiny = () => {
+  const token = store.getState().auth.token;
+  return apiService<IGetCoursesTinyResponse, any>(
+    URL.BASE_COURSES + `/tiny-list`,
+    methodServices.GET,
+    null,
+    null,
+    { Authorization: `Bearer ${token}` }
   );
 };
 

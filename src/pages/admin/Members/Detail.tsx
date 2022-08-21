@@ -13,22 +13,33 @@ import {
   TableRow,
   TableCell,
   useTheme,
+  Button,
+  IconButton,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { IGetMemberByIdResponse } from "../../../interfaces/api/admin/members";
 import { openSnackbar } from "../../../redux/actions/snackbar";
 import { useAppDispatch } from "../../../redux/hooks";
-import { getMemberById } from "../../../services/members";
+import { getMemberById, toggleCourseMember } from "../../../services/members";
 import moment from "moment";
 import "moment/dist/locale/id";
 import { parseCategory } from "../../../helpers/parseCategory";
 import { formatRp } from "../../../helpers/formatRp";
 import CardInfoMember from "./_Detail/CardInfoMember";
 import { IUser } from "../../../interfaces/user-model";
+import ModalAddCourse from "./_Detail/ModalAddCourse";
+import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
 
 const Detail: React.FC = () => {
   const theme = useTheme();
+  const statusColor = {
+    SETTLED: theme.palette.success.main,
+    PAID: theme.palette.secondary.main,
+    EXPIRY: theme.palette.error.main,
+    PENDING: theme.palette.warning.main,
+  };
+
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const [data, setData] = useState<
@@ -37,7 +48,17 @@ const Detail: React.FC = () => {
     payments: [],
     courses: [],
   });
+  const [modalAddCourseState, setModalAddCourseState] = useState({
+    show: false,
+    onClose: () => {
+      setModalAddCourseState({ ...modalAddCourseState, show: false });
+    },
+  });
   const [loading, setLoading] = useState(true);
+  const [removeCoursesState, setRemoveCoursesState] = useState({
+    count: 0,
+    loading: 0,
+  });
 
   const fetchMember = async () => {
     try {
@@ -57,13 +78,32 @@ const Detail: React.FC = () => {
 
   useEffect(() => {
     fetchMember();
-  }, []);
+  }, [modalAddCourseState.show, removeCoursesState.count]);
 
-  const statusColor = {
-    SETTLED: theme.palette.success.main,
-    PAID: theme.palette.secondary.main,
-    EXPIRY: theme.palette.error.main,
-    PENDING: theme.palette.warning.main,
+  const removeCourses = async (courseId: number) => {
+    setRemoveCoursesState({ ...removeCoursesState, loading: courseId });
+    try {
+      await toggleCourseMember({ id: parseInt(id!), courseId });
+      setRemoveCoursesState({
+        ...removeCoursesState,
+        loading: 0,
+        count: removeCoursesState.count + 1,
+      });
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Remove course successfully",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+      setRemoveCoursesState({ ...removeCoursesState, loading: 0 });
+    }
   };
 
   return (
@@ -82,9 +122,9 @@ const Detail: React.FC = () => {
                   </TableCell>
                   <TableCell className="tcell-head">Kelas</TableCell>
                   <TableCell className="tcell-head">Kategori</TableCell>
-                  <TableCell className="tcell-head">Harga</TableCell>
                   <TableCell className="tcell-head">Sertifikat</TableCell>
                   <TableCell className="tcell-head">Lulus</TableCell>
+                  <TableCell className="tcell-head">Hapus</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -95,7 +135,6 @@ const Detail: React.FC = () => {
                     <TableCell align="center">
                       {parseCategory(course?.category)}
                     </TableCell>
-                    <TableCell>{formatRp(course?.price)}</TableCell>
                     <TableCell align="center">
                       {course?.certificate_id ? (
                         <Link to={`/certificates/${course?.certificate_id}`}>
@@ -110,11 +149,29 @@ const Detail: React.FC = () => {
                         ? moment(course?.graduation_date).format("DD-MM-YYYY")
                         : "-"}
                     </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        color="error"
+                        disabled={removeCoursesState.loading === course.id}
+                        onClick={removeCourses.bind(null, course.id)}
+                      >
+                        <RemoveCircleRoundedIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <Button
+            color="secondary"
+            sx={{ marginTop: "20px" }}
+            onClick={() =>
+              setModalAddCourseState({ ...modalAddCourseState, show: true })
+            }
+          >
+            Tambah
+          </Button>
         </Grid>
         <Grid item md={6}>
           <TableContainer component={Paper}>
@@ -159,6 +216,12 @@ const Detail: React.FC = () => {
           </TableContainer>
         </Grid>
       </Grid>
+
+      <ModalAddCourse
+        show={modalAddCourseState.show}
+        onClose={modalAddCourseState.onClose}
+        memberCourses={data.courses}
+      />
     </>
   );
 };

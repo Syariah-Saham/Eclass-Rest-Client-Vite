@@ -1,7 +1,11 @@
-import { ICourse, ICourseDetail } from "../../course-model";
+import { ICourse, ICourseDetail, ICourseTiny } from "../../course-model";
 
 export interface IGetCoursesResponse {
   courses: ICourse[];
+}
+
+export interface IGetCoursesTinyResponse {
+  courses: ICourseTiny[];
 }
 
 export interface IGetCoursesByTitleResponse {

@@ -18,6 +18,12 @@ export interface ICourse extends IResources {
   is_publish: BOOL;
 }
 
+export interface ICourseTiny {
+  id: number;
+  title: string;
+  category: COURSE_LEVEL;
+}
+
 export interface ICourseDetail extends ICourse {
   mentor: IUser;
   lessons: ILesson[];

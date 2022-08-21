@@ -23,3 +23,7 @@ export interface IGetMemberByIdResponse {
 export interface IDeleteMemberResponse {
   message: string;
 }
+
+export interface IToggleCourseMemberResponse {
+  message: string;
+}
