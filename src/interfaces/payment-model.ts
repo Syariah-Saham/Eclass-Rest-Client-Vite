@@ -13,6 +13,14 @@ export interface IPayment extends IResources {
   description?: string;
 }
 
+export interface IPaymentCallback {
+  id: string;
+  external_id: string;
+  amount: number;
+  paid_amount: number;
+  status: TPayment;
+}
+
 export interface IPaymentDetail extends IPayment {
   courses: ICourse[];
 }

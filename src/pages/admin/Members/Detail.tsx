@@ -30,6 +30,10 @@ import CardInfoMember from "./_Detail/CardInfoMember";
 import { IUser } from "../../../interfaces/user-model";
 import ModalAddCourse from "./_Detail/ModalAddCourse";
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
+import PriceCheckRoundedIcon from "@mui/icons-material/PriceCheckRounded";
+import { TPayment } from "../../../types/payments";
+import { IPayment } from "../../../interfaces/payment-model";
+import { submitCallbackPayment } from "../../../services/payments";
 
 const Detail: React.FC = () => {
   const theme = useTheme();
@@ -59,6 +63,10 @@ const Detail: React.FC = () => {
     count: 0,
     loading: 0,
   });
+  const [markPaidPayment, setMarkPaidPayment] = useState({
+    count: 0,
+    loading: 0,
+  });
 
   const fetchMember = async () => {
     try {
@@ -78,7 +86,11 @@ const Detail: React.FC = () => {
 
   useEffect(() => {
     fetchMember();
-  }, [modalAddCourseState.show, removeCoursesState.count]);
+  }, [
+    modalAddCourseState.show,
+    removeCoursesState.count,
+    markPaidPayment.count,
+  ]);
 
   const removeCourses = async (courseId: number) => {
     setRemoveCoursesState({ ...removeCoursesState, loading: courseId });
@@ -106,25 +118,72 @@ const Detail: React.FC = () => {
     }
   };
 
+  const markPaidPaymentFn = async (payment: IPayment) => {
+    setMarkPaidPayment({ ...markPaidPayment, loading: payment.id });
+    try {
+      await submitCallbackPayment({
+        id: payment.invoice_id,
+        external_id: payment.external_id,
+        amount: payment.amount,
+        paid_amount: payment.amount,
+        status: TPayment.PAID,
+      });
+      setMarkPaidPayment({
+        ...markPaidPayment,
+        loading: 0,
+        count: markPaidPayment.count + 1,
+      });
+      dispatch(
+        openSnackbar({
+          severity: "success",
+          message: "Mark payment as paid successfully",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        openSnackbar({
+          severity: "error",
+          message: error?.message,
+        })
+      );
+      setMarkPaidPayment({
+        ...markPaidPayment,
+        loading: 0,
+      });
+    }
+  };
+
   return (
     <>
-      <Grid container>
+      <Grid container gap={2}>
         <Grid item md={8}>
           <CardInfoMember member={data?.member} />
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={5}>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell className="tcell-head" width={"14px"}>
+                  <TableCell
+                    className="tcell-head"
+                    align="center"
+                    width={"14px"}
+                  >
                     #
                   </TableCell>
                   <TableCell className="tcell-head">Kelas</TableCell>
-                  <TableCell className="tcell-head">Kategori</TableCell>
-                  <TableCell className="tcell-head">Sertifikat</TableCell>
-                  <TableCell className="tcell-head">Lulus</TableCell>
-                  <TableCell className="tcell-head">Hapus</TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Kategori
+                  </TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Sertifikat
+                  </TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Lulus
+                  </TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Hapus
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -135,13 +194,13 @@ const Detail: React.FC = () => {
                     <TableCell align="center">
                       {parseCategory(course?.category)}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell>
                       {course?.certificate_id ? (
                         <Link to={`/certificates/${course?.certificate_id}`}>
                           lihat
                         </Link>
                       ) : (
-                        "-"
+                        <Typography textAlign={"center"}>-</Typography>
                       )}
                     </TableCell>
                     <TableCell align="center">
@@ -173,7 +232,7 @@ const Detail: React.FC = () => {
             Tambah
           </Button>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={5}>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -184,9 +243,15 @@ const Detail: React.FC = () => {
                   <TableCell className="tcell-head">Invoice ID</TableCell>
                   <TableCell className="tcell-head">External ID</TableCell>
                   <TableCell className="tcell-head">Tagihan</TableCell>
-                  <TableCell className="tcell-head">Status</TableCell>
-                  <TableCell className="tcell-head">Kadaluarsa</TableCell>
-                  <TableCell className="tcell-head">Aksi</TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Status
+                  </TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Kadaluarsa
+                  </TableCell>
+                  <TableCell className="tcell-head" align="center">
+                    Aksi
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -196,7 +261,7 @@ const Detail: React.FC = () => {
                     <TableCell>{payment?.invoice_id}</TableCell>
                     <TableCell>{payment?.external_id}</TableCell>
                     <TableCell>{formatRp(payment?.amount)}</TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       <Typography
                         fontWeight={"bold"}
                         sx={{
@@ -208,6 +273,17 @@ const Detail: React.FC = () => {
                     </TableCell>
                     <TableCell align="center">
                       {moment(payment.expiry_date)?.format("DD/MM HH:mm")}
+                    </TableCell>
+                    <TableCell align="center">
+                      {payment.status === TPayment.PENDING && (
+                        <IconButton
+                          color="success"
+                          onClick={markPaidPaymentFn.bind(null, payment)}
+                          disabled={markPaidPayment.loading === payment.id}
+                        >
+                          <PriceCheckRoundedIcon />
+                        </IconButton>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
