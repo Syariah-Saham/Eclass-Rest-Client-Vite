@@ -22,6 +22,8 @@ const App: React.FC = () => {
       let response = await testApi();
       console.log(response.data);
     })();
+
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
   }, []);
 
   return (
